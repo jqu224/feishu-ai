@@ -1,0 +1,19 @@
+{
+  "name": "feishu-agui-card-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "飞书 AI 绝活大会 - AGUI 卡片交互机器人（对话即界面）",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "test": "node --test",
+    "preview": "node scripts/preview.mjs",
+    "icons:upload": "node --env-file-if-exists=.env scripts/upload-icons.mjs"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.73.0"
+  }
+}

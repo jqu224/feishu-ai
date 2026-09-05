@@ -1,28 +1,112 @@
-# 飞书 AI 绝活大会 · 参赛仓库
+<p align="center">
+  <a href="./README.md"><img src="https://img.shields.io/badge/lang-English-1f6feb?style=for-the-badge&labelColor=0d1117" alt="English" /></a>
+  <a href="./README.zh-CN.md"><img src="https://img.shields.io/badge/lang-中文-8b949e?style=for-the-badge&labelColor=0d1117" alt="中文" /></a>
+</p>
 
-「对话即界面」：一句话在飞书群里生成并原地更新可交互卡片。本仓库包含两个独立子项目：
+<h1 align="center">feishu-ai</h1>
 
-| 子项目 | 是什么 | 文档 |
+<p align="center">
+  <strong>Agent-native Card UI on Feishu Open Platform</strong><br />
+  <em>Conversation is the interface — interactive cards that generate, stream, and mutate in place.</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/tests-chatbot%20164%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="chatbot tests" />
+  <img src="https://img.shields.io/badge/tests-doubao--work%207%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="doubao-work tests" />
+  <img src="https://img.shields.io/badge/verify-design%20%7C%20control%20%7C%20MCP-0ea5e9?style=flat-square" alt="verify" />
+  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/Feishu-Card%20v2%20%2B%20CardKit-00d6b9?style=flat-square" alt="Feishu Card" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT" />
+</p>
+
+<p align="center">
+  Contest entry for <strong>Feishu AI Showcase</strong> · Topic <code>#飞书AI绝活大会</code>
+</p>
+
+---
+
+## Positioning
+
+Most Feishu bots reply with **text**. This project replies with **Agent UI**:
+
+| Layer | What it means on Feishu |
+| --- | --- |
+| **Generate** | Natural language → Card JSON (vote / form / info) via an OpenAI-compatible model |
+| **Stream** | CardKit typewriter streaming for chat replies (fallback to static cards) |
+| **Mutate in place** | Interaction callbacks + ACK atomic card updates — no page jump, no new spam messages |
+| **Human-in-the-loop** | Publish / export / destructive actions require an explicit confirm card |
+| **Persist** | Summaries export to Feishu Sheets / Drive (CSV fallback when tenant blocks Sheets) |
+
+Built on the official stack: [Lark Node SDK](https://www.npmjs.com/package/@larksuiteoapi/node-sdk) · Feishu Card v2 · long-connection BOT · optional [Doubao Work](https://www.feishu.cn/content/article/7677519271848610746) MCP connector.
+
+## Repository layout
+
+| Package | Role | Docs |
 | --- | --- | --- |
-| [`chatbot/`](chatbot/README.md) | **主项目**：AGUI 卡片交互机器人（飞书长连接 BOT）。AI 投票/报名表/信息卡/对话式改卡/流式打字机，外加答题、人格测试、猜单词、剧情等预制玩法，全程不离开会话 | [chatbot/README.md](chatbot/README.md) |
-| [`doubao-work/`](doubao-work/README.md) | **扩展包**：豆包工作（原飞书 aily）插件——MCP 连接器 + 技能包 + 伙伴组队，让豆包面板里的一句话直接变成飞书群里的可交互卡片 | [doubao-work/README.md](doubao-work/README.md) |
+| [`chatbot/`](chatbot/README.md) | **Core** — long-connection BOT, card interactions, session store, AI + preset games | [chatbot/README.md](chatbot/README.md) |
+| [`doubao-work/`](doubao-work/README.md) | **Extension** — MCP connector + skill pack so Doubao Work buddies can create cards without holding Feishu credentials | [doubao-work/README.md](doubao-work/README.md) |
+| [`knowledge/`](knowledge/README.md) | Quiz CSV corpora (Feishu / Doubao / Agent / industry timelines) | [knowledge/README.md](knowledge/README.md) |
 
-两者关系：`doubao-work/` 不持有飞书凭证，通过 `chatbot/` 暴露的本地控制 API 建卡；`chatbot/` 可完全独立运行，不依赖插件包。
+**Boundary (by design):** card click callbacks only reach the process that owns the Feishu WebSocket. `doubao-work/` never talks to Feishu directly — it calls a localhost control API on `chatbot/`, so interaction state stays correct.
 
-## 快速开始
+```text
+Feishu group ──WS──► chatbot/ (Card v2 · CardKit · store)
+                         ▲
+                         │  Bearer control API (127.0.0.1)
+                         │
+Doubao Work ──MCP──► doubao-work/ (connector + skill)
+```
+
+## Capabilities at a glance
+
+**AI-generated cards (needs `AI_API_KEY`)**
+
+- Vote · roster form · generative info card · conversational card edits (“add option: juice”)
+- Streaming chat · confirm gate · VChart results · one-click export
+
+**Preset play hub (works offline — no AI)**
+
+- Quiz banks · MBTI / DISC / SBTI / slacking index · Hangman · branching story · RPS · fact draw
+
+**Design system**
+
+- Material 3–inspired roles on Card v2 tokens · zero decorative emoji in copy (enforced by `design.test.js`) · Lucide-style icons via Feishu icon library / custom upload
+
+## Verify
+
+Static verification snapshot (Node built-in test runner):
+
+| Suite | Command | Result |
+| --- | --- | --- |
+| chatbot | `cd chatbot && npm test` | **164 pass / 0 fail** |
+| doubao-work | `cd doubao-work && npm test` | **7 pass / 0 fail** |
+| Design regression | emoji / layout contracts in `chatbot/test/design.test.js` | covered |
+| Control API | auth · create vote/form · roster ≤100 | covered |
+| MCP round-trip | tools/list · create_* · session status/export | covered |
+
+```bash
+cd chatbot && npm test
+cd ../doubao-work && npm test
+```
+
+## Quick start
 
 ```bash
 cd chatbot
-cp .env.example .env   # 填入 FEISHU_APP_ID / FEISHU_APP_SECRET，可选填 AI_API_KEY
+cp .env.example .env   # FEISHU_APP_ID / FEISHU_APP_SECRET ; optional AI_API_KEY
 npm install
 npm start
 ```
 
-详细配置（飞书开发者后台、权限、事件订阅）见 [chatbot/README.md](chatbot/README.md)；豆包工作联动见 [doubao-work/README.md](doubao-work/README.md)。
+Feishu developer console setup (scopes, events, bot menu): see [chatbot/README.md](chatbot/README.md).  
+Doubao Work connector + buddy teaming: see [doubao-work/README.md](doubao-work/README.md).
 
-## 参赛材料
+## Contest materials
 
-- 冲奖规划与竞品扫描：[chatbot/docs/AWARDS-PLAN.md](chatbot/docs/AWARDS-PLAN.md)
-- 3 分钟 demo 脚本：[chatbot/docs/DEMO.md](chatbot/docs/DEMO.md)
-- 设计系统规范（所有卡片通用）：[chatbot/SPIRIT.md](chatbot/SPIRIT.md)
-- 话题：**#飞书 AI 绝活大会**（小红书 / 抖音 / B 站 / 视频号任一）
+- Awards plan & competitive scan — [chatbot/docs/AWARDS-PLAN.md](chatbot/docs/AWARDS-PLAN.md)
+- 3-minute demo script — [chatbot/docs/DEMO.md](chatbot/docs/DEMO.md)
+- Card design contracts — [chatbot/SPIRIT.md](chatbot/SPIRIT.md) · [chatbot/docs/DESIGN.md](chatbot/docs/DESIGN.md)
+
+## License
+
+[MIT](LICENSE)

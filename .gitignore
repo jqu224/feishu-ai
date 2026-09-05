@@ -3,9 +3,21 @@ node_modules/
 
 # Secrets — keep .env.example
 .env
-.env.local
-.env.*.local
+.env.*
 !.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+.npmrc
+credentials.json
+
+# Scanner droppings
+secrets_report.*
+security_report/
+gitleaks.json
 
 # Logs & process
 *.log

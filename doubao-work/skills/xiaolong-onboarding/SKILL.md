@@ -87,7 +87,7 @@ description: 新人 onboarding 成长系统 + HR 全场景工作台。当用户�
 
 > 核心视角：**不是 HR 管理后台，而是每个员工打开一个网址，就有自己的 OA + Onboarding + 破冰 + 小工具 + AI 助手**。数据落在共享 Base，但每个人看到的是「我的」。
 
-### 个人工作台（`docs/my-workbench.html`）
+### 个人工作台（`references/workbench/my-workbench.html`）
 
 - **员工身份切换**：右上角选「我是谁」（张小明/李华/…），全站按「我」过滤——我的待办/审批/日程/资料、我的入职旅程进度、我的 Leader/Mentor、同部门同事
 - **四大板块**：
@@ -147,7 +147,7 @@ Base 自定义页面（`?table=wbp...` 的页面块）添加块时支持：空�
 
 ### 五风格工作台（palette 可切换）
 
-`docs/hr-workbench.html`：同一套 HR 数据，右上角一键切换五套设计语言（CSS 变量驱动，localStorage 记忆）：
+`references/workbench/hr-workbench.html`：同一套 HR 数据，右上角一键切换五套设计语言（CSS 变量驱动，localStorage 记忆）：
 - **TikTok**：黑底 + 霓虹青 #25F4EE / 霓虹粉 #FE2C55
 - **Rippling**：浅底 + 企业蓝 #0B4DA2 卡片风
 - **Workday**：浅灰 + 品牌蓝 #0077C8 + 橙 #FF8300
@@ -177,7 +177,7 @@ Base 自定义页面（`?table=wbp...` 的页面块）添加块时支持：空�
   - 建法：`base +base-create` 建初始表 → `+record-batch-create` 写提问路径 → 其余表用 `drive +import --type bitable --target-token <BASE>` 逐个 CSV 导入（必须串行）→ 检查空记录残留并删除 → `+table-update` 把自动命名的「数据表N」改成业务名 → `+table-list` 回读验收。
   - **HTML 嵌入 Base**：多维表格仪表盘有「内嵌网页」组件，任何可公开访问的 https URL 都可作为数据源（官方：仪表盘/应用模式中使用内嵌网页）。CLI 不支持创建该组件（dashboard 组件类型只有图表/文本/指标卡，且禁止应用模式命令），需用户在前端「仪表盘 → 添加组件 → 内嵌网页 → 填 URL」。工作台 HTML 需先托管成 URL（如豆包工作分享应用网站/静态托管）再嵌入；飞书云盘 /file/ 预览页本身不宜作嵌入源。
 
-工作台模板与设计规范见 `docs/onboarding-ui-plan.md` 和 `docs/onboarding-workbench.html`（Mock 数据已内置，真实使用时替换为装载结果）。
+工作台模板与设计规范见 `references/workbench/onboarding-ui-plan.md` 和 `references/workbench/onboarding-workbench.html`（Mock 数据已内置，真实使用时替换为装载结果）。
 
 ## 演示数据（Mock）
 

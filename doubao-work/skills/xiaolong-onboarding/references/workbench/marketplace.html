@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding · 我的每日成长工作台</title>
+<style>
+  /* ===== 知乎体字体栈 ===== */
+  :root{
+    --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", Arial, sans-serif;
+    --script: "Snell Roundhand", "Brush Script MT", "Segoe Script", "Lucida Handwriting", "Apple Chancery", cursive;
+    /* 多巴胺 neo-brutalism · 浅色（白底）主题 */
+    --bg:#ffffff; --card:#ffffff; --soft:#f6f7f4;
+    --edge:#161616; --edge-soft:#dcdcd4;
+    --text:#141414; --sub:#6f6f6a; --sub-2:#9b9b94;
+    --btn-bg:#161616; --btn-fg:#ffffff;
+    --green:#22c55e; --green-bg:#dcfce7;
+    --blue:#0e7490;  --blue-bg:#cffafe;
+    --yellow:#ffd21f;--yellow-bg:#fef3c2;
+    --orange:#ff7a1a;--orange-bg:#ffe8d6;
+    --pink:#ff4d8d;  --pink-bg:#ffe0ec;
+    --cyan:#06b6d4;  --cyan-bg:#d6f4f8;
+    --lime:#84cc16;  --lime-bg:#ecfad3;
+    --red:#ff4d4f;   --red-bg:#ffe2e2;
+    --teal:#0d9488;  --teal-bg:#ccfbf1;
+    --ok:#16a34a; --ok-bg:#dcfce7;
+    --amber:#d97706; --amber-bg:#fef3c7;
+    --danger:#e11d48; --danger-bg:#ffe4e6;
+    --map-bg:#fef3c2; --map-edge:#161616; --map-sc:#0e7490;
+    --map-ink:#221d05; --map-sub:#7a6a2e; --map-track:#e6d488;
+    --on-pc:#221d05; --on-pc-2:#7a6a2e;
+    --pc-90:#fef3c2; --pc-80:#ecd87f; --pc-77:#ecd87f;
+    --header-bg:#161616; --header-fg:#ffffff; --header-edge:#ffd21f;
+    --track-bg:#f1f2ee;
+    --shadow:4px 4px 0 var(--edge);
+    --shadow-big:6px 6px 0 var(--edge);
+    --radius:10px;
+  }
+  /* 深色（黑底）主题：黑金多巴胺 —— 亮黄为 primary，描边/强调统一黄色系，冷黑分层背景 */
+  [data-theme="dark"]{
+    --bg: linear-gradient(170deg,#141412 0%,#0f0f0e 48%,#0a0a09 100%);
+    --card:#171716; --soft:#20201e;
+    --edge:#ffd21f; --edge-soft:rgba(255,210,31,.3);
+    --text:#f6f5ef; --sub:#a8a69b; --sub-2:#6f6d63;
+    --btn-bg:#ffd21f; --btn-fg:#16130a;
+    --blue:#ffd21f; --blue-bg:rgba(255,210,31,.16);
+    --green:#7ce2a6; --green-bg:rgba(34,197,94,.16);
+    --yellow:#ffd21f;--yellow-bg:rgba(255,210,31,.16);
+    --orange:#ff9a5c;--orange-bg:rgba(255,138,40,.16);
+    --pink:#ff7ab6;  --pink-bg:rgba(255,88,150,.16);
+    --cyan:#4dd4e8;  --cyan-bg:rgba(6,190,215,.14);
+    --lime:#b6e34d;  --lime-bg:rgba(152,225,40,.14);
+    --red:#ff7a7c;   --red-bg:rgba(255,86,88,.16);
+    --teal:#5ee0c4;  --teal-bg:rgba(20,162,152,.16);
+    --ok:#7ce2a6; --ok-bg:rgba(34,197,94,.16);
+    --amber:#ffc84d; --amber-bg:rgba(255,210,31,.14);
+    --danger:#ff7a7c; --danger-bg:rgba(255,86,88,.16);
+    --map-bg:#1a160a; --map-edge:#ffd21f; --map-sc:rgba(0,0,0,.85);
+    --map-ink:#f7efd0; --map-sub:#c9b87f; --map-track:#3d351c;
+    --on-pc:#f7efd0; --on-pc-2:#c9b87f; --pc-90:#1a160a; --pc-80:#3d351c; --pc-77:#3d351c;
+    --header-bg:#0c0c0b; --header-fg:#ffffff; --header-edge:#ffd21f;
+    --track-bg:#37321e;
+    --shadow:5px 5px 0 rgba(0,0,0,.75);
+    --shadow-big:8px 8px 0 rgba(0,0,0,.75);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--font);background:#e8e8e4;color:var(--text);-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center}
+  body[data-theme="dark"]{background:#0a0a09}
+  .mi{width:20px;height:20px;fill:currentColor;display:inline-block;vertical-align:middle;flex:none}
+  .app{width:100%;height:100%;max-width:1180px;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;position:relative}
+  /* ===== 顶栏：黑底白字，底部亮黄边；右上角太阳/月亮 switch ===== */
+  header{height:64px;flex:none;background:var(--header-bg);color:var(--header-fg);padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--header-edge)}
+  .htitle{display:flex;align-items:center;gap:14px;min-width:0}
+  .script{font-family:var(--script);font-style:italic;font-weight:600;font-size:30px;line-height:1;color:#ffffff;letter-spacing:.5px;display:inline-block;transform:translateY(1px)}
+  .htitle .divider{width:1px;height:26px;background:rgba(255,255,255,.25);align-self:center}
+  .htitle .kicker{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55);line-height:1}
+  .htitle .hname{font-size:14px;font-weight:600;margin-top:4px;line-height:1;color:#ffffff}
+  .hright{display:flex;align-items:center;gap:10px}
+  .hbtn{width:38px;height:38px;border-radius:10px;border:2px solid rgba(255,255,255,.55);background:transparent;color:#ffffff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hbtn:hover{background:rgba(255,255,255,.14);border-color:#ffffff}
+  .hbtn .mi{width:20px;height:20px}
+  .bell{position:relative}
+  .bell .dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:#ffd21f;border:1.5px solid #161616}
+  .avatar{width:38px;height:38px;border-radius:50%;background:#ffd21f;color:#161616;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid #ffffff}
+  /* ===== 主体网格：宽屏左侧导航 15%，窄屏顶部 ===== */
+  .shell{flex:1;min-height:0;display:grid;grid-template-columns:minmax(196px,15%) 1fr}
+  nav.side{background:var(--card);border-right:2px solid var(--edge);padding:20px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+  .navitem{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--sub);cursor:pointer;border:2px solid transparent;background:transparent;text-align:left;width:100%;font-family:var(--font);transition:background .15s,color .15s,border-color .15s}
+  .navitem .mi{width:20px;height:20px}
+  .navitem:hover{background:var(--soft);color:var(--text)}
+  .navitem.on{background:var(--btn-bg);color:var(--btn-fg);font-weight:800}
+  .navitem.on:hover{background:var(--btn-bg);color:var(--btn-fg)}
+  .navitem .n-badge{margin-left:auto;font-size:10.5px;background:var(--soft);color:var(--sub);border-radius:99px;padding:1px 8px;border:1px solid var(--edge-soft)}
+  .navitem.on .n-badge{background:var(--yellow);color:#161616;border-color:#161616}
+  .side .side-foot{margin-top:auto;padding:14px 12px 4px;font-size:10.5px;color:var(--sub-2);line-height:1.8;border-top:1.5px solid var(--edge-soft)}
+  main{min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;background:var(--bg)}
+  .view{display:none;max-width:820px;margin:0 auto;padding:30px 30px 60px}
+  .view.on{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  /* ===== 通用排版 ===== */
+  h1{font-size:27px;font-weight:900;letter-spacing:-.03em;color:var(--text)}
+  h2{font-size:19px;font-weight:900;letter-spacing:-.01em;color:var(--text)}
+  .eyebrow{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--blue);font-weight:800}
+  .muted{color:var(--sub);font-size:12.5px;line-height:1.7}
+  .row-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .card{background:var(--card);border:2px solid var(--edge);border-radius:var(--radius);box-shadow:var(--shadow)}
+  /* ===== 问候区 ===== */
+  .greet{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:22px}
+  .greet .crumb{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sub-2);margin-bottom:8px}
+  .greet .crumb .mi{width:13px;height:13px}
+  .greet .crumb b{color:var(--text);font-weight:700}
+  .greet p{font-size:13.5px;color:var(--sub);margin-top:8px;line-height:1.7}
+  .greet p b{color:var(--on-pc)}
+  .btn-ghost{height:38px;padding:0 15px;border-radius:9px;border:2px solid var(--edge);background:var(--card);box-shadow:2px 2px 0 var(--edge);font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-family:var(--font);color:var(--text);white-space:nowrap}
+  .btn-ghost .mi{width:15px;height:15px}
+  .btn-ghost:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--edge)}
+  /* ===== 统计三卡（左图标右文字两栏式，三色） ===== */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+  .stat{border-radius:var(--radius);padding:15px 16px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;border:2px solid var(--edge);background:var(--card);box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;font-family:var(--font)}
+  .stat:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-big)}
+  .stat .sico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .stat .sico .mi{width:21px;height:21px}
+  .stat.lead{background:var(--yellow-bg)}
+  .stat.lead .sico{background:#ffffff;color:var(--blue)}
+  .stat.todo .sico{background:var(--orange-bg);color:var(--orange)}
+  .stat.done .sico{background:var(--green-bg);color:var(--ok)}
+  .stat .lab{font-size:11px;color:var(--sub);font-weight:600}
+  .stat.lead .lab{color:var(--on-pc-2)}
+  .stat .num{font-size:25px;font-weight:900;margin-top:3px;letter-spacing:-.02em;line-height:1.1;color:var(--text)}
+  .stat .hint{font-size:10.5px;margin-top:3px;color:var(--sub);font-weight:600}
+  .stat.lead .hint{color:var(--amber)}
+  .stat .hint.amber{color:var(--amber)} .stat .hint.green{color:var(--ok)}
+  /* ===== 旅程地图卡（柠檬黄底 + 蓝色硬阴影，多巴胺） ===== */
+  .mapcard{background:var(--map-bg);border:2.5px solid var(--map-edge);border-radius:16px;padding:22px 24px;color:var(--map-ink);box-shadow:6px 6px 0 var(--map-sc);margin-bottom:30px}
+  .mapcard .map-top{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--map-sub);font-weight:700;margin-bottom:12px}
+  .mapbar{height:10px;border-radius:99px;background:var(--map-track);overflow:hidden;border:2px solid var(--map-edge)}
+  .mapbar i{display:block;height:100%;border-radius:99px;background:var(--map-edge);width:0%;transition:width .6s ease}
+  .phases{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px}
+  .phase{text-align:left;background:transparent;border:none;color:var(--map-ink);cursor:pointer;font-family:var(--font)}
+  .phase .pno{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:#ffffff;color:var(--map-sub);border:2px solid var(--map-edge);margin:0 auto 8px}
+  .phase .pno .mi{width:15px;height:15px}
+  .phase.done .pno{background:var(--green);color:#ffffff}
+  .phase.now .pno{background:var(--yellow);color:#161616;box-shadow:0 0 0 4px var(--map-sc)}
+  .phase p{font-size:12px;font-weight:800;color:var(--map-ink)}
+  .phase span{font-size:10px;color:var(--map-sub);display:block;margin-top:2px}
+  .phase.locked{opacity:.7}
+  .map-foot{margin-top:20px;padding-top:15px;border-top:2px solid var(--map-track);display:flex;justify-content:space-between;gap:14px;align-items:center}
+  .map-foot p{font-size:12px;color:var(--map-sub);line-height:1.7;flex:1;font-weight:600}
+  .map-foot button{flex:none;font-size:12px;background:#ffffff;border:2px solid var(--map-edge);color:var(--map-ink);border-radius:9px;padding:8px 14px;cursor:pointer;font-family:var(--font);font-weight:800;box-shadow:2px 2px 0 var(--map-edge)}
+  /* ===== 成长线（左图标右文字两栏式，多色） ===== */
+  .tracks{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
+  .track{display:flex;align-items:center;gap:13px;text-align:left;border-radius:12px;border:2px solid var(--edge);background:var(--card);box-shadow:2px 2px 0 var(--edge);padding:14px;cursor:pointer;font-family:var(--font);transition:transform .15s,box-shadow .15s,border-color .15s}
+  .track:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--edge)}
+  .track.on{border-color:var(--blue);box-shadow:3px 3px 0 var(--blue)}
+  .track .tico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .track .tico .mi{width:20px;height:20px}
+  .track .tbody{flex:1;min-width:0}
+  .track p{font-size:13px;font-weight:800;color:var(--text)}
+  .track .tbar{height:7px;border-radius:99px;background:var(--track-bg);margin-top:8px;overflow:hidden;border:1.5px solid var(--edge-soft)}
+  .track .tbar i{display:block;height:100%;border-radius:99px}
+  .track .tpct{font-size:10.5px;color:var(--sub-2);margin-top:5px;font-weight:700}
+  .track-detail{background:var(--card);border:2px solid var(--edge);border-radius:12px;box-shadow:var(--shadow);padding:15px 17px;display:flex;gap:13px;align-items:center;margin-bottom:30px}
+  .track-detail .tico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .track-detail .tico .mi{width:20px;height:20px}
+  .track-detail .tmain{flex:1}
+  .track-detail .tmain b{font-size:13.5px;color:var(--text)}
+  .track-detail .tmain p{font-size:12px;color:var(--sub);margin-top:3px;line-height:1.6}
+  .track-detail .tpct{font-size:12.5px;font-weight:900;color:var(--blue)}
+  /* ===== 任务列表 ===== */
+  .task-tabs{background:var(--soft);padding:4px;border-radius:9px;display:flex;gap:3px;border:1.5px solid var(--edge-soft)}
+  .task-tabs button{height:31px;padding:0 14px;border-radius:7px;border:2px solid transparent;background:transparent;font-size:12px;color:var(--sub);cursor:pointer;font-family:var(--font);font-weight:600}
+  .task-tabs button.on{background:var(--card);border-color:var(--edge);font-weight:800;color:var(--text)}
+  .task{background:var(--card);border:2px solid var(--edge);border-radius:12px;box-shadow:2px 2px 0 var(--edge);padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:10px;transition:border-color .15s,transform .15s,box-shadow .15s}
+  .task:hover{border-color:var(--blue);transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--edge)}
+  .check{width:29px;height:29px;border-radius:9px;border:2.5px solid var(--edge);background:var(--card);flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s}
+  .check .mi{width:17px;height:17px;color:var(--btn-fg);opacity:0;transition:opacity .12s}
+  .check.done{background:var(--btn-bg);border-color:var(--edge)}
+  .check.done .mi{opacity:1}
+  .check:hover{transform:scale(1.07)}
+  .task .tmain{flex:1;min-width:0;cursor:pointer}
+  .task .tline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .task h3{font-size:13.5px;font-weight:700;color:var(--text)}
+  .task h3.done{text-decoration:line-through;color:var(--sub-2)}
+  .tchip{font-size:10px;background:var(--soft);color:var(--sub);border-radius:6px;padding:2px 8px;border:1px solid var(--edge-soft);font-weight:600}
+  .tchip.mine{background:var(--yellow-bg);color:var(--amber);border-color:var(--edge-soft)}
+  .task .tmeta{font-size:11px;color:var(--sub-2);margin-top:3px}
+  .task .arrow{color:var(--sub-2);flex:none;display:flex}
+  .task .arrow .mi{width:17px;height:17px}
+  .task-add{width:100%;border:2px dashed var(--edge);background:transparent;border-radius:12px;padding:13px;font-size:13px;color:var(--sub);cursor:pointer;font-family:var(--font);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:700}
+  .task-add .mi{width:17px;height:17px}
+  .task-add:hover{background:var(--yellow-bg);color:var(--text)}
+  .empty{background:var(--card);border:2px dashed var(--edge-soft);border-radius:12px;padding:22px;text-align:center;color:var(--sub-2);font-size:12.5px;line-height:1.7}
+  /* ===== 底部双入口（左图标右文字） ===== */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .duo a{display:flex;align-items:center;gap:15px;border-radius:var(--radius);padding:18px 20px;text-decoration:none;cursor:pointer;border:2px solid var(--edge);box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
+  .duo a:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-big)}
+  .duo .d1{background:var(--card)}
+  .duo .d2{background:var(--cyan-bg)}
+  .duo .dico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .duo .dico .mi{width:23px;height:23px}
+  .duo .dbody{flex:1;min-width:0}
+  .duo .go{flex:none;font-size:12px;font-weight:800;color:var(--text);display:inline-flex;align-items:center;align-self:center}
+  .duo .go .mi{width:17px;height:17px}
+  .duo h3{font-size:15.5px;font-weight:900;color:var(--text)}
+  .duo p{font-size:12px;color:var(--sub);line-height:1.6;margin-top:3px}
+  /* ===== 伙伴视图 ===== */
+  .back{font-size:12px;color:var(--sub);display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:none;border:none;font-family:var(--font);font-weight:700}
+  .back .mi{width:16px;height:16px}
+  .back:hover{color:var(--blue)}
+  .online{font-size:11px;background:var(--green-bg);color:var(--ok);border-radius:99px;padding:3px 12px;font-weight:800;border:2px solid var(--edge)}
+  .people{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:12px}
+  .person{border-radius:var(--radius);padding:17px;border:2px solid var(--edge);background:var(--yellow-bg);box-shadow:var(--shadow)}
+  .person.plain{background:var(--card)}
+  .person .phead{display:flex;align-items:center;gap:11px}
+  .pa{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none;border:2px solid var(--edge)}
+  .person .phead .pinfo{flex:1;min-width:0}
+  .prole{font-size:10px;border-radius:7px;padding:2px 8px;background:#ffffff;color:var(--blue);border:2px solid var(--edge);flex:none;font-weight:800}
+  .person.plain .prole{background:var(--soft);color:var(--sub)}
+  .person h3{font-size:14px;font-weight:800;color:var(--on-pc);line-height:1.2}
+  .person.plain h3{color:var(--text)}
+  .person .pd{font-size:11px;color:var(--on-pc-2);margin-top:2px}
+  .person.plain .pd{color:var(--sub)}
+  .pbtn{width:100%;height:38px;margin-top:13px;border-radius:9px;border:2px solid var(--edge);font-size:12.5px;font-weight:800;cursor:pointer;font-family:var(--font);box-shadow:2px 2px 0 var(--edge)}
+  .person .pbtn{background:var(--btn-bg);color:var(--btn-fg)}
+  .person.plain .pbtn{background:#ffffff;color:var(--text)}
+  .qa-row{background:var(--card);border:2px solid var(--edge);border-radius:12px;padding:14px 16px;margin-top:14px;display:flex;gap:12px}
+  .qa-row .pa{width:34px;height:34px;font-size:11.5px}
+  .qa-row p{font-size:12.5px;line-height:1.7;color:var(--text)}
+  .qa-row .qm{font-size:10.5px;color:var(--sub-2);margin-top:4px}
+  .qa-table{margin-top:6px}
+  .qa-item{background:var(--card);border:2px solid var(--edge);border-radius:12px;padding:13px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
+  .qa-item .qtype{flex:none;width:110px}
+  .qa-item .qtype b{font-size:12.5px;color:var(--text);display:block}
+  .qa-item .qtype span{font-size:10.5px;color:var(--sub-2)}
+  .qa-item .qwhere{flex:1;font-size:12.5px;line-height:1.6;color:var(--text)}
+  .qa-item .qresp{flex:none;font-size:10.5px;border-radius:99px;padding:3px 11px;background:var(--blue-bg);color:var(--blue);font-weight:800;border:1.5px solid var(--edge-soft)}
+  .bgta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .bgta-cell{border:2px solid var(--edge);border-radius:11px;background:var(--card);box-shadow:2px 2px 0 var(--edge);padding:12px 13px}
+  .bgta-cell b{font-size:12.5px;display:block;color:var(--blue)}
+  .bgta-cell span{font-size:11px;color:var(--sub);display:block;margin-top:4px;line-height:1.5}
+  /* ===== 工具视图 ===== */
+  .guide{background:var(--card);border:2px solid var(--edge);border-radius:12px;box-shadow:2px 2px 0 var(--edge);overflow:hidden;margin-bottom:12px}
+  .guide-head{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border:none;cursor:pointer;text-align:left;font-family:var(--font)}
+  .guide-head .gico{width:39px;height:39px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .guide-head .gico .mi{width:19px;height:19px}
+  .guide-head .gmain{flex:1}
+  .guide-head .gmain b{font-size:13.5px;color:var(--text)}
+  .guide-head .gmain p{font-size:12px;color:var(--sub);margin-top:2px}
+  .gstatus{font-size:10.5px;border-radius:99px;padding:3px 11px;font-weight:800;border:2px solid var(--edge)}
+  .gstatus.learning{background:var(--yellow-bg);color:var(--amber)}
+  .gstatus.mastered{background:var(--green-bg);color:var(--ok)}
+  .guide-body{display:none;border-top:2px solid var(--edge);background:var(--soft);padding:14px 16px}
+  .guide-body.open{display:block}
+  .step{display:flex;gap:9px;font-size:12.5px;color:var(--text);margin-bottom:8px;line-height:1.6}
+  .step .sno{width:20px;height:20px;border-radius:50%;background:var(--card);border:2px solid var(--edge);display:flex;align-items:center;justify-content:center;font-size:10px;flex:none;margin-top:1px;font-weight:800}
+  .gbtn{height:35px;padding:0 15px;border-radius:9px;font-size:12.5px;font-weight:800;cursor:pointer;border:2px solid var(--edge);background:#ffffff;color:var(--text);font-family:var(--font);margin-top:8px;display:inline-flex;align-items:center;gap:6px;box-shadow:2px 2px 0 var(--edge)}
+  .gbtn.primary{background:var(--btn-bg);color:var(--btn-fg);border-color:var(--edge)}
+  .widgets{display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:12px}
+  .widget{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:2px solid var(--edge);border-radius:12px;box-shadow:2px 2px 0 var(--edge);padding:14px;cursor:pointer;text-align:left;font-family:var(--font);transition:transform .15s,box-shadow .15s}
+  .widget:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow)}
+  .widget .wico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .widget .wico .mi{width:20px;height:20px}
+  .widget .wbody{flex:1;min-width:0}
+  .widget b{display:block;font-size:13px;color:var(--text)}
+  .widget span.d{font-size:11px;color:var(--sub);line-height:1.5;display:block;margin-top:3px}
+  .links{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+  .lk{background:var(--card);border:2px solid var(--edge);border-radius:10px;box-shadow:2px 2px 0 var(--edge);padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:12.5px;text-decoration:none;color:var(--text)}
+  .lk:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--edge)}
+  .lk .lk-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--edge)}
+  .lk .lk-ico .mi{width:15px;height:15px}
+  .lk small{display:block;color:var(--sub-2);font-size:10.5px;margin-top:1px}
+  /* ===== Modal / Toast ===== */
+  .mask{position:absolute;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .mask.on{display:flex}
+  .modal{background:var(--card);border:2.5px solid var(--edge);border-radius:16px;width:100%;max-width:470px;padding:24px;box-shadow:8px 8px 0 rgba(0,0,0,.28);max-height:86%;overflow-y:auto}
+  .modal h2{font-size:18px;margin-top:6px;color:var(--text)}
+  .modal .m-kicker{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);font-weight:800}
+  .modal .m-desc{font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px}
+  .mclose{float:right;width:30px;height:30px;border-radius:9px;border:2px solid var(--edge);background:var(--soft);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .mclose .mi{width:16px;height:16px}
+  .field{margin-top:14px}
+  .field label{font-size:12px;font-weight:800;display:block;margin-bottom:6px;color:var(--text)}
+  .field input,.field select,.field textarea{width:100%;border:2px solid var(--edge-soft);border-radius:9px;padding:10px 13px;font-size:13px;font-family:var(--font);outline:none;background:var(--card);color:var(--text)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}
+  .m-actions{display:flex;gap:9px;margin-top:18px}
+  .m-actions button{flex:1;height:40px;border-radius:9px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:var(--font);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+  .m-actions .cancel{background:var(--card);border:2px solid var(--edge);color:var(--text);box-shadow:2px 2px 0 var(--edge)}
+  .m-actions .ok{background:var(--btn-bg);color:var(--btn-fg);border:2px solid var(--edge);box-shadow:2px 2px 0 var(--edge)}
+  .panel{background:var(--soft);border:2px solid var(--edge-soft);border-radius:11px;padding:14px 16px;margin-top:11px;font-size:13px;line-height:1.8;color:var(--text)}
+  .mbtn{border:2px solid var(--edge);border-radius:9px;padding:9px 17px;font-size:12.5px;font-weight:800;cursor:pointer;background:var(--btn-bg);color:var(--btn-fg);font-family:var(--font);margin:5px 6px 0 0;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:2px 2px 0 var(--edge)}
+  .mbtn .mi{width:16px;height:16px}
+  .mbtn.ghost{background:var(--card);color:var(--text)}
+  .opt{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--edge);border-radius:10px;padding:10px 14px;margin:7px 0;font-size:13px;cursor:pointer;font-family:var(--font);line-height:1.5;color:var(--text)}
+  .opt:hover{border-color:var(--blue);background:var(--blue-bg)}
+  .opt.right{border-color:var(--green);background:var(--green-bg)}
+  .opt.wrong{border-color:var(--danger);background:var(--danger-bg)}
+  .breathe{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#ffd21f,#ff7a1a);border:2.5px solid var(--edge);margin:14px auto;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#221d05;transition:transform 1s linear;text-align:center}
+  .hang{font-family:Menlo,monospace;font-size:12.5px;line-height:1.35;white-space:pre;background:var(--card);border:2px solid var(--edge);border-radius:10px;padding:12px;margin:10px 0;color:var(--text)}
+  .word{font-family:Menlo,monospace;font-size:21px;letter-spacing:6px;text-align:center;margin:10px 0;font-weight:900;color:var(--text)}
+  .letters{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+  .letters button{width:31px;height:31px;border-radius:8px;border:2px solid var(--edge);background:var(--card);cursor:pointer;font-size:12.5px;color:var(--text);font-weight:700}
+  .letters button:disabled{opacity:.32;cursor:default}
+  .step-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--edge-soft);margin:0 3px;border:1.5px solid var(--edge)}
+  .step-dot.on{background:var(--blue)}
+  .toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);background:var(--btn-bg);color:var(--btn-fg);border:2px solid var(--edge);border-radius:11px;box-shadow:var(--shadow-big);padding:11px 17px;font-size:12.5px;display:none;align-items:center;gap:9px;z-index:70;font-weight:700}
+  .toast.on{display:flex}
+  .toast .mi{width:16px;height:16px;color:var(--yellow)}
+  .section{margin-bottom:30px}
+  /* ===== 深色模式：任务区/旅程卡/顶栏的黄色强化（黑金多巴胺） ===== */
+  [data-theme="dark"] .task{background:rgba(255,210,31,.09)}
+  [data-theme="dark"] .task-tabs button.on{background:#ffd21f;border-color:#ffd21f;color:#16130a}
+  [data-theme="dark"] .map-foot button{background:#ffd21f;border-color:#ffd21f;color:#16130a;box-shadow:2px 2px 0 rgba(0,0,0,.8)}
+  [data-theme="dark"] .hbtn{border-color:rgba(255,210,31,.55)}
+  [data-theme="dark"] .hbtn:hover{border-color:#ffd21f;background:rgba(255,210,31,.12)}
+  [data-theme="dark"] .track-detail{background:rgba(255,210,31,.06)}
+  [data-theme="dark"] .guide{background:rgba(255,210,31,.05)}
+  /* ===== 响应式：窄于 900px，侧栏变顶部 ===== */
+  @media (max-width: 900px){
+    .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    nav.side{flex-direction:row;overflow-x:auto;padding:8px 10px;border-right:none;border-bottom:2px solid var(--edge);gap:6px}
+    .navitem{width:auto;flex:none;border-radius:9px;padding:8px 13px;font-size:12.5px}
+    .navitem .n-badge{display:none}
+    .side .side-foot{display:none}
+    .view{padding:22px 18px 50px}
+    .stats{grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .stat{padding:13px}
+    .stat .num{font-size:22px}
+    .phases{grid-template-columns:repeat(5,1fr);gap:6px}
+    .phase span{display:none}
+    .tracks{grid-template-columns:1fr 1fr}
+    .bgta-grid{grid-template-columns:1fr 1fr}
+    .people{grid-template-columns:1fr}
+    .duo{grid-template-columns:1fr}
+  }
+  @media (max-width: 560px){
+    .stats{grid-template-columns:1fr}
+    .tracks{grid-template-columns:1fr}
+    .bgta-grid{grid-template-columns:1fr 1fr}
+    h1{font-size:22px}
+    .script{font-size:25px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- 顶栏：花体标题 + 右上角太阳/月亮切换 -->
+  <header>
+    <div class="htitle">
+      <span class="script">Onboarding</span>
+      <span class="divider"></span>
+      <div><div class="kicker">每日成长工作台</div><div class="hname" id="hName">我的 90 天</div></div>
+    </div>
+    <div class="hright">
+      <button class="hbtn" id="themeBtn" title="切换明暗" aria-label="切换深色模式"></button>
+      <button class="hbtn bell" id="bellBtn" title="通知" aria-label="通知">
+        <svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span class="dot"></span>
+      </button>
+      <button class="avatar" id="avatarBtn" title="切换身份">张</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <!-- 左侧导航（窄屏自动变顶部） -->
+    <nav class="side" id="sideNav">
+      <button class="navitem on" data-view="home">
+        <svg class="mi" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+        成长地图<span class="n-badge" id="navToday">3</span>
+      </button>
+      <button class="navitem" data-view="people">
+        <svg class="mi" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        伙伴与提问
+      </button>
+      <button class="navitem" data-view="tools">
+        <svg class="mi" viewBox="0 0 24 24"><path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm10 0v8h8V3h-8z"/></svg>
+        工具箱
+      </button>
+      <div class="side-foot">数据底座：成长系统 Base 与 HR Base<br>由 xiaolong-onboarding 技能部署<br>虚构演示数据（示例科技）</div>
+    </nav>
+
+    <main>
+      <!-- ============ 视图一：成长地图（每日工作台） ============ -->
+      <section class="view on" id="view-home">
+        <div class="greet">
+          <div>
+            <div class="crumb"><span id="roleTeam">产品部</span><svg class="mi" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><b id="roleName">产品经理 · P6</b></div>
+            <h1 id="greetHi">早上好，张小明</h1>
+            <p>入职第 <b id="dayNo">3</b> 天 · 本周重点是<b>跑通团队工具链，学会「该去哪问、该怎么问」</b>。</p>
+          </div>
+          <button class="btn-ghost" id="switchRole">
+            <svg class="mi" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>切换身份
+          </button>
+        </div>
+
+        <!-- 统计三卡 -->
+        <div class="stats">
+          <button class="stat lead" onclick="setFilter('today')"><span class="sico" id="sicoToday"></span><span><div class="lab">今日任务</div><div class="num" id="todayCount">3</div><div class="hint">预计 60 分钟</div></span></button>
+          <button class="stat todo" onclick="setFilter('todo')"><span class="sico" id="sicoTodo"></span><span><div class="lab">待办</div><div class="num" id="todoCount">3</div><div class="hint amber" id="todoHint">1 项即将到期</div></span></button>
+          <button class="stat done" onclick="setFilter('done')"><span class="sico" id="sicoDone"></span><span><div class="lab">已完成</div><div class="num" id="doneCount">3</div><div class="hint green">本周状态很好</div></span></button>
+        </div>
+
+        <!-- Onboarding 五站旅程地图 -->
+        <div class="mapcard">
+          <div class="map-top"><span>第 1 天</span><span id="mapToday">今天 · 第 3 天</span><span>第 90 天</span></div>
+          <div class="mapbar"><i id="overallBar"></i></div>
+          <div class="phases" id="phases"></div>
+          <div class="map-foot">
+            <p id="phaseCopy">当前里程碑：完成安全培训与工具安装，独立跑通一次「提问 → 找渠道 → 拿到答案」。</p>
+            <button onclick="setFilter('today')">查看清单</button>
+          </div>
+        </div>
+
+        <!-- 成长线 -->
+        <div class="section">
+          <div class="row-head">
+            <div><div class="eyebrow">Growth tracks</div><h2 style="margin-top:4px">四条成长线</h2><p class="muted" style="margin-top:3px">切换成长线，聚焦对应的任务与里程碑。</p></div>
+          </div>
+          <div class="tracks" id="tracks"></div>
+          <div class="track-detail" id="trackDetail"></div>
+        </div>
+
+        <!-- 每日任务 -->
+        <div class="section" id="tasks">
+          <div class="row-head">
+            <div><h2>每日任务</h2><p class="muted" style="margin-top:3px">完成任务会同步更新旅程进度，也可以记录你自己的待办。</p></div>
+            <div class="task-tabs">
+              <button id="tabToday" onclick="setFilter('today')">今日</button>
+              <button id="tabTodo" onclick="setFilter('todo')">待办</button>
+              <button id="tabDone" onclick="setFilter('done')">已完成</button>
+            </div>
+          </div>
+          <div id="taskList"></div>
+          <button class="task-add" onclick="openAddTask()"><svg class="mi" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>添加我的待办</button>
+        </div>
+
+        <!-- 双入口 -->
+        <div class="duo">
+          <a class="d1" onclick="switchView('people')">
+            <span class="dico" style="background:var(--green-bg);color:var(--ok)"><svg class="mi" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z"/></svg></span>
+            <span class="dbody"><h3>有问题，先找对人</h3><p>导师王芳在线，提问路径表告诉你「什么问题该去哪问」，还能用 BGTA 把问题问专业。</p></span>
+            <span class="go">去提问<svg class="mi" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></span>
+          </a>
+          <a class="d2" onclick="switchView('tools')">
+            <span class="dico" style="background:var(--pink-bg);color:var(--pink)"><svg class="mi" viewBox="0 0 24 24"><path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm10 0v8h8V3h-8z"/></svg></span>
+            <span class="dbody"><h3>常用工具与解压小站</h3><p>软件安装步骤可打卡，呼吸、54321、答题闯关、破冰话题，累了随时用一下。</p></span>
+            <span class="go">查看指南<svg class="mi" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ============ 视图二：伙伴与提问 ============ -->
+      <section class="view" id="view-people">
+        <button class="back" onclick="switchView('home')"><svg class="mi" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>返回成长地图</button>
+        <div style="margin:18px 0 26px">
+          <div class="eyebrow">Your support system</div>
+          <h1 style="margin-top:5px">有人同行，也知道去哪问</h1>
+          <p class="muted" style="margin-top:7px">认识关键伙伴，按提问路径找对渠道，用 BGTA 模板把问题一次问清楚。</p>
+        </div>
+
+        <div class="section">
+          <div class="row-head"><div><h2>我的伙伴</h2><p class="muted" style="margin-top:3px">向导师与 Leader 提问，或约关键协作方聊一聊。</p></div><span class="online">2 人在线</span></div>
+          <div class="people">
+            <article class="person">
+              <div class="phead"><span class="pa" style="background:#dcfce7;color:#16a34a">王</span><span class="pinfo"><h3>王芳</h3><p class="pd">前端工程师 · 在线</p></span><span class="prole">你的导师</span></div>
+              <button class="pbtn" onclick="openMessage('王芳（导师）')">发起提问</button>
+            </article>
+            <article class="person plain">
+              <div class="phead"><span class="pa" style="background:#cffafe;color:#0e7490">李</span><span class="pinfo"><h3>李华</h3><p class="pd">产品负责人 · 今日可约</p></span><span class="prole">直属 Leader</span></div>
+              <button class="pbtn" onclick="openMessage('李华（Leader）')">预约 1∶1</button>
+            </article>
+            <article class="person plain">
+              <div class="phead"><span class="pa" style="background:#fef3c7;color:#d97706">吴</span><span class="pinfo"><h3>吴静</h3><p class="pd">制度与福利 · 1 个工作日内响应</p></span><span class="prole">HR 伙伴</span></div>
+              <button class="pbtn" onclick="openMessage('吴静（HR 伙伴）')">咨询福利</button>
+            </article>
+          </div>
+          <div class="qa-row">
+            <span class="pa" style="background:#dcfce7;color:#16a34a">王</span>
+            <div><p><b>王芳回复了你：</b>组件用法先看组件库文档的 props 示例，文档里没有再到技术群 @ 模块 owner，记得带上复现步骤。</p><div class="qm">12 分钟前 · 导师频道</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="row-head"><div><h2>提问路径地图</h2><p class="muted" style="margin-top:3px">先按问题类型选渠道，不要盲发；数据来自成长系统 Base「提问路径」表。</p></div></div>
+          <div class="qa-table" id="qaTable"></div>
+        </div>
+
+        <div class="section">
+          <div class="row-head"><div><h2>提问培训 · BGTA 四段式</h2><p class="muted" style="margin-top:3px">把「在吗」「帮我看看」训练成专业提问。</p></div></div>
+          <div class="card" style="padding:18px">
+            <div class="bgta-grid">
+              <div class="bgta-cell"><b>B · Background</b><span>背景：我在做什么</span></div>
+              <div class="bgta-cell"><b>G · Goal</b><span>目标：想达成什么</span></div>
+              <div class="bgta-cell"><b>T · Tried</b><span>已尝试：试过什么</span></div>
+              <div class="bgta-cell"><b>A · Ask</b><span>请求：需要对方做什么</span></div>
+            </div>
+            <button class="mbtn" onclick="openWidget('bgta')"><svg class="mi" viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>打开 BGTA 提问生成器</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 视图三：工具箱 ============ -->
+      <section class="view" id="view-tools">
+        <button class="back" onclick="switchView('home')"><svg class="mi" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>返回成长地图</button>
+        <div style="margin:18px 0 26px">
+          <div class="eyebrow">Toolkit</div>
+          <h1 style="margin-top:5px">工具指南与每日小站</h1>
+          <p class="muted" style="margin-top:7px">软件步骤展开后可标记「已掌握」；小工具点开即用，每天帮你保持状态。</p>
+        </div>
+
+        <div class="section">
+          <div class="row-head"><div><h2>常用软件指南</h2><p class="muted" style="margin-top:3px">数据来自成长系统 Base「软件清单」表，按 P0 → P1 → P2 安装。</p></div><span class="gstatus learning" id="masteredLabel">已掌握 1/4</span></div>
+          <div id="guideList"></div>
+        </div>
+
+        <div class="section">
+          <div class="row-head"><div><h2>每日小站</h2><p class="muted" style="margin-top:3px">培训、破冰、解压、提神，点开即用。</p></div></div>
+          <div class="widgets" id="widgets"></div>
+        </div>
+
+        <div class="section">
+          <div class="row-head"><div><h2>常用网址</h2><p class="muted" style="margin-top:3px">数据来自成长系统 Base「网址清单」表。</p></div></div>
+          <div class="links" id="linkList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><svg class="mi" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span id="toastText"></span></div>
+
+  <!-- 任务详情 -->
+  <div class="mask" id="taskModal"><div class="modal">
+    <button class="mclose" onclick="closeMask('taskModal')"><svg class="mi" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div class="m-kicker" id="modalTrack"></div>
+    <h2 id="modalTitle"></h2>
+    <p class="m-desc" id="modalDesc"></p>
+    <div class="m-actions"><button class="cancel" onclick="closeMask('taskModal')">稍后处理</button><button class="ok" id="modalComplete">标记完成</button></div>
+  </div></div>
+
+  <!-- 添加我的待办 -->
+  <div class="mask" id="addModal"><div class="modal">
+    <button class="mclose" onclick="closeMask('addModal')"><svg class="mi" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div class="m-kicker">My task</div>
+    <h2>添加我的待办</h2>
+    <p class="m-desc">记录你自己的任务事项，会进入今日清单并参与进度统计，保存在本机浏览器中。</p>
+    <div class="field"><label>任务内容</label><input id="addTitle" placeholder="例如：整理第一次需求评审的会议纪要"></div>
+    <div class="field"><label>所属成长线</label>
+      <select id="addTrack"><option>熟悉工友</option><option>熟悉工具</option><option>熟悉业务</option><option>熟悉项目</option></select>
+    </div>
+    <div class="field"><label>时间</label>
+      <select id="addWhen"><option value="today">今天</option><option value="todo">本周稍后</option></select>
+    </div>
+    <div class="m-actions"><button class="cancel" onclick="closeMask('addModal')">取消</button><button class="ok" onclick="submitTask()">添加</button></div>
+  </div></div>
+
+  <!-- 发消息 -->
+  <div class="mask" id="msgModal"><div class="modal">
+    <button class="mclose" onclick="closeMask('msgModal')"><svg class="mi" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div class="m-kicker">新消息</div>
+    <h2 id="msgTitle"></h2>
+    <div class="field"><textarea id="msgText" style="height:110px" placeholder="按 BGTA 写下：背景、目标、已尝试、具体请求…"></textarea></div>
+    <div class="m-actions"><button class="cancel" onclick="closeMask('msgModal')">取消</button><button class="ok" onclick="sendMsg()">发送消息</button></div>
+  </div></div>
+
+  <!-- 切换身份 -->
+  <div class="mask" id="roleModal"><div class="modal">
+    <button class="mclose" onclick="closeMask('roleModal')"><svg class="mi" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div class="m-kicker">切换视角（演示）</div>
+    <h2>选择员工身份</h2>
+    <p class="m-desc">工作台会按「我」的资料渲染；真实环境中由登录身份自动确定。</p>
+    <div id="roleList" style="margin-top:12px"></div>
+  </div></div>
+
+  <!-- 小工具容器 -->
+  <div class="mask" id="widgetModal"><div class="modal">
+    <button class="mclose" onclick="closeMask('widgetModal')"><svg class="mi" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div id="widgetBody"></div>
+  </div></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  /* ===== Google Material Icons（官方 path，内联 SVG，零网络依赖） ===== */
+  var PATHS={
+    groups:'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z',
+    widgets:'M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm10 0v8h8V3h-8z',
+    trending:'M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z',
+    folder:'M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z',
+    forum:'M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z',
+    air:'M14.5 17c0 1.65-1.35 3-3 3s-3-1.35-3-3h2c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1H2v-2h9.5c1.65 0 3 1.35 3 3zM19 6.5C19 4.57 17.43 3 15.5 3S12 4.57 12 6.5h2c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S16.33 8 15.5 8H2v2h13.5c1.93 0 3.5-1.57 3.5-3.5zm-.5 4.5H2v2h16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5v2c1.93 0 3.5-1.57 3.5-3.5S20.43 11 18.5 11z',
+    touch:'M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z',
+    psychology:'M15.5 10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S14 8.17 14 9s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 7.5 8.5 7.5 7 8.17 7 9s.67 1.5 1.5 1.5zm3.5-9C8.68 1.5 5 5.18 5 9.5c0 2.35 1.05 4.28 2.5 5.5V21c0 .55.45 1 1 1h2v-4h1v4h2c.55 0 1-.45 1-1v-5.59c1.7-.88 3-2.79 3-4.91 0-4.32-3.68-8-7.5-8z',
+    target:'M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z',
+    chatbubble:'M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z',
+    casino:'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7.5 18C6.12 18 5 16.88 5 15.5S6.12 13 7.5 13 10 14.12 10 15.5 8.88 18 7.5 18zm0-6C6.12 12 5 10.88 5 9.5S6.12 7 7.5 7 10 8.12 10 9.5 8.88 12 7.5 12zm4.5 3c-.83 0-1.5-.67-1.5-1.5S11.17 12 12 12s1.5.67 1.5 1.5S12.83 15 12 15zm0-6c-.83 0-1.5-.67-1.5-1.5S11.17 6 12 6s1.5.67 1.5 1.5S12.83 9 12 9zm4.5 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z',
+    bolt:'M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13 3h1l-1 7h3.5c.4 0 .56.33.47.51C12.97 17.55 12 21 12 21h-1z',
+    snow:'M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22v-2z',
+    abc:'M21 11h-1.5v-.5h-2v3h2V13H21v1c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1zM7.5 8H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h2.5c.83 0 1.5-.67 1.5-1.5v-3C9 8.67 8.33 8 7.5 8zm0 4.5H6v-3h1.5v3zm8-4.5h-2.75c-.41 0-.75.34-.75.75v4.5c0 .41.34.75.75.75H15.5c.83 0 1.5-.67 1.5-1.5v-3c0-.83-.67-1.5-1.5-1.5zm0 4.5H14v-3h1.5v3zM3 5v14h18V5H3z',
+    map:'M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z',
+    chat:'M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z',
+    code:'M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4 1.4z',
+    book:'M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z',
+    brush:'M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34c-.39-.39-1.02-.39-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z',
+    home:'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z',
+    palette:'M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.2-.64-1.67-.08-.1-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm5.5 11c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-3-4C13.67 9 13 8.33 13 7.5S13.67 6 14.5 6 16 6.67 16 7.5 15.33 9 14.5 9zm-5 0C8.67 9 8 8.33 8 7.5S8.67 6 9.5 6s1.5.67 1.5 1.5S10.33 9 9.5 9zm-3 4c-.83 0-1.5-.67-1.5-1.5S5.67 10 6.5 10 8 10.67 8 11.5 7.33 13 6.5 13z',
+    ticket:'M22 10V6c0-1.11-.9-2-2-2H4c-1.1 0-1.99.89-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.89-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z',
+    barchart:'M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z',
+    send:'M2.01 21L23 12 2.01 3 2 10l15 2-15 2z',
+    check:'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',
+    chevron:'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z',
+    expandmore:'M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z',
+    expandless:'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z',
+    hand:'M13 12c0-.55.45-1 1-1s1 .45 1 1v1c0 .55-.45 1-1 1s-1-.45-1-1v-1zm-8 0c0-.55.45-1 1-1s1 .45 1 1v1c0 .55-.45 1-1 1s-1-.45-1-1v-1zm4 0c0-.55.45-1 1-1s1 .45 1 1v1c0 .55-.45 1-1 1s-1-.45-1-1v-1zm11-1c-.55 0-1 .45-1 1v4c0 2.76-2.24 5-5 5h-2.26c-1.69 0-3.31-.84-4.29-2.23l-2.85-4.04c-.26-.37-.21-.87.12-1.19.36-.34.93-.31 1.26.06L9 15.3V4.5C9 3.67 9.67 3 10.5 3S12 3.67 12 4.5V11h.5c.28 0 .5.22.5.5V9c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v2.5c.28 0 .5.22.5.5V11c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v2.5c.28 0 .5.22.5.5V12c0-.55.45-1 1-1z',
+    schedule:'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z',
+    checkcircle:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
+    light_mode:'M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z',
+    dark_mode:'M9.37 5.51c-.18.64-.27 1.31-.27 1.99 0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27C17.45 17.19 14.93 19 12 19c-3.87 0-7-3.13-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z'
+  };
+  function MI(n,cls){return '<svg class="mi'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true"><path d="'+(PATHS[n]||'')+'"/></svg>';}
+  /* ===== 多巴胺色板（每张卡一对主色/浅底） ===== */
+  var DOP={
+    green:{fg:'#16a34a',bg:'#dcfce7'},
+    blue:{fg:'#0e7490',bg:'#cffafe'},
+    yellow:{fg:'#b45309',bg:'#fef3c2'},
+    orange:{fg:'#ea580c',bg:'#ffedd5'},
+    pink:{fg:'#db2777',bg:'#fce7f3'},
+    cyan:{fg:'#0e7490',bg:'#cffafe'},
+    lime:{fg:'#4d7c0f',bg:'#ecfccb'},
+    red:{fg:'#dc2626',bg:'#fee2e2'},
+    teal:{fg:'#0f766e',bg:'#ccfbf1'},
+    amber:{fg:'#d97706',bg:'#fef3c7'}
+  };
+  /* 深色主题用的霓虹变体（高亮荧光色 + 半透明深底） */
+  var DOP_DARK={
+    green:{fg:'#6ee7a0',bg:'rgba(34,197,94,.16)'},
+    blue:{fg:'#4dd4e8',bg:'rgba(6,190,215,.18)'},
+    yellow:{fg:'#ffd166',bg:'rgba(255,210,31,.14)'},
+    orange:{fg:'#ff9a5c',bg:'rgba(255,138,40,.16)'},
+    pink:{fg:'#ff7ab6',bg:'rgba(255,88,150,.16)'},
+    cyan:{fg:'#4dd4e8',bg:'rgba(6,190,215,.14)'},
+    lime:{fg:'#b6e34d',bg:'rgba(152,225,40,.14)'},
+    red:{fg:'#ff7a7c',bg:'rgba(255,86,88,.16)'},
+    teal:{fg:'#5ee0c4',bg:'rgba(20,162,152,.16)'},
+    amber:{fg:'#ffc766',bg:'rgba(255,210,31,.14)'}
+  };
+  function isDark(){return document.documentElement.getAttribute('data-theme')==='dark'}
+  function dopOf(o){if(!isDark())return o;for(var k in DOP){if(DOP[k]===o)return DOP_DARK[k]||o}return o}
+  var PHASES=[
+    {n:'破冰',p:30,d:'认识工友与团队'},
+    {n:'工具',p:60,d:'装好软件跑通流程'},
+    {n:'提问',p:85,d:'知道去哪问怎么问'},
+    {n:'规划',p:0,d:'30-60-90 天计划'},
+    {n:'压力',p:15,d:'状态管理与放松'}
+  ];
+  var TRACKS=[
+    {id:'t1',name:'熟悉工友',icon:'groups',c:DOP.green,ds:'认识导师、Leader、协作方，约 1 对 1 破冰。',t:'11 项 · 已做 4',done:4,total:11},
+    {id:'t2',name:'熟悉工具',icon:'widgets',c:DOP.blue,ds:'装好 P0/P1 软件，跑通构建与提交流程。',t:'9 项 · 已做 3',done:3,total:9},
+    {id:'t3',name:'熟悉业务',icon:'trending',c:DOP.orange,ds:'读懂团队目标、指标口径与产品脉络。',t:'8 项 · 已做 1',done:1,total:8},
+    {id:'t4',name:'熟悉项目',icon:'folder',c:DOP.pink,ds:'跑通需求到上线的完整链路。',t:'10 项 · 已做 2',done:2,total:10}
+  ];
+  var SEED_TASKS=[
+    {id:'s1',t:'完成安全培训与账号开通',tr:'t2',w:'today',d:'跟着《入职日程》Day 0 完成，领完电脑后 30 分钟可搞定。',by:'成长系统 Base · 入职日程'},
+    {id:'s2',t:'安装飞书、代码平台、VPN',tr:'t2',w:'today',d:'P0 软件清单前三项，安装遇到权限问题走 IT 工单。',by:'成长系统 Base · 软件清单'},
+    {id:'s3',t:'约导师 1 对 1，聊本周任务',tr:'t1',w:'today',d:'带上「我想知道团队在做什么 + 我第一周做什么」。',by:'HR Base · 待办明细'},
+    {id:'s4',t:'跑通本地构建与单元测试',tr:'t2',w:'todo',d:'按团队 wiki 的前端项目规范执行，卡住先查 README。',by:'成长系统 Base · 软件清单'},
+    {id:'s5',t:'认识产品、设计、数据三方接口人',tr:'t1',w:'todo',d:'约 15 分钟认识你的上下游，记住谁管什么。',by:'成长系统 Base · 提问路径'},
+    {id:'s6',t:'读懂团队 OKR 与指标口径',tr:'t3',w:'todo',d:'先对齐「指标怎么算」，再讨论数字才有意义。',by:'成长系统 Base · 术语表'},
+    {id:'s7',t:'走完第一个真实 case 的提交流程',tr:'t4',w:'todo',d:'修 bug 或写小功能，完成第一个 MR/PR。',by:'成长系统 Base · 入职日程'}
+  ];
+  var QA=[
+    {t:'工具使用',e:'飞书怎么建日程、文档权限怎么设',w:'先问 AI 伙伴 → 查文档中心 → 再问同事',r:'即时'},
+    {t:'账号 / 权限 / 网络',e:'邮箱登不上、Wi-Fi 连不上、没权限',w:'IT 工单系统（工单：it.example.com）',r:'1 个工作日'},
+    {t:'业务 / 流程',e:'报销怎么走、审批怎么发起',w:'直属 Leader 或业务文档（知识库）',r:'当日'},
+    {t:'技术问题',e:'代码报错、接口不通、组件用法',w:'技术群 @ 模块 owner → 代码库 / 文档',r:'1–4 小时'},
+    {t:'制度 / 福利',e:'年假、社保、差旅标准',w:'HR 伙伴或制度文档（福利站）',r:'1 个工作日'},
+    {t:'产品 / 需求',e:'需求冲突、优先级不明',w:'产品负责人，带上证据和影响面',r:'当日'}
+  ];
+  var GUIDES=[
+    {name:'飞书与协作',icon:'chat',c:DOP.green,steps:['用企业邮箱登录，加入部门群','把常用文档与知识库加入收藏','把「提问路径表」存进书签'],done:false},
+    {name:'代码与构建',icon:'code',c:DOP.blue,steps:['装 Git + 公司代码平台客户端','clone 团队仓库，跑通一次本地构建','完成第一个 MR/PR 提交流程'],done:false},
+    {name:'设计稿与组件',icon:'brush',c:DOP.pink,steps:['装 Figma 桌面版并加入团队库','看设计系统与组件库文档','按规范标注、取值、切图'],done:false},
+    {name:'数据与看板',icon:'barchart',c:DOP.teal,steps:['收藏数据看板与监控页','学会看指标口径说明','上线前熟悉发布与回滚只读操作'],done:false}
+  ];
+  var LINKS=[
+    {n:'内网主页',u:'home.example.com',d:'所有内部系统入口',c:DOP.green},
+    {n:'知识库 Wiki',u:'wiki.example.com',d:'团队文档与制度',c:DOP.blue},
+    {n:'代码平台',u:'code.example.com',d:'仓库 / MR / CI',c:DOP.orange},
+    {n:'工单系统',u:'it.example.com',d:'账号 / 权限 / 设备',c:DOP.red},
+    {n:'设计系统',u:'design.example.com',d:'色彩字体组件规范',c:DOP.pink},
+    {n:'组件库文档',u:'ui.example.com/components',d:'props 示例与版本',c:DOP.cyan},
+    {n:'API 文档中心',u:'api.example.com',d:'接口定义与鉴权',c:DOP.teal},
+    {n:'数据看板',u:'data.example.com',d:'业务指标与报表',c:DOP.lime},
+    {n:'发布平台',u:'release.example.com',d:'发布 / 灰度 / 回滚',c:DOP.amber},
+    {n:'福利站',u:'benefits.example.com',d:'福利制度咨询入口',c:DOP.green}
+  ];
+  var WIDGETS=[
+    {id:'quiz',name:'答题闯关',d:'5 题快速测验，检验你对工具与团队的了解',icon:'psychology',c:DOP.blue},
+    {id:'break',name:'破冰话题',d:'随机一个话题，认识工友也能用',icon:'casino',c:DOP.orange},
+    {id:'bgta',name:'BGTA 提问生成',d:'把问题组织成四段式，一次问清楚',icon:'forum',c:DOP.green},
+    {id:'breathe',name:'方块呼吸',d:'4-4-4-4 呼吸引导，60 秒平静下来',icon:'air',c:DOP.cyan},
+    {id:'five',name:'54321 着陆',d:'用五种感官把注意力拉回当下',icon:'touch',c:DOP.pink},
+    {id:'478',name:'4-7-8 助眠呼吸',d:'吸 4 秒 · 屏 7 秒 · 呼 8 秒',icon:'snow',c:DOP.teal},
+    {id:'hangman',name:'猜词小游戏',d:'从术语表里猜词，赢过小笼',icon:'abc',c:DOP.lime},
+    {id:'energy',name:'提神站',d:'喝口水、抬抬头，2 分钟小动作',icon:'bolt',c:DOP.amber}
+  ];
+  var QUIZ=[
+    {q:'网络连不上，第一时间应该去哪里问？',opts:['随便找个同事问','IT 工单系统，附设备型号和错误截图','发到部门大群','等第二天再说'],a:1,why:'账号、权限、网络类问题统一走 IT 工单，1 个工作日响应。'},
+    {q:'想确认需求优先级，应该找谁、带什么？',opts:['产品负责人，带上证据和影响面','直接问技术群','找 HR 伙伴','自己拍板'],a:0,why:'产品与需求类问题找产品负责人，一次给足背景。'},
+    {q:'「BGTA」中的 T 指什么？',opts:['Topic 话题','Team 团队','Tried 已尝试','Time 时间'],a:2,why:'B 背景、G 目标、T 已尝试、A 请求，四段式提问。'},
+    {q:'代码仓库和提交流程在哪个平台看？',opts:['home.example.com','code.example.com','benefits.example.com','data.example.com'],a:1,why:'代码平台统一管理仓库、MR/PR 与 CI。'},
+    {q:'入职 Day 1 的完成标准是什么？',opts:['把软件全装完','能说清团队在做什么、自己第一周做什么','做完一个需求','写完年度规划'],a:1,why:'Day 1 加部门群、见 Leader、读 wiki，能说清目标即可。'}
+  ];
+  var FACTS=[
+    '产品部本周在冲刺 9 月的「新人工具链」专项，技术群里 @ 王芳可以快速拿到组件库更新说明。',
+    '前端项目规范在 wiki.example.com/frontend-guide，提交前先看一遍，避免 MR 被打回。',
+    '报销标准里有一条：300 元以下无需附发票，直接走 expense 快速通道。'
+  ];
+  var TOPICS=['如果你是产品经理，怎么给新人设计入职第一天？','分享一个你入职时踩过的坑，和当时的解法。','你最近在学什么新东西？为什么想学它？','如果要把团队 wiki 变成一门课，你会先讲哪一章？'];
+  var REFRESH=['站起来，走到窗边看 20 秒远处，眼睛会舒服很多。','喝半杯水，顺便活动一下手腕和肩膀。','把今天的任务重排一下：先做最不确定的那件。','深呼吸三次：吸气 4 秒，呼气 6 秒。'];
+  var WORDS=['BGTA','MR','灰度','复盘','OKR','冒烟','排期','对齐','水位','Oncall'];
+  var ROLES=[
+    {id:'zhang',name:'张小明',team:'产品部',role:'产品经理 · P6',day:3,hi:'早上好，张小明',avatar:'张'},
+    {id:'li',name:'李一诺',team:'研发部',role:'前端工程师 · P5',day:8,hi:'早上好，李一诺',avatar:'李'},
+    {id:'wang',name:'王雨桐',team:'设计部',role:'交互设计师 · P6',day:15,hi:'早上好，王雨桐',avatar:'王'},
+    {id:'chen',name:'陈小满',team:'运营部',role:'用户运营 · P5',day:22,hi:'早上好，陈小满',avatar:'陈'}
+  ];
+  /* ===== 状态 ===== */
+  var STORE_KEY='xl-onboarding-tasks-v1', THEME_KEY='xl-onboarding-theme-v1';
+  var myTasks=(function(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}})();
+  var doneSet=(function(){var s={};SEED_TASKS.forEach(function(t){s[t.id]=false});myTasks.forEach(function(t){s[t.id]=!!t.done});return s})();
+  var learned=(function(){try{return JSON.parse(localStorage.getItem('xl-onboarding-learned-v1'))||[]}catch(e){return[]}})();
+  var filter='today', activeTrack='t1', currentRole=ROLES[0];
+  var quizIdx=0, quizRight=0, quizAnswered=false;
+  var hangWord='', hangLeft=6, hangGuessed=[], hangRight=new Set();
+  var breatheTimer=null, breatheHook=null, breatheStep=0;
+  var fiveStep=0, fiveHook=null;
+
+  /* ===== 主题切换：浅色白底 / 深色黑底 ===== */
+  function applyTheme(theme){
+    document.documentElement.setAttribute('data-theme',theme||'light');
+    if(document.body)document.body.setAttribute('data-theme',theme||'light');
+    var btn=document.getElementById('themeBtn');
+    if(btn){btn.innerHTML=theme==='dark'?MI('light_mode'):MI('dark_mode');}
+    try{localStorage.setItem(THEME_KEY,theme)}catch(e){}
+  }
+  function toggleTheme(){
+    var cur=document.documentElement.getAttribute('data-theme')||'light';
+    applyTheme(cur==='dark'?'light':'dark');
+    refreshAll();
+  }
+  /* 主题切换后重渲染所有带内联撞色的区域（随主题切换霓虹色板） */
+  function refreshAll(){
+    renderStats();renderTracks();renderTasks();
+    renderGuides();renderWidgets();renderLinks();
+  }
+
+  /* ===== 基础工具 ===== */
+  function $(id){return document.getElementById(id)}
+  function toast(msg){var t=$('toast');$('toastText').textContent=msg;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('on')},2200);}
+  function closeMask(id){var m=$(id);if(m)m.classList.remove('on');stopBreathe();}
+  function openMask(id){var m=$(id);if(m)m.classList.add('on');}
+  function switchView(v){
+    document.querySelectorAll('.view').forEach(function(s){s.classList.remove('on')});
+    var el=$('view-'+v);if(el)el.classList.add('on');
+    document.querySelectorAll('.navitem').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-view')===v)});
+  }
+  function trackById(id){for(var i=0;i<TRACKS.length;i++)if(TRACKS[i].id===id)return TRACKS[i];return TRACKS[0];}
+  function taskDone(t){return doneSet[t.id]||false}
+  function allTasks(){
+    var arr=SEED_TASKS.map(function(s){return {id:s.id,t:s.t,tr:s.tr,w:s.w,d:s.d,by:s.by,self:false}});
+    myTasks.forEach(function(m){if(m&&m.t)arr.push({id:m.id,t:m.t,tr:m.tr||'t1',w:m.w||'todo',d:m.d||'',by:m.by||'我添加的待办',self:true})});
+    return arr;
+  }
+
+  /* ===== 渲染：统计与旅程 ===== */
+  function renderStats(){
+    var list=allTasks();
+    function cnt(fn){return list.filter(fn).length}
+    var today=cnt(function(t){return t.w==='today'&&!taskDone(t)});
+    var todo=cnt(function(t){return t.w==='todo'&&!taskDone(t)});
+    var done=cnt(function(t){return taskDone(t)});
+    $('todayCount').textContent=today;
+    $('todoCount').textContent=todo;
+    $('doneCount').textContent=done;
+    $('navToday').textContent=today;
+    $('todoHint').textContent=todo>0?(todo>1?'今晚前搞定这几件':'1 项即将到期'):'本周清单已清空';
+    $('todoHint').className='hint'+(todo>0?' amber':'');
+    var ico=[
+      ['sicoToday',today>0?'schedule':'checkcircle','var(--orange)','var(--orange-bg)'],
+      ['sicoTodo',todo>0?'schedule':'checkcircle','var(--amber)','var(--amber-bg)'],
+      ['sicoDone',done>0?'checkcircle':'schedule','var(--ok)','var(--ok-bg)']
+    ];
+    ico.forEach(function(x){var el=$(x[0]);if(el)el.innerHTML=MI(x[1])+'<style>#'+x[0]+'{background:'+x[3]+';color:'+x[2]+'}</style>'});
+  }
+  function renderMap(){
+    var wrap=$('phases');if(!wrap)return;wrap.innerHTML='';
+    PHASES.forEach(function(p,i){
+      var el=document.createElement('button');
+      el.className='phase'+(i===2?' now':'');
+      el.innerHTML='<span class="pno">'+(i+1)+'</span><p>'+p.n+'</p><span>'+p.d+'</span>';
+      el.title=p.d;
+      el.onclick=function(){setFilter('today');toast('当前阶段：'+p.n+' · '+p.d)};
+      wrap.appendChild(el);
+    });
+    var overall=Math.round(PHASES.reduce(function(a,p){return a+p.p},0)/PHASES.length);
+    $('overallBar').style.width=overall+'%';
+  }
+  function renderTracks(){
+    var wrap=$('tracks');if(!wrap)return;wrap.innerHTML='';
+    TRACKS.forEach(function(t){
+      var el=document.createElement('button');
+      el.className='track'+(t.id===activeTrack?' on':'');
+      var c=dopOf(t.c),pct=Math.round(t.done/t.total*100);
+      el.innerHTML='<span class="tico" style="background:'+c.bg+';color:'+c.fg+'">'+MI(t.icon)+'</span>'+
+        '<span class="tbody"><p>'+t.name+'</p>'+
+        '<span class="tbar"><i style="width:'+pct+'%;background:'+c.fg+'"></i></span>'+
+        '<span class="tpct">'+t.t+'</span></span>';
+      el.onclick=function(){activeTrack=t.id;renderTracks();renderTrackDetail();renderTasks()};
+      wrap.appendChild(el);
+    });
+    renderTrackDetail();
+  }
+  function renderTrackDetail(){
+    var t=trackById(activeTrack),wrap=$('trackDetail');if(!wrap)return;
+    var c=dopOf(t.c),pct=Math.round(t.done/t.total*100);
+    wrap.innerHTML='<span class="tico" style="background:'+c.bg+';color:'+c.fg+'">'+MI(t.icon)+'</span>'+
+      '<span class="tmain"><b>'+t.name+' · '+pct+'%</b><p>'+t.ds+'</p></span>'+
+      '<span class="tpct">'+pct+'%</span>'+
+      '<button class="gbtn primary" onclick="setFilter(\'todo\')">查看任务</button>';
+  }
+  /* ===== 任务渲染与操作 ===== */
+  function renderTasks(){
+    var wrap=$('taskList');if(!wrap)return;
+    var list=allTasks().filter(function(t){
+      if(filter==='today')return t.w==='today'&&!taskDone(t);
+      if(filter==='todo')return t.w==='todo'&&!taskDone(t);
+      return taskDone(t);
+    });
+    document.querySelectorAll('.task-tabs button').forEach(function(b){
+      b.classList.toggle('on',b.id==='tab'+filter.charAt(0).toUpperCase()+filter.slice(1));
+    });
+    if(!list.length){
+      wrap.innerHTML='<div class="empty">'+(filter==='done'?'还没有已完成的任务，加油':'今日清单已清空，去添加一件自己的待办吧')+'</div>';
+      return;
+    }
+    wrap.innerHTML=list.map(function(t){
+      var tr=trackById(t.tr),done=taskDone(t);
+      return '<div class="task'+(done?' done':'')+'">'+
+        '<button class="check'+(done?' done':'')+'" onclick="toggleTask(\''+t.id+'\')">'+(done?MI('check'):'')+'</button>'+
+        '<div class="tmain" onclick="openTask(\''+t.id+'\')">'+
+          '<div class="tline"><h3 class="'+(done?'done':'')+'">'+t.t+'</h3>'+(t.self?'<span class="tchip mine">我的待办</span>':'')+'<span class="tchip">'+tr.name+'</span></div>'+
+          '<div class="tmeta">'+t.by+(t.w==='today'?' · 今天': ' · 本周')+'</div>'+
+        '</div>'+
+        '<span class="arrow">'+MI('chevron')+'</span>'+
+      '</div>';
+    }).join('');
+  }
+  function toggleTask(id){
+    doneSet[id]=!doneSet[id];
+    var found=myTasks.filter(function(t){return t.id===id})[0];
+    if(found){found.done=doneSet[id];try{localStorage.setItem(STORE_KEY,JSON.stringify(myTasks))}catch(e){}}
+    renderTasks();renderStats();renderTracks();
+    if(doneSet[id])toast('已完成，进度已更新');
+  }
+  function openTask(id){
+    var t=allTasks().filter(function(x){return x.id===id})[0];if(!t)return;
+    $('modalTrack').textContent=trackById(t.tr).name;
+    $('modalTitle').textContent=t.t;
+    $('modalDesc').textContent=t.d+(t.by?'（'+t.by+'）':'');
+    var btn=$('modalComplete');
+    btn.textContent=taskDone(t)?'恢复为待办':'标记完成';
+    btn.onclick=function(){toggleTask(id);closeMask('taskModal')};
+    openMask('taskModal');
+  }
+  function setFilter(f){filter=f;renderTasks();}
+  function openAddTask(){openMask('addModal');setTimeout(function(){var i=$('addTitle');if(i)i.focus()},60);}
+  function submitTask(){
+    var title=$('addTitle').value.trim();if(!title){toast('先写下要做的事');return}
+    var rec={id:'m'+Date.now(),t:title,tr:$('addTrack').value,w:$('addWhen').value,d:'我添加的个人待办，由我自己记录和跟进。',by:'我的待办',self:true,done:false};
+    myTasks.push(rec);try{localStorage.setItem(STORE_KEY,JSON.stringify(myTasks))}catch(e){}
+    doneSet[rec.id]=false;
+    closeMask('addModal');$('addTitle').value='';
+    filter='today';renderTasks();renderStats();
+    toast('已加入今日清单');
+  }
+
+  /* ===== 身份切换 ===== */
+  function renderRoleList(){
+    var wrap=$('roleList');if(!wrap)return;
+    wrap.innerHTML=ROLES.map(function(r){
+      return '<button class="opt" onclick="chooseRole(\''+r.id+'\')"><b>'+r.name+'</b> · '+r.team+' · '+r.role+'</button>';
+    }).join('');
+  }
+  function chooseRole(id){
+    for(var i=0;i<ROLES.length;i++)if(ROLES[i].id===id)currentRole=ROLES[i];
+    $('greetHi').textContent=currentRole.hi;
+    $('dayNo').textContent=currentRole.day;
+    $('roleTeam').textContent=currentRole.team;
+    $('roleName').textContent=currentRole.role;
+    $('hName').textContent=currentRole.name+' 的 90 天';
+    var av=$('avatarBtn');if(av)av.textContent=currentRole.avatar;
+    closeMask('roleModal');toast('已切换为 '+currentRole.name+'（演示）');
+  }
+
+  /* ===== 伙伴与提问 ===== */
+  function renderQA(){
+    var wrap=$('qaTable');if(!wrap)return;
+    wrap.innerHTML=QA.map(function(q){
+      return '<div class="qa-item"><div class="qtype"><b>'+q.t+'</b><span>'+q.e+'</span></div><div class="qwhere">'+q.w+'</div><span class="qresp">'+q.r+'</span></div>';
+    }).join('');
+  }
+
+  /* ===== 工具：指南 / 小站 / 网址 ===== */
+  function renderGuides(){
+    var wrap=$('guideList');if(!wrap)return;
+    wrap.innerHTML=GUIDES.map(function(g,i){
+      var open=learned.indexOf(g.name)>-1,c=dopOf(g.c);
+      return '<div class="guide"><button class="guide-head" onclick="toggleGuide('+i+')">'+
+        '<span class="gico" style="background:'+c.bg+';color:'+c.fg+'">'+MI(g.icon)+'</span>'+
+        '<span class="gmain"><b>'+g.name+'</b><p>'+g.steps.length+' 步 · 完成即可标记已掌握</p></span>'+
+        '<span class="gstatus '+(open?'mastered':'learning')+'">'+(open?'已掌握':'学习中')+'</span>'+
+        '<span class="arrow" style="color:var(--sub-2)">'+MI('expandmore')+'</span></button>'+
+        '<div class="guide-body'+(open?' open':'')+'" id="gb'+i+'">'+g.steps.map(function(s,j){
+          return '<div class="step"><span class="sno">'+(j+1)+'</span><span>'+s+'</span></div>';
+        }).join('')+
+        '<button class="gbtn'+(open?' primary':'')+'" onclick="toggleMastered('+i+')">'+(open?MI('checkcircle')+' 已掌握':'标记已掌握')+'</button></div></div>';
+    }).join('');
+    updateMasteredLabel();
+  }
+  function toggleGuide(i){var b=$('gb'+i);if(b)b.classList.toggle('open')}
+  function toggleMastered(i){
+    var g=GUIDES[i],idx=learned.indexOf(g.name);
+    if(idx>-1){learned.splice(idx,1)}else{learned.push(g.name)}
+    try{localStorage.setItem('xl-onboarding-learned-v1',JSON.stringify(learned))}catch(e){}
+    renderGuides();updateMasteredLabel();
+  }
+  function updateMasteredLabel(){
+    var el=$('masteredLabel');if(!el)return;
+    var n=GUIDES.filter(function(g){return learned.indexOf(g.name)>-1}).length;
+    el.textContent='已掌握 '+n+'/'+GUIDES.length;
+    el.className='gstatus '+(n>0?'mastered':'learning');
+  }
+  function renderWidgets(){
+    var wrap=$('widgets');if(!wrap)return;
+    wrap.innerHTML=WIDGETS.map(function(w){
+      var c=dopOf(w.c);
+      return '<button class="widget" onclick="openWidget(\''+w.id+'\')">'+
+        '<span class="wico" style="background:'+c.bg+';color:'+c.fg+'">'+MI(w.icon)+'</span>'+
+        '<span class="wbody"><b>'+w.name+'</b><span class="d">'+w.d+'</span></span></button>';
+    }).join('');
+  }
+  function renderLinks(){
+    var wrap=$('linkList');if(!wrap)return;
+    wrap.innerHTML=LINKS.map(function(l){
+      var c=dopOf(l.c);
+      return '<a class="lk" href="https://'+l.u+'" target="_blank" rel="noopener">'+
+        '<span class="lk-ico" style="background:'+c.bg+';color:'+c.fg+'">'+MI('code')+'</span>'+
+        '<span>'+l.n+'<small>'+l.u+' · '+l.d+'</small></span></a>';
+    }).join('');
+  }
+  /* ===== 小工具 ===== */
+  function openWidget(id){
+    stopBreathe();
+    var body=$('widgetBody');if(!body)return;
+    var m=$('widgetModal');
+    if(id==='quiz')widgetQuiz(body);
+    else if(id==='break')widgetBreak(body);
+    else if(id==='bgta')widgetBgta(body);
+    else if(id==='breathe')widgetBreathe(body);
+    else if(id==='five')widgetFive(body);
+    else if(id==='478')widget478(body);
+    else if(id==='hangman')widgetHangman(body);
+    else if(id==='energy')widgetEnergy(body);
+    else return;
+    openMask('widgetModal');
+  }
+  function widgetQuiz(body){
+    quizIdx=0;quizRight=0;quizAnswered=false;
+    body.innerHTML='<div class="m-kicker">答题闯关</div><h2>第 1/5 题</h2>'+
+      '<p class="m-desc" id="qText"></p><div id="qOpts"></div><div id="qWhy" class="panel" style="display:none"></div>'+
+      '<div class="m-actions"><button class="cancel" id="qNext" style="display:none">下一题</button></div>';
+    showQuiz(body);
+  }
+  function showQuiz(body){
+    var q=QUIZ[quizIdx];
+    $('widgetModal').querySelector('h2').textContent='第 '+(quizIdx+1)+'/'+QUIZ.length+' 题';
+    $('qText').textContent=q.q;
+    $('qWhy').style.display='none';
+    var wrap=$('qOpts');wrap.innerHTML='';
+    q.opts.forEach(function(o,i){
+      var b=document.createElement('button');b.className='opt';b.textContent=o;
+      b.onclick=function(){if(quizAnswered)return;quizAnswered=true;
+        var ok=i===q.a;if(ok)quizRight++;
+        wrap.querySelectorAll('.opt').forEach(function(x,j){x.className='opt'+(j===q.a?' right':(j===i&&!ok?' wrong':''));x.disabled=true});
+        var why=$('qWhy');why.textContent=(ok?'答对了！':'答错了。')+q.why;why.style.display='block';
+        var next=$('qNext');next.style.display='inline-flex';next.textContent=(quizIdx+1<QUIZ.length)?'下一题':'看结果';
+        next.onclick=function(){
+          quizIdx++;quizAnswered=false;
+          if(quizIdx<QUIZ.length){showQuiz(body);}
+          else{body.innerHTML='<div class="m-kicker">答题闯关</div><h2>结果</h2>'+
+            '<p class="m-desc">答对 '+quizRight+'/'+QUIZ.length+' 题。'+((quizRight>=4)?'你已经很懂这家公司了，可以试着带新人啦。':'结合「提问路径地图」再复习一遍，随时可以重来。')+'</p>'+
+            '<div class="m-actions"><button class="ok" onclick="openWidget(\'quiz\')">再来一次</button></div>';
+          }
+        };
+      };
+      wrap.appendChild(b);
+    });
+  }
+  function widgetBreak(body){
+    var t=TOPICS[Math.floor(Math.random()*TOPICS.length)];
+    body.innerHTML='<div class="m-kicker">破冰话题</div><h2>今天聊点什么</h2>'+
+      '<div class="panel">'+t+'</div>'+
+      '<p class="m-desc">可以拿去和工友、导师开场，也可以当群里的每日一问。</p>'+
+      '<div class="m-actions"><button class="ok" onclick="widgetBreak($(\'widgetBody\'))">换一个</button></div>';
+  }
+  function widgetBgta(body){
+    var s=FACTS[Math.floor(Math.random()*FACTS.length)];
+    body.innerHTML='<div class="m-kicker">BGTA 提问生成</div><h2>把问题组织成四段式</h2>'+
+      '<p class="m-desc">按「背景 → 目标 → 已尝试 → 请求」写，对方一次就能帮你。</p>'+
+      '<div class="field"><label>B · 背景（我在做什么）</label><input id="bgB" placeholder="例如：我在搭新人工具链"></div>'+
+      '<div class="field"><label>G · 目标（想达成什么）</label><input id="bgG" placeholder="例如：想让新人第一天就能跑通构建"></div>'+
+      '<div class="field"><label>T · 已尝试（试过什么）</label><input id="bgT" placeholder="例如：试了 wiki 里的两种方式，第二种报错"></div>'+
+      '<div class="field"><label>A · 请求（需要对方做什么）</label><input id="bgA" placeholder="例如：能帮我看下报错截图吗"></div>'+
+      '<div class="m-actions"><button class="ok" id="bgGo">生成完整提问</button></div><div id="bgOut" class="panel" style="display:none"></div>';
+    $('bgGo').onclick=function(){
+      var p=function(v){return v.trim()||'（待补充）'};
+      var out='【背景】'+p($('bgB').value)+'；【目标】'+p($('bgG').value)+'；【已尝试】'+p($('bgT').value)+'；【请求】'+p($('bgA').value);
+      $('bgOut').textContent=out;$('bgOut').style.display='block';
+    };
+  }
+  function stopBreathe(){
+    if(breatheTimer){clearInterval(breatheTimer);breatheTimer=null}
+    if(breatheHook){breatheHook();breatheHook=null}
+    if(fiveHook){fiveHook();fiveHook=null}
+  }
+  function widgetBreathe(body){
+    var seq=[{l:'吸',t:4},{l:'屏',t:4},{l:'呼',t:4},{l:'屏',t:4}];
+    breatheStep=0;
+    body.innerHTML='<div class="m-kicker">方块呼吸</div><h2>4-4-4-4 呼吸</h2>'+
+      '<p class="m-desc">跟着节奏吸、屏、呼、屏，循环 4 轮大约 1 分钟。</p>'+
+      '<div class="breathe" id="bz">准备</div>'+
+      '<div style="text-align:center" id="bdot"></div>'+
+      '<div class="m-actions"><button class="cancel" onclick="stopBreathe()">停止</button></div>';
+    var z=$('bz');
+    function tick(){
+      var s=seq[breatheStep%4];
+      z.textContent=s.l+' '+s.t;
+      z.style.transform='scale('+(s.l==='呼'?0.72:1)+')';
+      z.style.background=s.l==='呼'?'linear-gradient(135deg,#a7f3d0,#34d399)':'linear-gradient(135deg,#ffd21f,#ff7a1a)';
+      breatheStep++;
+    }
+    tick();
+    breatheTimer=setInterval(tick,4000);
+    breatheHook=function(){};
+  }
+  function widgetFive(body){
+    var list=['看：说出你看到的 5 样东西','触：感受 4 种身体的触觉','听：留意 3 种周围的声音','闻：觉察 2 种气味','尝：体会 1 种味道或感受'];
+    fiveStep=0;
+    body.innerHTML='<div class="m-kicker">54321 着陆</div><h2>把注意力拉回当下</h2>'+
+      '<p class="m-desc">按你的节奏一步步走，不用赶。</p>'+
+      '<div class="panel" id="fz">'+list[0]+'</div>'+
+      '<div style="text-align:center;margin-top:12px" id="fdot">'+list.map(function(_,i){return '<span class="step-dot'+(i===0?' on':'')+'"></span>'}).join('')+'</div>'+
+      '<div class="m-actions"><button class="ok" id="fNext">下一步</button><button class="cancel" onclick="stopBreathe()">停止</button></div>';
+    $('fNext').onclick=function(){
+      fiveStep++;
+      if(fiveStep>=list.length){
+        $('fz').textContent='完成啦。你现在的感觉怎么样？可以回到任务列表，挑一件小事开始。';
+        $('fNext').style.display='none';
+        $('fdot').innerHTML='';
+        return;
+      }
+      $('fz').textContent=list[fiveStep];
+      $('fdot').innerHTML=list.map(function(_,i){return '<span class="step-dot'+(i===fiveStep?' on':'')+'"></span>'}).join('');
+    };
+  }
+  function widget478(body){
+    var seq=[{l:'吸气',t:4},{l:'屏住',t:7},{l:'呼气',t:8}];
+    breatheStep=0;
+    body.innerHTML='<div class="m-kicker">4-7-8 呼吸</div><h2>助眠放松</h2>'+
+      '<p class="m-desc">吸 4 秒 → 屏 7 秒 → 呼 8 秒，循环几轮后会明显放松。</p>'+
+      '<div class="breathe" id="bz">准备</div>'+
+      '<div class="m-actions"><button class="cancel" onclick="stopBreathe()">停止</button></div>';
+    var z=$('bz');
+    function tick(){
+      var s=seq[breatheStep%3];
+      z.textContent=s.l+' '+s.t;
+      z.style.transform='scale('+(s.l==='呼气'?0.72:1)+')';
+      breatheStep++;
+    }
+    tick();
+    breatheTimer=setInterval(tick,8000);
+    breatheHook=function(){};
+  }
+  function widgetHangman(body){
+    hangWord=WORDS[Math.floor(Math.random()*WORDS.length)].toUpperCase();
+    hangLeft=6;hangGuessed=[];hangRight=new Set();
+    var draw=function(){
+      var parts=6-hangLeft;
+      var gallows=['  ____','  |  |','  |  '+(parts>0?'o':''),'  |  '+(parts>1?'/':' ')+(parts>2?'|':' ')+(parts>3?'\\':''),'  |  '+(parts>4?'/':' ')+' '+(parts>5?'\\':''),'__|__'];
+      return gallows.join('\n');
+    };
+    body.innerHTML='<div class="m-kicker">猜词小游戏</div><h2>从术语表里猜一个词</h2>'+
+      '<pre class="hang" id="hg"></pre>'+
+      '<div class="word" id="hw"></div><div id="hl" class="letters"></div>'+
+      '<p class="m-desc" id="hm">还剩 6 次机会</p>'+
+      '<div class="m-actions"><button class="cancel" onclick="openWidget(\'hangman\')">换一个词</button></div>';
+    function render(){
+      $('hg').textContent=draw();
+      var shown=hangWord.split('').map(function(c){return hangRight.has(c)?c:'_'}).join(' ');
+      $('hw').textContent=shown;
+      var wrap=$('hl');wrap.innerHTML='';
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c){
+        if(hangGuessed.indexOf(c)>-1)return;
+        var b=document.createElement('button');b.textContent=c;
+        b.onclick=function(){hangGuessed.push(c);
+          if(hangWord.indexOf(c)>-1){hangRight.add(c)}else{hangLeft--}
+          if(hangRight.size===new Set(hangWord.split('')).size){
+            $('hm').textContent='猜对啦！这个词是「'+hangWord+'」。';
+            $('hl').innerHTML='';
+            return;
+          }
+          if(hangLeft<=0){
+            $('hm').textContent='机会用完啦，正确答案是「'+hangWord+'」。';
+            $('hl').innerHTML='';
+            return;
+          }
+          $('hm').textContent='还剩 '+hangLeft+' 次机会';
+          render();
+        };
+        wrap.appendChild(b);
+      });
+    }
+    render();
+  }
+  function widgetEnergy(body){
+    var t=REFRESH[Math.floor(Math.random()*REFRESH.length)];
+    body.innerHTML='<div class="m-kicker">提神站</div><h2>2 分钟小动作</h2>'+
+      '<div class="panel">'+t+'</div>'+
+      '<div class="m-actions"><button class="ok" onclick="widgetEnergy($(\'widgetBody\'))">再来一个</button></div>';
+  }
+
+  /* ===== 发消息 ===== */
+  function openMessage(who){
+    $('msgTitle').textContent='发给 '+who;
+    openMask('msgModal');setTimeout(function(){var i=$('msgText');if(i)i.focus()},60);
+  }
+  function sendMsg(){
+    var t=$('msgText').value.trim();
+    if(!t){toast('先写点什么再发送');return}
+    closeMask('msgModal');$('msgText').value='';
+    toast('已发送，对方会在工作时间回复');
+  }
+
+  /* ===== 初始化 ===== */
+  function init(){
+    var savedTheme='light';try{savedTheme=localStorage.getItem(THEME_KEY)||'light'}catch(e){}
+    applyTheme(savedTheme);
+    renderStats();renderMap();renderTracks();renderTasks();
+    renderQA();renderGuides();renderWidgets();renderLinks();
+    renderRoleList();
+    var tb=$('themeBtn');if(tb)tb.onclick=toggleTheme;
+    var av=$('avatarBtn');if(av)av.onclick=function(){renderRoleList();openMask('roleModal')};
+    var sw=$('switchRole');if(sw)sw.onclick=function(){renderRoleList();openMask('roleModal')};
+    var bell=$('bellBtn');if(bell)bell.onclick=function(){toast('暂无新通知，导师回复会在这里提醒')};
+    document.querySelectorAll('.navitem').forEach(function(b){b.onclick=function(){switchView(b.getAttribute('data-view'))}});
+    var dd=$('duo');
+  }
+  /* 行内 onclick 需要的全局入口 */
+  window.MI=MI;window.$=$;
+  window.switchView=switchView;window.setFilter=setFilter;
+  window.toggleTask=toggleTask;window.openTask=openTask;
+  window.openAddTask=openAddTask;window.submitTask=submitTask;
+  window.closeMask=closeMask;window.openMask=openMask;
+  window.chooseRole=chooseRole;window.openMessage=openMessage;window.sendMsg=sendMsg;
+  window.openWidget=openWidget;window.toggleGuide=toggleGuide;window.toggleMastered=toggleMastered;
+  window.widgetBreak=widgetBreak;window.widgetEnergy=widgetEnergy;window.stopBreathe=stopBreathe;
+  window.toggleTheme=toggleTheme;
+  /* 脚本位于 body 末尾，DOM 已就绪，直接初始化 */
+  init();
+})();
+</script>
+</body>
+</html>

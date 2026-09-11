@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小笼 Onboarding 工作台 · 新人成长系统</title>
+<style>
+:root{
+  --bg:#F6F5F1; --card:#FFFFFF; --ink:#1A1B1C; --sub:#6B7280;
+  --line:rgba(0,0,0,.08); --ok:#52C41A; --err:#EA6668;
+  --accent1:#6E8BFF; --accent2:#8BC8EA; --soft:#EEF1FB;
+  --r:14px; --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Roboto','PingFang SC','Segoe UI',Arial,sans-serif;line-height:1.6;padding:16px}
+.wrap{max-width:860px;margin:0 auto}
+
+/* ===== 头部 ===== */
+.hero{border-radius:20px;padding:22px 22px 18px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#5B7CFA 0%,#7B8CF8 45%,#8BC8EA 100%);box-shadow:var(--shadow)}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.14)}
+.hero h1{font-size:21px;font-weight:700;letter-spacing:.5px}
+.hero p{font-size:13px;opacity:.92;margin-top:4px}
+.badge{display:inline-block;font-size:11px;background:rgba(255,255,255,.22);padding:2px 10px;border-radius:99px;margin-top:10px}
+
+/* ===== 旅程进度 ===== */
+.journey{display:flex;align-items:center;gap:4px;margin:16px 0 4px;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;box-shadow:var(--shadow);flex-wrap:wrap}
+.jstep{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;font-size:12.5px;color:var(--sub);
+  cursor:pointer;border:1px solid transparent;transition:all .2s}
+.jstep:hover{background:var(--soft)}
+.jstep .dot{width:8px;height:8px;border-radius:50%;background:#D5D8E0}
+.jstep.done .dot{background:var(--ok)}
+.jstep.active{background:var(--soft);border-color:#CFD8FF;color:var(--accent1);font-weight:600}
+.jstep.active .dot{background:var(--accent1)}
+.jarrow{color:#C9CDD6;font-size:13px}
+
+/* ===== 卡片区 ===== */
+.panel{display:none;margin-top:14px}
+.panel.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.card h3{font-size:16px;margin-bottom:4px}
+.card .sub{font-size:12.5px;color:var(--sub);margin-bottom:14px}
+.btn{display:inline-block;border:none;background:linear-gradient(135deg,#5B7CFA,#7B8CF8);color:#fff;font-size:13.5px;
+  padding:9px 18px;border-radius:10px;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--soft);color:var(--accent1);font-weight:500}
+.btn.ok{background:var(--ok)}
+.btn.block{width:100%}
+
+/* 加载动效（Generative Loaders 风格） */
+.skel{background:linear-gradient(90deg,#EEF0F4 25%,#F8F9FB 50%,#EEF0F4 75%);background-size:200% 100%;
+  animation:sk 1.2s infinite;border-radius:8px}
+@keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
+.think{display:inline-flex;gap:4px;align-items:center;padding:10px 14px;background:var(--soft);border-radius:12px}
+.think i{width:7px;height:7px;border-radius:50%;background:var(--accent1);animation:tp 1s infinite}
+.think i:nth-child(2){animation-delay:.15s}.think i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+.pop{animation:pop .35s ease}
+@keyframes pop{0%{transform:scale(.6);opacity:0}80%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.check{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--ok)}
+.cross{color:var(--err);font-weight:600}
+
+/* 破冰 */
+.moods{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.mood{flex:1 1 130px;padding:14px;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;text-align:center;
+  transition:all .2s;background:#FCFCFB}
+.mood:hover{border-color:var(--accent1);transform:translateY(-2px)}
+.mood.sel{border-color:var(--accent1);background:var(--soft);box-shadow:0 4px 12px rgba(91,124,250,.15)}
+.mood .ic{font-size:26px}
+.mood .nm{font-size:13px;margin-top:6px;font-weight:600}
+
+/* 答题 */
+.q{display:none}.q.on{display:block;animation:fade .3s}
+.opt{display:block;width:100%;text-align:left;background:#FCFCFB;border:1.5px solid var(--line);border-radius:10px;
+  padding:11px 14px;font-size:13.5px;cursor:pointer;margin-top:8px;font-family:inherit;transition:all .15s;color:var(--ink)}
+.opt:hover{border-color:var(--accent1)}
+.opt.right{border-color:var(--ok);background:rgba(82,196,26,.08)}
+.opt.wrong{border-color:var(--err);background:rgba(234,102,104,.08)}
+.progress{height:6px;background:#EEF0F4;border-radius:99px;margin:14px 0 4px;overflow:hidden}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#5B7CFA,#8BC8EA);border-radius:99px;transition:width .3s}
+
+/* 提问培训 */
+.chat{background:#FAFAF8;border-radius:12px;padding:14px;margin-top:10px}
+.msg{display:flex;gap:8px;margin-bottom:12px}
+.msg .a{flex:0 0 auto;width:26px;height:26px;border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.msg.bot .a{background:linear-gradient(135deg,#5B7CFA,#8BC8EA)}
+.msg.me .a{background:#9AA0AE}
+.msg .b{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 13px;font-size:13px;max-width:86%}
+.msg.me{flex-direction:row-reverse}
+.msg.me .b{background:var(--soft);border-color:transparent}
+input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px;
+  font-family:inherit;background:#fff;color:var(--ink)}
+input:focus{outline:none;border-color:var(--accent1)}
+.scoreline{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.pill{font-size:12px;padding:3px 10px;border-radius:99px;background:#EEF0F4;color:var(--sub)}
+.pill.on{background:rgba(82,196,26,.12);color:var(--ok);font-weight:600}
+
+/* 规划 */
+.plan-grid{display:flex;gap:10px;flex-wrap:wrap}
+.plan-card{flex:1 1 200px;border-radius:12px;padding:14px;border:1px solid var(--line);background:#FCFCFB}
+.plan-card .ph{font-size:12px;font-weight:700;color:var(--accent1)}
+.plan-card ol{margin:8px 0 0 18px;font-size:12.5px;color:var(--sub)}
+
+/* 解压 */
+.breath{display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.square{width:150px;height:150px;border:3px solid var(--accent1);border-radius:22px;position:relative;
+  transition:transform 4s linear,border-radius 4s linear}
+.square.calm{transform:scale(.85);border-radius:99px}
+.breath .phase{font-size:15px;font-weight:700;margin-top:14px;color:var(--accent1);min-height:24px}
+.breath .cd{font-size:13px;color:var(--sub)}
+.breath .ctrl{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center}
+.steps{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center}
+.step{flex:1 1 90px;padding:12px 8px;border-radius:12px;border:1.5px solid var(--line);text-align:center;font-size:12px;
+  background:#FCFCFB;transition:all .2s}
+.step.on{border-color:var(--accent1);background:var(--soft);transform:translateY(-2px)}
+.step .n{font-size:20px;font-weight:700;color:var(--accent1)}
+
+.foot{margin:18px 0 8px;text-align:center;font-size:11.5px;color:#9AA0AE}
+.tag{font-size:11px;background:rgba(234,102,104,.08);color:var(--err);padding:2px 8px;border-radius:99px;display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>小笼 Onboarding 工作台</h1>
+    <p>新人成长系统 · 破冰 → 认识 → 提问培训 → 规划 → 解压，一站一个小 APP</p>
+    <span class="badge">示例科技（Mock 演示数据）</span>
+  </div>
+
+  <div class="journey" id="journey"></div>
+
+  <!-- ① 破冰 -->
+  <section class="panel on" id="p0">
+    <div class="card">
+      <h3>破冰 · 先认识一下你</h3>
+      <div class="sub">选一个今天的你，我给你配三个同频话题，拿去和同事开场不尬聊。</div>
+      <div class="moods" id="moods"></div>
+      <div id="iceResult" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- ② 认识工具与团队 -->
+  <section class="panel" id="p1">
+    <div class="card">
+      <h3>认识工具与团队 · 答题闯关</h3>
+      <div class="sub">6 题 · 来自装载的 onboarding 地图（Mock），每题即时判分，答完看总分。</div>
+      <div id="quiz"></div>
+    </div>
+  </section>
+
+  <!-- ③ 提问培训 -->
+  <section class="panel" id="p2">
+    <div class="card">
+      <h3>提问培训 · 去哪问 + 怎么问</h3>
+      <div class="sub">先测「去哪问」，再练「怎么问」（BGTA 模板：背景/目标/已尝试/请求）。</div>
+      <div id="trainA"></div>
+      <div id="trainB" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <!-- ④ 规划 -->
+  <section class="panel" id="p3">
+    <div class="card">
+      <h3>新人规划 · 30 / 60 / 90</h3>
+      <div class="sub">填三个阶段的目标，生成你的成长计划卡（保存在本机浏览器）。</div>
+      <div id="planForm"></div>
+      <div id="planOut" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- ⑤ 解压 -->
+  <section class="panel" id="p4">
+    <div class="card">
+      <h3>压力管理 · 54321 + 方块呼吸</h3>
+      <div class="sub">54321 五感着陆：从 5 数到 1，把注意力从焦虑拉回当下。</div>
+      <div id="ground"></div>
+    </div>
+    <div class="card">
+      <h3>方块呼吸 · 4-4-4-4</h3>
+      <div class="sub">吸气 4 秒 → 屏住 4 秒 → 呼气 4 秒 → 停留 4 秒，跟着方块走。</div>
+      <div class="breath">
+        <div class="square" id="sq"></div>
+        <div class="phase" id="phase">准备</div>
+        <div class="cd" id="cd"></div>
+        <div class="ctrl">
+          <button class="btn" id="bStart">开始</button>
+          <button class="btn ghost" id="bReset">重置</button>
+          <button class="btn ghost" id="bSlow">慢速版（6-4-6-4）</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot"><span class="tag">Mock 演示</span> 虚构数据（示例科技），仅用于测试与演示；真实使用时装载你自己的 onboarding 文档 · 小笼 Onboarding 工作台 v0.1</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+try{
+/* ===== 数据（Mock，从 onboarding 地图提炼） ===== */
+var MOCK = {
+  topics: [
+    {ic:'💬', nm:'好奇宝宝', tips:['你最想先搞清楚公司哪个环节的问题？','昨天你被哪个黑话卡住了？说出来我给你翻译','有没有一个让你觉得“哇这公司有点东西”的瞬间？']},
+    {ic:'🚀', nm:'行动派', tips:['第一天最想立刻上手的一件事是什么？','你的第一个小目标打算几天内完成？','觉得哪个工具最好玩，想先研究它？']},
+    {ic:'🧘', nm:'慢热型', tips:['最喜欢哪种节奏的团队协作？','有没有什么帮你快速进入状态的小习惯？','希望 mentor 用什么方式带你？']},
+    {ic:'🤝', nm:'社牛', tips:['最想认识哪个团队的人？','午休一般怎么安排，一起吗？','要不要建个新人小群互相打气？']}
+  ],
+  quiz: [
+    {q:'网络连不上、账号登不上，应该走哪个渠道？', o:['私聊任意同事','IT 工单系统（it.example.com）','发全员大群','等它自动恢复'], a:1, why:'账号/权限/网络问题统一走 IT 工单，附设备型号和截图。'},
+    {q:'BGTA 提问模板的四个部分是什么？', o:['标题、正文、附件、截止','方案、结论、风险、行动','背景、目标、已尝试、请求','现状、问题、建议、责任人'], a:2, why:'BGTA = 背景/目标/已尝试/请求，问之前把四段写全。'},
+    {q:'入职第一天（P0）必须安装的软件不包括？', o:['飞书','代码平台客户端','VPN 客户端','Figma 桌面版'], a:3, why:'Figma 属于 P1 第一周装好；P0 是飞书/文档/代码平台/VPN。'},
+    {q:'前端项目主要使用哪套技术栈？', o:['React 18 + TypeScript + Vite','Java + Spring Boot','C++ + Qt','PHP + jQuery'], a:0, why:'前端以 React 18 + TS + Vite 为主，组件库见组件文档。'},
+    {q:'设计系统（Design System）的网址是？', o:['code.example.com','design.example.com','log.example.com','expense.example.com'], a:1, why:'设计系统在 design.example.com，色彩/字体/组件规范都在。'},
+    {q:'新人的第一个月按建议应该先做什么？', o:['直接写代码，不读文档','收藏内网主页+知识库，写代码前收藏设计系统/组件库/API 文档','只看福利站','每天刷监控平台'], a:1, why:'先建入口：内网主页/知识库 → 设计系统/组件库/API 文档 → 发布与监控。'}
+  ],
+  channel: [
+    {s:'我写的新人 onboarding 文档，想给新人配飞书文档权限，但找不到分享设置', o:['问 AI 伙伴或查文档中心','IT 工单','技术群','周会再说'], a:0, why:'工具使用类问题：先问 AI 伙伴 / 查文档中心，即时响应。'},
+    {s:'代码报错了，接口一直 502，不知道该找谁', o:['私聊 HR','发全员大群','技术群 @对应模块 owner','自己重装系统'], a:2, why:'技术问题先看代码库 README 的 owner 列表，再在技术群 @owner。'},
+    {s:'想确认年假怎么算、差旅标准是什么', o:['问 HR 伙伴或查制度文档','发全员大群','IT 工单','问隔壁工位同事'], a:0, why:'制度/福利问题找 HR 伙伴或制度文档，1 个工作日响应。'},
+    {s:'邮箱登不上，VPN 也连不上', o:['问 AI 伙伴','走 IT 工单（附设备型号+截图）','等一周','找 leader'], a:1, why:'账号/权限/网络问题统一走 IT 工单。'}
+  ],
+  bgtas: [
+    {scene:'你要问 mentor：公司内部组件库怎么用。', good:'我在做新人 onboarding 练习（背景），想快速上手内部组件库完成第一个页面（目标），试过看组件文档但没找到示例（已尝试），能给我一个最小可用示例或入口吗（请求）？'}
+  ]
+};
+
+/* ===== 工具函数 ===== */
+function el(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+/* ===== 旅程进度 ===== */
+var STEPS=[['破冰','p0'],['认识','p1'],['提问培训','p2'],['规划','p3'],['解压','p4']];
+var cur=0, done=0;
+var j=el('journey');
+STEPS.forEach(function(s,i){
+  var d=document.createElement('div');
+  d.className='jstep'+(i===cur?' active':'');
+  d.innerHTML='<span class="dot"></span>'+s[0];
+  d.onclick=function(){show(i);};
+  j.appendChild(d);
+  if(i<STEPS.length-1){var a=document.createElement('span');a.className='jarrow';a.textContent='→';j.appendChild(a);}
+});
+function show(i){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  el(STEPS[i][1]).classList.add('on');
+  document.querySelectorAll('.jstep').forEach(function(x,k){
+    x.classList.toggle('active',k===i);
+    x.classList.toggle('done',k<done||k===done&&done>=0&&false);
+  });
+  cur=i;
+  el('journey').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function markDone(i){done=Math.max(done,i);document.querySelectorAll('.jstep')[i].classList.add('done');}
+
+/* ===== ① 破冰 ===== */
+var moods=el('moods');
+MOCK.topics.forEach(function(t,idx){
+  var d=document.createElement('div');
+  d.className='mood';d.dataset.i=idx;
+  d.innerHTML='<div class="ic">'+t.ic+'</div><div class="nm">'+t.nm+'</div>';
+  d.onclick=function(){
+    document.querySelectorAll('.mood').forEach(function(m){m.classList.remove('sel');});
+    d.classList.add('sel');
+    var out=el('iceResult');
+    out.innerHTML='<div class="think"><i></i><i></i><i></i> 正在生成同频话题…</div>';
+    setTimeout(function(){
+      var picks=t.tips.map(function(x,i){return '<li>'+esc(x)+'</li>';}).join('');
+      out.innerHTML='<div class="card pop" style="margin:0"><span class="check">✔ 匹配成功</span> 你的同频指数 <b>87%</b>，和「'+t.nm+'」型同事聊这三个：<ol style="margin:8px 0 0 18px;font-size:13px">'+picks+'</ol></div>';
+    },900);
+  };
+  moods.appendChild(d);
+});
+
+/* ===== ② 认识：答题 ===== */
+var qi=0, score=0, answered=false;
+var quizEl=el('quiz');
+function renderQ(){
+  var q=MOCK.quiz[qi];
+  var html='<div class="q on"><div style="font-size:12px;color:var(--sub)">第 '+(qi+1)+' / '+MOCK.quiz.length+' 题</div>'+
+    '<div style="font-size:15px;font-weight:600;margin:8px 0">'+esc(q.q)+'</div>';
+  q.o.forEach(function(o,i){
+    html+='<button class="opt" data-i="'+i+'">'+String.fromCharCode(65+i)+'. '+esc(o)+'</button>';
+  });
+  html+='<div class="progress"><i style="width:'+((qi+1)/MOCK.quiz.length*100)+'%"></i></div>';
+  html+='<div id="qfb" style="margin-top:10px;font-size:13px"></div></div>';
+  quizEl.innerHTML=html;
+  answered=false;
+  quizEl.querySelectorAll('.opt').forEach(function(b){
+    b.onclick=function(){
+      if(answered)return; answered=true;
+      var i=+b.dataset.i, right=i===q.a;
+      if(right)score++;
+      b.classList.add(right?'right':'wrong');
+      quizEl.querySelectorAll('.opt')[q.a].classList.add('right');
+      var fb=el('qfb');
+      fb.innerHTML=(right?'<span class="check pop">✔ 回答正确</span>':'<span class="cross pop">✘ 答错了</span>')+
+        '<div style="margin-top:6px;color:var(--sub)">'+esc(q.why)+'</div>'+
+        '<button class="btn '+(qi===MOCK.quiz.length-1?'ok':'')+'" style="margin-top:10px">'+(qi===MOCK.quiz.length-1?'查看总分':'下一题')+'</button>';
+      fb.querySelector('button').onclick=function(){
+        if(qi<MOCK.quiz.length-1){qi++;renderQ();}
+        else{
+          var pct=Math.round(score/MOCK.quiz.length*100);
+          var t=pct>=80?'🎉 工具与团队入门达成':pct>=50?'👍 继续加油':'🧭 建议重看四张地图';
+          quizEl.innerHTML='<div class="pop"><span class="check">✔ 闯关完成</span> 得分 <b style="font-size:22px">'+score+' / '+MOCK.quiz.length+'</b>（'+pct+'%）· '+t+
+            '<div style="margin-top:10px" class="sub">错题解析在上面每题的反馈里，可重来一遍巩固。</div>'+
+            '<button class="btn ghost" style="margin-top:10px">再来一次</button></div>';
+          quizEl.querySelector('button').onclick=function(){qi=0;score=0;renderQ();};
+          markDone(1);
+        }
+      };
+    };
+  });
+}
+renderQ();
+
+/* ===== ③ 提问培训 ===== */
+var taEl=el('trainA');
+taEl.innerHTML='<h3 style="font-size:14px">关卡一 · 去哪问（4 题）</h3>';
+var ci=0, cscore=0, canswered=false;
+function renderC(){
+  var c=MOCK.channel[ci];
+  var html='<div class="chat"><div class="msg bot"><div class="a">AI</div><div class="b">场景：'+esc(c.s)+'<br><br>你会怎么处理？</div></div></div>';
+  c.o.forEach(function(o,i){html+='<button class="opt" data-i="'+i+'">'+String.fromCharCode(65+i)+'. '+esc(o)+'</button>';});
+  html+='<div id="cfb" style="margin-top:10px;font-size:13px"></div>';
+  taEl.innerHTML='<h3 style="font-size:14px">关卡一 · 去哪问（第 '+(ci+1)+' / 4 题）</h3>'+html;
+  canswered=false;
+  taEl.querySelectorAll('.opt').forEach(function(b){
+    b.onclick=function(){
+      if(canswered)return;canswered=true;
+      var i=+b.dataset.i, right=i===c.a;
+      if(right)cscore++;
+      b.classList.add(right?'right':'wrong');
+      taEl.querySelectorAll('.opt')[c.a].classList.add('right');
+      var fb=el('cfb');
+      fb.innerHTML=(right?'<span class="check pop">✔ 渠道正确</span>':'<span class="cross pop">✘ 渠道不对</span>')+
+        '<div style="margin-top:6px;color:var(--sub)">'+esc(c.why)+'</div>'+
+        '<button class="btn" style="margin-top:10px">'+(ci===MOCK.channel.length-1?'查看结果':'下一题')+'</button>';
+      fb.querySelector('button').onclick=function(){
+        if(ci<MOCK.channel.length-1){ci++;renderC();}
+        else{
+          taEl.innerHTML='<div class="pop"><span class="check">✔ 关卡一完成</span> 渠道判断正确 <b style="font-size:20px">'+cscore+' / 4</b></div>'+
+            '<div class="sub" style="margin-top:6px">记住：工具问题→AI/文档；账号网络→IT 工单；技术→技术群@owner；制度福利→HR/制度文档。</div>';
+          markDone(2);
+        }
+      };
+    };
+  });
+}
+renderC();
+
+/* 关卡二：BGTA 提问评分 */
+var tbEl=el('trainB');
+tbEl.innerHTML='<h3 style="font-size:14px">关卡二 · 怎么问（BGTA 评分）</h3>'+
+  '<div class="chat"><div class="msg bot"><div class="a">AI</div><div class="b">'+esc(MOCK.bgtas[0].scene)+'<br><br>请把你的提问打在下面输入框，我按 BGTA 打分。</div></div></div>'+
+  '<input type="text" id="qInput" placeholder="例如：我想做 onboarding 练习，试过看文档没找到示例，能给我一个组件库入口吗？">'+
+  '<button class="btn block" style="margin-top:10px" id="qGo">提交提问，给我打分</button>'+
+  '<div id="qfb2" style="margin-top:12px"></div>';
+el('qGo').onclick=function(){
+  var v=el('qInput').value.trim();
+  if(!v){el('qfb2').innerHTML='<div class="cross">先输入你的提问吧</div>';return;}
+  var fb=el('qfb2');
+  fb.innerHTML='<div class="think"><i></i><i></i><i></i> 正在按 BGTA 评分…</div>';
+  setTimeout(function(){
+    var k={背景:['在做','我在','背景','负责','接手'],目标:['想','希望','要','目标','让'],尝试:['试过','试了','已尝试','试了一下','查过','试了试'],请求:['能','请','帮我','可以','麻烦','求']};
+    var hit=[], miss=[];
+    ['背景','目标','尝试','请求'].forEach(function(d){
+      var keys=k[d], ok=keys.some(function(x){return v.indexOf(x)>-1;});
+      (ok?hit:miss).push(d);
+    });
+    var n=hit.length, scoreTxt=n>=3?'<span style="color:var(--ok)">优秀</span>':n===2?'<span style="color:#FAAD14">及格</span>':'<span style="color:var(--err)">欠佳</span>';
+    var pills=['背景','目标','尝试','请求'].map(function(d){return '<span class="pill'+(hit.indexOf(d)>-1?' on':'')+'">'+d+'</span>';}).join('');
+    var fix='';
+    if(n<4) fix='<div style="margin-top:10px;padding:10px;background:var(--soft);border-radius:10px;font-size:12.5px;color:var(--sub)"><b>理想提问：</b><br>'+esc(MOCK.bgtas[0].good)+'</div>';
+    fb.innerHTML='<div class="pop"><div>BGTA 完整度：<b style="font-size:18px">'+n+' / 4</b> · '+scoreTxt+'</div><div class="scoreline">'+pills+'</div>'+fix+'</div>';
+  },900);
+};
+
+/* ===== ④ 规划 ===== */
+var pf=el('planForm');
+pf.innerHTML='<div class="sub">分别填 30 / 60 / 90 天最想达成的一件事（10 个字内），点生成后存到本机。</div>'+
+  '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
+  '<input type="text" id="g30" placeholder="30 天：跑通环境，第一个 MR 合入" style="flex:1 1 200px">'+
+  '<input type="text" id="g60" placeholder="60 天：独立上线一个功能" style="flex:1 1 200px">'+
+  '<input type="text" id="g90" placeholder="90 天：主导一次小改进" style="flex:1 1 200px">'+
+  '</div><button class="btn" style="margin-top:12px" id="gGo">生成计划</button>';
+var po=el('planOut');
+function renderPlan(g30,g60,g90){
+  po.innerHTML='<div class="plan-grid">'+
+    '<div class="plan-card"><div class="ph">0–30 天 · 建立基础</div><ol><li>'+esc(g30)+'</li><li>认识全部关键角色</li><li>每周五 15 分钟回顾</li></ol></div>'+
+    '<div class="plan-card"><div class="ph">31–60 天 · 端到端负责</div><ol><li>'+esc(g60)+'</li><li>讲清业务价值</li><li>独立走完一次上线</li></ol></div>'+
+    '<div class="plan-card"><div class="ph">61–90 天 · 形成判断</div><ol><li>'+esc(g90)+'</li><li>产出复盘文档</li><li>能给别人讲模块</li></ol></div>'+
+    '</div><div class="sub" style="margin-top:8px">✔ 已保存在本机浏览器（localStorage）。</div>';
+}
+el('gGo').onclick=function(){
+  var g30=el('g30').value.trim()||'跑通环境、完成首个任务';
+  var g60=el('g60').value.trim()||'独立负责一件事';
+  var g90=el('g90').value.trim()||'形成独立判断';
+  try{localStorage.setItem('ob_plan',JSON.stringify([g30,g60,g90]));}catch(e){}
+  po.innerHTML='<div class="think"><i></i><i></i><i></i> 正在生成 30/60/90 计划…</div>';
+  setTimeout(function(){renderPlan(g30,g60,g90);markDone(3);},900);
+};
+try{var saved=JSON.parse(localStorage.getItem('ob_plan')||'null');if(saved)renderPlan(saved[0],saved[1],saved[2]);}catch(e){}
+
+/* ===== ⑤ 解压：54321 ===== */
+var senses=[['5','看：说出你看到的 5 样东西'],['4','触：感受你触摸到的 4 样东西'],['3','听：留意你听到的 3 种声音'],['2','闻/尝：注意 2 种气味或味道'],['1','说：说出 1 句让你安心的话']];
+var si=0;
+var g=el('ground');
+g.innerHTML='<div class="steps" id="steps"></div><div style="margin-top:14px;text-align:center"><button class="btn" id="sNext">开始</button></div>';
+var stepsEl=el('steps');
+senses.forEach(function(s,i){
+  var d=document.createElement('div');d.className='step'+(i===0?' on':'');d.innerHTML='<div class="n">'+s[0]+'</div><div>'+s[1]+'</div>';
+  stepsEl.appendChild(d);
+});
+el('sNext').onclick=function(){
+  si++;
+  if(si>=senses.length){
+    g.innerHTML='<div class="pop" style="text-align:center"><span class="check">✔ 着陆完成</span><div class="sub" style="margin-top:6px">现在感觉怎么样？需要的话再走一轮，或切到下方方块呼吸。</div><button class="btn ghost" style="margin-top:10px" onclick="location.reload()">再来一轮</button></div>';
+    return;
+  }
+  stepsEl.querySelectorAll('.step').forEach(function(x,k){x.classList.toggle('on',k<=si);});
+  el('sNext').textContent=si===senses.length-1?'完成着陆':'下一步';
+};
+
+/* ===== 解压：方块呼吸 ===== */
+var sq=el('sq'), ph=el('phase'), cd=el('cd');
+var timer=null, phaseIdx=-1, cnt=0, mode=[4,4,4,4];
+var phases=['吸气','屏住','呼气','停留'];
+function stopB(){if(timer){clearInterval(timer);timer=null;}ph.textContent='已暂停';cd.textContent='';}
+function startB(m){
+  stopB(); mode=m;
+  phaseIdx=0;cnt=0;
+  sq.style.transition='transform '+mode[0]+'s linear,border-radius '+mode[0]+'s linear';
+  sq.classList.remove('calm');
+  runPhase();
+  timer=setInterval(function(){
+    cnt++;
+    if(cnt>=mode[phaseIdx]){
+      cnt=0;phaseIdx=(phaseIdx+1)%4;
+      runPhase();
+    }
+    cd.textContent=mode[phaseIdx]-cnt+' 秒';
+  },1000);
+}
+function runPhase(){
+  var p=phases[phaseIdx];
+  ph.textContent=p;
+  if(p==='吸气'){sq.classList.remove('calm');sq.style.transform='scale(1)';}
+  else if(p==='屏住'){sq.style.transform='scale(1.15)';}
+  else if(p==='呼气'){sq.classList.add('calm');sq.style.transform='scale(.85)';}
+  else{sq.style.transform='scale(.85)';}
+  cd.textContent=mode[phaseIdx]+' 秒';
+}
+el('bStart').onclick=function(){startB([4,4,4,4]);};
+el('bSlow').onclick=function(){startB([6,4,6,4]);};
+el('bReset').onclick=function(){stopB();sq.style.transform='scale(1)';sq.classList.remove('calm');ph.textContent='准备';cd.textContent='';};
+
+}catch(e){document.body.insertAdjacentHTML('beforeend','<div style="color:#EA6668;padding:12px">工作台初始化出错：'+esc(e.message)+'</div>');}
+})();
+</script>
+</body>
+</html>

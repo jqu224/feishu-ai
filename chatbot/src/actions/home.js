@@ -20,7 +20,7 @@ export function buildHomeCard(aiEnabled = true) {
       textLine('互动剧情 · 职场分歧模拟', { icon: 'pen', iconColor: 'indigo' }),
       textLine('猜拳 · Team building 职场破冰，同事感情培养', { icon: 'rock', iconColor: 'indigo' }),
       textLine('提神活动 · 牛马充电站', { icon: 'coffee', iconColor: 'indigo' }),
-      textLine('解压 · 呼吸 / 54321 / 冥想，点一下跟着做', { icon: 'wind', iconColor: 'indigo' }),
+      textLine('解压 · 呼吸自动倒计时 / 54321 / 冥想', { icon: 'wind', iconColor: 'indigo' }),
       hr(),
       // 用户要求：每个按钮都带前缀图标，与上方导览 textLine 同款语义一一对应
       columnSet([

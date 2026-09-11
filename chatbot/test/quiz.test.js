@@ -20,10 +20,11 @@ function hasNav(cardJson) {
   return collectButtons(cardJson.body.elements).some((b) => b.behaviors?.[0]?.value?.a === 'nav_home');
 }
 
-test('题库数据合法：4-8 套题、每套 10-20 题、答案下标在选项内、选项唯一、有解析', () => {
-  assert.ok(TRIVIA_SETS.length >= 4 && TRIVIA_SETS.length <= 8, '题库种类应在 4-8 之间');
+test('题库数据合法：4-12 套题、每套 5-20 题、答案下标在选项内、选项唯一、有解析', () => {
+  assert.ok(TRIVIA_SETS.length >= 4 && TRIVIA_SETS.length <= 12, '题库种类应在 4-12 之间');
   for (const s of TRIVIA_SETS) {
-    assert.ok(s.questions.length >= 10 && s.questions.length <= 20, `${s.id} 题量应在 10-20 之间`);
+    // 5 题下限：互联网编年史 / 互联网边缘问答是演示用快速版小题库（2026-09 用户决策）
+    assert.ok(s.questions.length >= 5 && s.questions.length <= 20, `${s.id} 题量应在 5-20 之间`);
     s.questions.forEach((q, i) => {
       assert.ok(q.q.length > 5, `${s.id} 第 ${i} 题题干过短`);
       assert.ok(q.options.length >= 3 && q.options.length <= 4, `${s.id} 第 ${i} 题选项数应为 3-4`);

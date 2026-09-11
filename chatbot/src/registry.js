@@ -12,7 +12,8 @@ import { buildHangmanCard, newHangmanGame, playTurn } from './actions/hangman.js
 import { buildStoryHomeCard, buildStoryCard } from './actions/story.js';
 import { buildBallCard } from './actions/ball.js';
 import { buildRefreshCard } from './actions/refresh.js';
-import { buildCalmHomeCard, buildCalmStepCard } from './actions/calm.js';
+import { buildCalmHomeCard, buildCalmStepCard, startCalmTicker, stopCalmTicker } from './actions/calm.js';
+import { getCalmExercise } from './data/calm.js';
 import { getSession, setSession } from './store.js';
 import { card, markdown, button, columnSet, linkButton, note } from './cards.js';
 import { voteCsv, formCsv, sendCsvFile, exportSheetDoc } from './feishu-docs.js';
@@ -58,8 +59,6 @@ const gameHandlers = {
   fact: () => buildFactCard(),
   ball: (p) => buildBallCard(p.f | 0, p.r | 0, p.z | 0),
   refresh: (p) => buildRefreshCard(p?.x),
-  calm_home: () => buildCalmHomeCard(),
-  calm: (p) => buildCalmStepCard(p?.id, p?.s | 0),
 };
 
 // 底部导航 action -> 发一张新卡片（不原地换卡，避免误点打断进行中的游戏）
@@ -250,6 +249,20 @@ export async function handleAction(channel, evt) {
 
   if (gameHandlers[action]) {
     nextCard = gameHandlers[action](payload);
+  } else if (action === 'calm' || action === 'calm_home' || action === 'calm_stop') {
+    // 解压：同一张卡上的任何新回调都先停掉旧节拍器；进入 timed 步骤则 ACK 后启动倒计时
+    stopCalmTicker(evt.messageId);
+    if (action === 'calm_home') {
+      nextCard = buildCalmHomeCard();
+    } else if (action === 'calm_stop') {
+      nextCard = buildCalmStepCard(payload?.id, 0);
+    } else {
+      const s = payload?.s | 0;
+      nextCard = buildCalmStepCard(payload?.id, s);
+      if (getCalmExercise(payload?.id)?.steps[Math.max(0, s)]?.secs != null) {
+        startCalmTicker(channel, evt.messageId, payload.id, s);
+      }
+    }
   } else if (navHandlers[action]) {
     await channel.send(evt.chatId, { card: navHandlers[action]() });
     return undefined;

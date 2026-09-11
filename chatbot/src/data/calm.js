@@ -6,33 +6,35 @@
 // - 正念数息（观呼吸：数到 8 回到 0，走神就轻轻拉回）
 // - 身体扫描（body scan，从脚到脸逐部位放松）
 // - 握拳放松（mini 渐进式肌肉放松，紧绷-松开对比）
-// 每张步骤卡只是一段 markdown + 一个按钮，用户点一下走一步——节奏由用户自己掌握。
+//
+// 交互分两种（2026-09 用户决策：呼吸不该靠用户手点）：
+// - timed 步骤（带 secs）：服务器节拍器每秒 updateCard 推倒计时，自动切下一段，
+//   全程只需点一次「开始」；进行中的卡片上只有「停止」。机器人重启后计时中断，
+//   卡片停在当前段，点「停止」回到练习引导页即可重来。
+// - 手动步骤（md 为字符串）：点按钮走一步——54321 找东西、读引导语的节奏是用户的。
+// timed 步骤的 md 是 left（剩余秒数）的函数，倒计时大数字每秒由节拍器重渲染。
 
-// ---------- 呼吸类：相位表 × 轮数 生成步骤 ----------
+// ---------- 呼吸类：相位表 × 轮数 生成步骤（全部 timed） ----------
 // bar 是呼吸条视觉：吸气由浅到深、屏息持平、呼气由深到浅（TUI 字符，与变形球状态行同族）
 const IN = (secs) => ({ label: '吸气', secs, bar: '▁ ▃ ▅ ▇ █', tip: '鼻子慢慢吸，感觉腹部像气球一样鼓起' });
 const HOLD = (secs) => ({ label: '屏息', secs, bar: '█ █ █ █ █', tip: '保持住，肩膀别用力' });
 const OUT = (secs) => ({ label: '呼气', secs, bar: '█ ▇ ▅ ▃ ▁', tip: '嘴唇微张，缓缓地吐尽' });
 
 function breathSteps(phases, rounds, intro) {
-  const steps = [{ md: intro, btn: '开始第一轮' }];
+  const steps = [{ md: intro, btn: '开始，跟着节奏走' }];
   for (let r = 1; r <= rounds; r++) {
-    phases.forEach((ph, k) => {
+    for (const [k, ph] of phases.entries()) {
       steps.push({
-        md: `**${ph.label}** · ${ph.secs} 秒\n\n${ph.bar}\n\n第 ${r} / ${rounds} 轮 · 第 ${k + 1} / ${phases.length} 段\n${ph.tip}`,
-        btn:
-          k === phases.length - 1
-            ? r === rounds
-              ? '完成'
-              : `第 ${r + 1} 轮 →`
-            : `${phases[k + 1].label} →`,
+        secs: ph.secs,
+        md: (left) =>
+          `**${ph.label}** · ${ph.secs} 秒\n\n# ${left}\n\n${ph.bar}\n\n第 ${r} / ${rounds} 轮 · 第 ${k + 1} / ${phases.length} 段\n${ph.tip}`,
       });
-    });
+    }
   }
   return steps;
 }
 
-// ---------- 54321 五感着陆：每种感官逐样点名 ----------
+// ---------- 54321 五感着陆：每种感官逐样点名（手动） ----------
 const SENSES = [
   { n: 5, verb: '看到', hint: '环顾四周，说出 5 样具体的东西——显示器、水杯、绿植……越具体越好。' },
   { n: 4, verb: '摸到', hint: '用手感受 4 种触感——桌面的凉、衣服的软、椅背的硬、指尖的凹凸。' },
@@ -61,20 +63,39 @@ function groundSteps() {
   return steps;
 }
 
-// ---------- 引导语类：固定步骤 ----------
+// ---------- 引导语类：固定步骤（手动） ----------
 const guide = (arr) => arr.map((md, i) => ({ md, btn: i === arr.length - 1 ? '完成' : '下一步 →' }));
+
+// ---------- 握拳放松：绷紧/松开交替，全部 timed ----------
+const hold = (text, secs) => ({ secs, md: (left) => `${text}\n\n# ${left}` });
+
+function muscleSteps() {
+  return [
+    {
+      md: '先制造紧绷，身体才认得什么是放松。\n接下来跟着倒计时走，不用自己数。',
+      btn: '开始，跟着节奏走',
+    },
+    hold('**握紧双拳**，用七成力——保持', 5),
+    hold('**突然松开**，摊在腿上——感受血液回流的温热', 10),
+    hold('**耸肩到耳朵**，再用力一点——保持', 5),
+    hold('**放下**，让肩膀彻底垮掉', 10),
+    hold('**皱紧整张脸**：眯眼、咬牙、皱眉——保持', 5),
+    hold('**舒展面部**，打个大哈欠也可以', 10),
+    { md: '深呼吸一次，对比一下：紧绷与放松，身体分得清了。', btn: '完成' },
+  ];
+}
 
 export const CALM_EXERCISES = [
   {
     id: 'box',
     name: '方块呼吸',
-    desc: '4-4-4-4 四段等长，稳住节奏',
+    desc: '4-4-4-4 四段等长，自动倒计时',
     caption: '海豹突击队同款：稳住节奏，就是稳住心。',
     done: '四个方循环走完，心率应该已经慢下来了。',
     steps: breathSteps(
       [IN(4), HOLD(4), OUT(4), HOLD(4)],
       4,
-      '吸 4 秒 → 屏 4 秒 → 呼 4 秒 → 屏 4 秒，像在空气里描一个正方形。\n\n找张有靠背的椅子坐好，双脚平放地面。一共 4 轮，跟着按钮走。'
+      '吸 4 秒 → 屏 4 秒 → 呼 4 秒 → 屏 4 秒，像在空气里描一个正方形。\n\n找张有靠背的椅子坐好，双脚平放地面。一共 4 轮，点开始后卡片自己倒计时。'
     ),
   },
   {
@@ -86,7 +107,7 @@ export const CALM_EXERCISES = [
     steps: breathSteps(
       [IN(4), HOLD(7), OUT(8)],
       4,
-      '鼻子吸 4 秒 → 屏息 7 秒 → 噘嘴呼 8 秒。\n\n舌尖轻抵上颚（上门牙后方），呼气时发出轻轻的「呼」声。一共 4 轮，睡前做效果最好。'
+      '鼻子吸 4 秒 → 屏息 7 秒 → 噘嘴呼 8 秒。\n\n舌尖轻抵上颚（上门牙后方），呼气时发出轻轻的「呼」声。一共 4 轮，点开始后卡片自己倒计时，睡前做效果最好。'
     ),
   },
   {
@@ -132,18 +153,10 @@ export const CALM_EXERCISES = [
   {
     id: 'muscle',
     name: '握拳放松',
-    desc: '先绷紧再松开，对比感带走紧绷',
+    desc: '绷紧 5 秒松开 10 秒，自动倒计时',
     caption: '先制造紧绷，身体才认得什么是放松。',
     done: '紧绷与放松的对比感，就是身体学会的信号。',
-    steps: guide([
-      '握紧双拳，用七成力——**保持 5 秒**。',
-      '突然松开，摊在腿上——感受 10 秒血液回流的温热。',
-      '耸肩到耳朵，再用力一点——**保持 5 秒**。',
-      '放下，让肩膀彻底垮掉 10 秒。',
-      '皱紧整张脸：眯眼、咬牙、皱眉——**保持 5 秒**。',
-      '舒展面部，打个哈欠也可以。',
-      '深呼吸一次，对比一下：紧绷与放松，身体分得清了。',
-    ]),
+    steps: muscleSteps(),
   },
 ];
 
@@ -151,7 +164,7 @@ export function getCalmExercise(id) {
   return CALM_EXERCISES.find((e) => e.id === id);
 }
 
-// 加载期自检：恰好 6 个、id 唯一、每步都有 markdown 与按钮文案
+// 加载期自检：恰好 6 个、id 唯一；每步都有 md；手动步骤必须有按钮文案，timed 步骤必须有秒数
 if (CALM_EXERCISES.length !== 6) {
   throw new Error(`CALM_EXERCISES 应恰好 6 个，实际 ${CALM_EXERCISES.length}`);
 }
@@ -161,6 +174,8 @@ for (const e of CALM_EXERCISES) {
   seen.add(e.id);
   if (!e.steps.length) throw new Error(`${e.id} 没有步骤`);
   for (const [i, s] of e.steps.entries()) {
-    if (!s.md || !s.btn) throw new Error(`${e.id} 第 ${i + 1} 步缺 md 或 btn`);
+    if (!s.md) throw new Error(`${e.id} 第 ${i + 1} 步缺 md`);
+    if (s.secs == null && !s.btn) throw new Error(`${e.id} 第 ${i + 1} 步缺 btn（手动步骤）`);
+    if (s.secs != null && typeof s.md !== 'function') throw new Error(`${e.id} 第 ${i + 1} 步 timed 的 md 必须是 left 的函数`);
   }
 }

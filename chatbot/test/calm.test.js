@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CALM_EXERCISES, getCalmExercise } from '../src/data/calm.js';
-import { buildCalmHomeCard, buildCalmStepCard } from '../src/actions/calm.js';
+import { buildCalmHomeCard, buildCalmStepCard, startCalmTicker, stopCalmTicker } from '../src/actions/calm.js';
 import { handleAction } from '../src/registry.js';
 
 function walk(node, out = { markdowns: [], buttons: [], texts: [] }) {
@@ -68,16 +68,26 @@ test('详情页 2×3 田字格：3 行 columnSet、每行 2 列、按钮为 prim
   }
 });
 
-test('步骤卡推进契约：每卡恰好一个推进按钮，value 指向下一步', () => {
+test('手动步骤卡有推进按钮指向下一步；timed 步骤卡只有「停止」且渲染倒计时大数字', () => {
   const box = getCalmExercise('box');
   for (let s = 0; s < box.steps.length; s++) {
     const card = buildCalmStepCard('box', s);
     assert.equal(card.header.template, 'turquoise');
     assert.equal(card.header.text_tag_list[0].text.content, `第 ${s + 1} / ${box.steps.length} 步`);
-    const { buttons } = walk(card);
-    const next = buttons.find((b) => b.behaviors?.[0]?.value?.a === 'calm');
-    assert.ok(next, `第 ${s} 步缺少推进按钮`);
-    assert.equal(next.behaviors[0].value.p.s, s + 1);
+    const { buttons, markdowns } = walk(card);
+    if (box.steps[s].secs != null) {
+      const stop = buttons.find((b) => b.behaviors?.[0]?.value?.a === 'calm_stop');
+      assert.ok(stop, `第 ${s} 步（timed）缺「停止」按钮`);
+      assert.ok(
+        !buttons.some((b) => b.behaviors?.[0]?.value?.a === 'calm'),
+        `第 ${s} 步（timed）不该有推进按钮`
+      );
+      assert.match(markdowns.join('\n'), new RegExp(`# ${box.steps[s].secs}`), 'timed 步骤应渲染满秒倒计时');
+    } else {
+      const next = buttons.find((b) => b.behaviors?.[0]?.value?.a === 'calm');
+      assert.ok(next, `第 ${s} 步缺推进按钮`);
+      assert.equal(next.behaviors[0].value.p.s, s + 1);
+    }
   }
 });
 
@@ -86,6 +96,7 @@ test('呼吸步骤卡带呼吸条与轮次；54321 步骤卡带进度圆点', ()
   assert.match(boxPhase, /吸气|屏息|呼气/);
   assert.match(boxPhase, /第 1 \/ 4 轮/);
   assert.match(boxPhase, /[▁▃▅▇█]/);
+  assert.match(boxPhase, /# 4/); // 倒计时大数字
   const groundStep = walk(buildCalmStepCard('ground', 3)).markdowns.join('\n');
   assert.match(groundStep, /[●○]/);
   assert.match(groundStep, /已找到 \d \/ 5/);
@@ -124,4 +135,67 @@ test('解压全部文本零 emoji（呼吸条/圆点是几何字符，不是 emo
       }
     }
   }
+});
+
+// ---------- 节拍器：timed 步骤自动倒计时 ----------
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// 全量跑测试时事件循环拥挤，固定 sleep 不可靠；轮询等条件达成
+async function waitFor(cond, timeoutMs = 3000) {
+  const t0 = Date.now();
+  while (!cond()) {
+    if (Date.now() - t0 > timeoutMs) throw new Error('waitFor 超时');
+    await sleep(10);
+  }
+}
+
+function fakeChannel() {
+  const updates = [];
+  return {
+    updates,
+    updateCard: async (messageId, cardJson) => {
+      updates.push(cardJson);
+      return {};
+    },
+  };
+}
+
+test('节拍器自动推倒计时：每秒一推，段尽自动进下一段，全程结束落完成卡', async () => {
+  const ch = fakeChannel();
+  // box 从第 1 步（第一个吸气段）开始：16 个 timed 段 × 4 秒，tickMs=2ms 加速
+  startCalmTicker(ch, 'm-tick', 'box', 1, 2);
+  await waitFor(() => ch.updates.at(-1)?.header?.subtitle?.content === '练习完成');
+  stopCalmTicker('m-tick');
+  assert.ok(ch.updates.length >= 60, `推卡次数异常：${ch.updates.length}`);
+  // 第一推是倒计时 3（ACK 卡已展示满秒 4）
+  assert.match(JSON.stringify(ch.updates[0]), /# 3/);
+  // 最后一推是完成卡
+  const last = ch.updates.at(-1);
+  assert.ok(JSON.stringify(last).includes('* ˘ *'), '最后一推应是带庆祝的完成卡');
+  // 完成后不再推
+  const n = ch.updates.length;
+  await sleep(30);
+  assert.equal(ch.updates.length, n, '完成后节拍器应已停止');
+});
+
+test('节拍器在 timed → 手动段切换后自动停止（握拳放松尾段）', async () => {
+  const ch = fakeChannel();
+  // muscle：第 1-6 步 timed（5+10+5+10+5+10 秒），第 7 步是手动收尾
+  startCalmTicker(ch, 'm-muscle', 'muscle', 1, 2);
+  await waitFor(() => JSON.stringify(ch.updates.at(-1) ?? '').includes('深呼吸一次'));
+  stopCalmTicker('m-muscle');
+  const n = ch.updates.length;
+  await sleep(30);
+  assert.equal(ch.updates.length, n, '进入手动段后节拍器应停止');
+});
+
+test('stopCalmTicker 立即停推（用户点「停止」）', async () => {
+  const ch = fakeChannel();
+  startCalmTicker(ch, 'm-stop', 'box', 1, 2);
+  await sleep(15);
+  stopCalmTicker('m-stop');
+  const n = ch.updates.length;
+  assert.ok(n > 0 && n < 10, `停止前应只推了少量几次，实际 ${n}`);
+  await sleep(20);
+  assert.equal(ch.updates.length, n, '停止后不应再有推卡');
 });

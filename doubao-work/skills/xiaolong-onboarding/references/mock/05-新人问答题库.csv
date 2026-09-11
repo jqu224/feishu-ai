@@ -1,0 +1,15 @@
+﻿题库ID,题库名称,题号,难度,题干,选项A,选项B,选项C,选项D,正确答案,答案内容,解析
+onboarding-mock,新人 onboarding 演示题库（Mock）,1,入门,网络连不上、账号登不上，应该走哪个渠道？,直接私聊任何同事,IT 工单系统（it.example.com）,发到全员大群,不管它等自动恢复,B,IT 工单系统（it.example.com）,账号/权限/网络问题统一走 IT 工单，附设备型号和错误截图；不要盲发全员群。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,2,入门,BGTA 提问模板的四个部分是什么？,背景、目标、已尝试、请求,标题、正文、附件、截止,方案、结论、风险、行动,现状、问题、建议、责任人,A,背景、目标、已尝试、请求,BGTA = Background/Goal/Tried/Ask；提问前先把这四段写全，避免「在吗」「这个怎么弄」这类无效提问。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,3,入门,技术问题（代码报错、接口不通）应该去哪里问？,私聊 HR 伙伴,技术群 @对应模块 owner,IT 工单,等周会再问,B,技术群 @对应模块 owner,技术问题先看代码库 README 的 owner 列表，再在技术群 @ 对应模块 owner，期望 1–4 小时响应。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,4,入门,入职第一天（Day 0）的完成标准是什么？,独立上线一个功能,能登录飞书和代码平台,写完 30-60-90 计划,通过技术面试,B,能登录飞书和代码平台,Day 0 完成：领电脑、装 P0 软件、账号开通、安全培训，标准是能登录飞书和代码平台。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,5,入门,「先搜后问」的提问原则是什么意思？,永远不提问,文档/知识库/群精华里有的先自己找,只问 leader,把问题攒着一次性全问,B,文档/知识库/群精华里有的先自己找,提问优先级第一条：文档、知识库、群精华里有的先自己找；找不到再问，问的时候带上下文。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,6,入门,入职第一天（P0）必须安装的软件不包括？,飞书,代码平台客户端,VPN 客户端,Figma 桌面版,D,Figma 桌面版,P0 = 飞书、文档、代码平台、浏览器、VPN；Figma 属于 P1 第一周装好。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,7,入门,前端项目主要使用哪套技术栈？,React 18 + TypeScript + Vite,Java + Spring Boot,C++ + Qt,PHP + jQuery,A,React 18 + TypeScript + Vite,前端以 React 18 + TypeScript + Vite 为主，中后台和 H5 同栈，组件库见组件文档。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,8,入门,后端服务主要用什么语言？,Go（微服务 gRPC）,Ruby,Visual Basic,Pascal,A,Go（微服务 gRPC）,后端以 Go + 微服务（gRPC）为主，Python 用于脚本和数据服务。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,9,进阶,安装软件遇到权限问题应该？,用个人账号注册公司软件,走 IT 工单,找同事借账号,自己想办法绕过,B,走 IT 工单,安装权限问题一律走 IT 工单，不要用个人账号注册公司软件，也不要借账号或绕过限制。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,10,进阶,「本地怎么起服务、怎么连测试环境」这类问题去哪找答案？,团队 wiki 和代码库 README,猜一个端口自己试,问全员大群,重装系统,A,团队 wiki 和代码库 README,第一个月要能回答的问题（构建命令、测试环境、上线流程）答案都在团队 wiki 和代码库 README。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,11,入门,前端组件库的文档在哪里看？,ui.example.com/components,it.example.com,expense.example.com,benefits.example.com,A,ui.example.com/components,UI 组件库文档在 ui.example.com/components，包含组件 props、示例和版本。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,12,入门,设计系统（Design System）的网址是什么？,code.example.com,design.example.com,log.example.com,ab.example.com,B,design.example.com,设计系统在 design.example.com，含色彩、字体、间距、组件规范，前端和设计共同维护。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,13,入门,公司代码仓库在哪个平台？,Figma,code.example.com,expense.example.com,监控平台,B,code.example.com,代码平台 code.example.com：代码仓库、MR/PR、CI，用企业邮箱登录，入职后自动开通权限。（Mock 数据，仅演示）
+onboarding-mock,新人 onboarding 演示题库（Mock）,14,进阶,新人的第一个月按建议应该？,先收藏内网主页和知识库入口，写代码前把设计系统/组件库/API 文档加入书签,跳过所有文档直接写代码,只看福利站,每天刷监控平台,A,先收藏内网主页和知识库入口，写代码前把设计系统/组件库/API 文档加入书签,新人的网址使用顺序：先收藏内网主页和知识库 → 写代码前收藏设计系统/组件库/API 文档 → 上线前熟悉发布平台和监控告警的只读操作。（Mock 数据，仅演示）

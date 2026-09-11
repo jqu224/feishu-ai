@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createServer as createNetServer } from 'node:net';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
-import { createMcpServer } from '../src/server.js';
+import { createMcpServer, startHttpMcp } from '../src/server.js';
 import { createControlClient } from '../src/client.js';
 
 function mockControl() {
@@ -113,4 +114,27 @@ test('createControlClient 发送 Bearer 头并解析错误体', async () => {
   assert.equal(requests[0].init.headers.Authorization, 'Bearer tok');
   await assert.rejects(control.getSession('fail'), /控制 API 400：参数错误/);
   assert.throws(() => createControlClient({ controlToken: '' }), /CONTROL_TOKEN/);
+});
+
+// 回归：main() 把 cfg（键名 mcpPort）直接传给 startHttpMcp（旧签名只认 port），
+// 导致 npm start 实际绑定随机临时端口、日志却打印配置端口
+test('startHttpMcp 认 mcpPort 键并落在指定端口上', async () => {
+  const probe = createNetServer();
+  await new Promise((resolve) => probe.listen(0, '127.0.0.1', resolve));
+  const port = probe.address().port;
+  await new Promise((resolve) => probe.close(resolve));
+
+  const httpServer = await startHttpMcp({ mcpPort: port, mcpToken: 'tok', control: mockControl() });
+  try {
+    assert.equal(httpServer.address().port, port);
+    const res = await fetch(`http://127.0.0.1:${port}/mcp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: '{}',
+    });
+    assert.equal(res.status, 401); // 没带 Bearer 仍应被鉴权拦下
+  } finally {
+    httpServer.closeAllConnections?.();
+    httpServer.close();
+  }
 });

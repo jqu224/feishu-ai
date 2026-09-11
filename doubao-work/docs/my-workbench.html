@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小笼 All-in-One · 我的效率神器</title>
+<style>
+  :root{
+    --bg:#0f0f0f; --card:#1c1c1c; --card2:#262626; --line:#333;
+    --brand:#25F4EE; --accent:#FE2C55; --text:#ffffff; --sub:#a0a0a0;
+    --radius:16px; --shadow:0 8px 28px rgba(0,0,0,.4);
+  }
+  [data-theme="rippling"]{
+    --bg:#f5f7fa; --card:#ffffff; --card2:#eef2f7; --line:#e2e8f0;
+    --brand:#0b4da2; --accent:#1a6fd6; --text:#1a2b3c; --sub:#5b6b7c;
+    --shadow:0 4px 16px rgba(11,77,162,.10);
+  }
+  [data-theme="workday"]{
+    --bg:#eef1f2; --card:#ffffff; --card2:#f7f9fa; --line:#dde4e7;
+    --brand:#0077c8; --accent:#ff8300; --text:#26343f; --sub:#64737e;
+    --shadow:0 4px 14px rgba(0,119,200,.12);
+  }
+  [data-theme="slack"]{
+    --bg:#f6f6f6; --card:#ffffff; --card2:#f0eef4; --line:#e4e1ea;
+    --brand:#4a154b; --accent:#36c5f0; --text:#1d1c1d; --sub:#696969;
+    --shadow:0 4px 16px rgba(74,21,75,.12);
+  }
+  [data-theme="instagram"]{
+    --bg:#fafafa; --card:#ffffff; --card2:#f6f0fb; --line:#efefef;
+    --brand:#833ab4; --accent:#fd1d1d; --text:#262626; --sub:#8e8e8e;
+    --shadow:0 4px 16px rgba(131,58,180,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'PingFang SC','Microsoft YaHei',Roboto,Arial,sans-serif;transition:background .35s,color .35s;min-height:100vh}
+  .wrap{max-width:1020px;margin:0 auto;padding:18px 16px 120px}
+  header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 0 16px}
+  .logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800}
+  .logo .dot{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--accent));display:inline-block}
+  .logo small{display:block;font-size:11px;font-weight:500;color:var(--sub)}
+  .right{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .theme-btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:6px 12px;border-radius:99px;font-size:12px;cursor:pointer;transition:all .2s}
+  .theme-btn.on{border-color:var(--brand);color:var(--brand);font-weight:700}
+  .me{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);padding:6px 10px 6px 6px;border-radius:99px}
+  .me .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--accent));color:var(--bg);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .me select{background:transparent;border:none;color:var(--text);font-size:13px;font-weight:700;outline:none;cursor:pointer}
+  .me select option{background:var(--card);color:var(--text)}
+  .hero{background:linear-gradient(135deg,var(--brand),var(--accent));border-radius:var(--radius);padding:22px 24px;color:#fff;margin-bottom:18px;box-shadow:var(--shadow)}
+  .hero h1{font-size:24px;margin-bottom:6px}
+  .hero p{font-size:13.5px;opacity:.95;line-height:1.7}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tabs button{border:1px solid transparent;background:transparent;color:var(--sub);padding:9px 16px;border-radius:11px;font-size:14px;cursor:pointer;transition:all .2s}
+  .tabs button.on{background:var(--brand);color:var(--bg);font-weight:800}
+  .tabs button:not(.on):hover{background:var(--card2);color:var(--text)}
+  section{display:none}
+  section.on{display:block;animation:fade .3s}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:15px 17px;box-shadow:var(--shadow)}
+  .card h3{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .card h3 .tag{font-size:10.5px;padding:2px 9px;border-radius:99px;background:var(--brand);color:var(--bg);font-weight:800}
+  .row{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .k{color:var(--sub)}
+  .row .v{text-align:right;font-weight:600}
+  .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700}
+  .pill.b{background:var(--brand);color:var(--bg)}
+  .pill.a{background:var(--accent);color:#fff}
+  .pill.g{background:#2eb67d;color:#fff}
+  .pill.gray{background:var(--sub);color:#fff}
+  .progress{height:10px;border-radius:99px;background:var(--card2);border:1px solid var(--line);overflow:hidden;margin:8px 0}
+  .progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--accent));width:0%;transition:width .6s}
+  .stage{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+  .stage:last-child{border:none}
+  .stage .no{width:24px;height:24px;border-radius:50%;flex:none;background:var(--card2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+  .stage.done .no{background:var(--brand);color:var(--bg);border-color:var(--brand)}
+  .stage.now .no{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .stage .st{flex:1}
+  .stage .st b{font-size:13px;display:block}
+  .stage .st span{font-size:11px;color:var(--sub)}
+  .chat{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:min(760px,calc(100% - 24px));background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.35);padding:10px 12px;z-index:9}
+  .chat .msg{font-size:12.5px;color:var(--sub);min-height:20px;margin:2px 4px 8px;line-height:1.7;white-space:pre-wrap}
+  .chat form{display:flex;gap:8px}
+  .chat input{flex:1;background:var(--card2);border:1px solid var(--line);border-radius:99px;color:var(--text);padding:10px 16px;font-size:13.5px;outline:none}
+  .chat input:focus{border-color:var(--brand)}
+  .chat button{border:none;background:var(--brand);color:var(--bg);border-radius:99px;padding:10px 20px;font-size:13.5px;font-weight:800;cursor:pointer}
+  .hint{font-size:11px;color:var(--sub);margin-top:6px;text-align:center}
+  .intro{font-size:12.5px;color:var(--sub);line-height:1.8;margin-bottom:12px}
+  .breathe{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--accent));margin:10px auto;animation:none;opacity:.9}
+  .breathe.run{animation:breathe 4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.45)}}
+  footer{margin-top:26px;font-size:11px;color:var(--sub);text-align:center;line-height:1.8}
+  .link{color:var(--brand);text-decoration:none;font-weight:600}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.hero h1{font-size:20px}}
+</style>
+</head>
+<body data-theme="tiktok">
+<div class="wrap">
+  <header>
+    <div class="logo"><span class="dot"></span><div>小笼 All-in-One<small>我的效率神器 · OA + Onboarding + 小工具</small></div></div>
+    <div class="right">
+      <button class="theme-btn on" data-theme="tiktok">TikTok</button>
+      <button class="theme-btn" data-theme="rippling">Rippling</button>
+      <button class="theme-btn" data-theme="workday">Workday</button>
+      <button class="theme-btn" data-theme="slack">Slack</button>
+      <button class="theme-btn" data-theme="instagram">Instagram</button>
+      <div class="me"><span class="avatar" id="avatar">张</span>
+        <select id="who">
+          <option>张小明</option><option>李华</option><option>王芳</option>
+          <option>陈晨</option><option>赵磊</option><option>刘洋</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero" id="hero">
+    <h1 id="greet">Hi 张小明 👋</h1>
+    <p id="heroSub">今天 AI 帮你准备了：<b>2 条待办 · 1 条审批待处理 · Onboarding 第 3/5 站 · 今日破冰话题「你最近在学什么？」</b>。在底部输入框随时叫我：「解压」「出题」「规划」「今天干嘛」。</p>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="on" data-sec="oa">🏢 我的 OA</button>
+    <button data-sec="onboard">🚀 我的 Onboarding</button>
+    <button data-sec="ice">💬 破冰</button>
+    <button data-sec="tools">🧰 小工具</button>
+  </div>
+
+  <!-- 我的 OA -->
+  <section id="oa" class="on">
+    <div class="grid">
+      <div class="card"><h3>我的待办 <span class="tag">3</span></h3>
+        <div class="row"><span class="k">完成安全培训</span><span class="v"><span class="pill b">今天</span></span></div>
+        <div class="row"><span class="k">提交第一周小结</span><span class="v">周五</span></div>
+        <div class="row"><span class="k">约 leader 1:1</span><span class="v"><span class="pill a">进行中</span></span></div>
+      </div>
+      <div class="card"><h3>我的审批 <span class="tag">1</span></h3>
+        <div class="row"><span class="k">年假 09-14 ~ 09-15</span><span class="v"><span class="pill a">待审批</span></span></div>
+        <div class="row"><span class="k">调休 09-21</span><span class="v"><span class="pill g">已批准</span></span></div>
+        <div class="row"><span class="k">报销-差旅</span><span class="v"><span class="pill gray">处理中</span></span></div>
+      </div>
+      <div class="card"><h3>我的日程 <span class="tag">本周</span></h3>
+        <div class="row"><span class="k">周一 10:00</span><span class="v">团队周会</span></div>
+        <div class="row"><span class="k">周三 14:00</span><span class="v">与 Mentor 1:1</span></div>
+        <div class="row"><span class="k">周五 17:00</span><span class="v">第一周小结提交</span></div>
+      </div>
+      <div class="card"><h3>我的资料 <span class="tag">人事</span></h3>
+        <div class="row"><span class="k">部门 / 岗位</span><span class="v" id="myDept">产品部 · 产品经理</span></div>
+        <div class="row"><span class="k">职级</span><span class="v" id="myLevel">P6</span></div>
+        <div class="row"><span class="k">直属 Leader</span><span class="v" id="myLeader">李华</span></div>
+        <div class="row"><span class="k">Mentor</span><span class="v" id="myMentor">王芳</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 我的 Onboarding -->
+  <section id="onboard">
+    <div class="card" style="margin-bottom:12px">
+      <h3>我的入职旅程 <span class="tag" id="stageTag">第 3/5 站</span></h3>
+      <div class="progress"><i id="stageBar" style="width:50%"></i></div>
+      <p class="intro" style="margin:6px 0 0">对 AI 伙伴说「继续」，从上一次位置接着走；每完成一站自动解锁下一站。</p>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>旅程进度</h3><div id="stageList"></div></div>
+      <div class="card"><h3>我的提问路径 <span class="tag">QA</span></h3>
+        <div class="row"><span class="k">工具使用</span><span class="v">问 AI → 文档 → 同事</span></div>
+        <div class="row"><span class="k">技术问题</span><span class="v">技术群 @owner</span></div>
+        <div class="row"><span class="k">账号/权限</span><span class="v">IT 工单</span></div>
+        <div class="row"><span class="k">制度/福利</span><span class="v">HR 伙伴</span></div>
+      </div>
+      <div class="card"><h3>我的软件清单 <span class="tag">P0-P2</span></h3>
+        <div class="row"><span class="k">P0 已装</span><span class="v"><span class="pill g">飞书 · Git · VPN</span></span></div>
+        <div class="row"><span class="k">P1 本周装</span><span class="v"><span class="pill b">VS Code · Figma</span></span></div>
+        <div class="row"><span class="k">P2 按需</span><span class="v"><span class="pill gray">Docker · Postman</span></span></div>
+      </div>
+      <div class="card"><h3>30-60-90 规划 <span class="tag">模板</span></h3>
+        <div class="row"><span class="k">0-30 天</span><span class="v">跑通环境 · 首个 MR</span></div>
+        <div class="row"><span class="k">31-60 天</span><span class="v">独立负责一件事</span></div>
+        <div class="row"><span class="k">61-90 天</span><span class="v">形成判断 · 主导改进</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 破冰 -->
+  <section id="ice">
+    <div class="grid">
+      <div class="card"><h3>今日话题 <span class="tag">破冰</span></h3>
+        <p class="intro">「你最近在学什么？为什么感兴趣？」<br>适合午餐/茶水间开场，也适合第一次 1:1。</p>
+        <div class="row"><span class="k">换一个</span><span class="v" id="topic">「你入职第一周最大的惊喜是什么？」</span></div>
+      </div>
+      <div class="card"><h3>认识同事 <span class="tag" id="peerTag">同部门</span></h3>
+        <div id="peerList"></div>
+      </div>
+      <div class="card"><h3>团队黑话 <span class="tag">速查</span></h3>
+        <div class="row"><span class="k">BGTA</span><span class="v">背景/目标/已尝试/请求</span></div>
+        <div class="row"><span class="k">MR/PR</span><span class="v">代码合入请求</span></div>
+        <div class="row"><span class="k">灰度</span><span class="v">小范围上线再全量</span></div>
+        <div class="row"><span class="k">复盘</span><span class="v">差异分析不是追责</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 小工具 -->
+  <section id="tools">
+    <div class="grid">
+      <div class="card"><h3>解压 · 方块呼吸 <span class="tag">4-4-4-4</span></h3>
+        <div class="breathe" id="breath"></div>
+        <div style="text-align:center;margin-top:8px">
+          <button class="theme-btn" id="breathBtn" style="padding:8px 18px">开始呼吸</button>
+        </div>
+        <p class="intro" style="text-align:center;margin-top:8px">吸气 4 秒 → 屏住 4 秒 → 呼气 4 秒 → 屏住 4 秒。按「解压」随时让 AI 带你做。</p>
+      </div>
+      <div class="card"><h3>提问培训 <span class="tag">BGTA</span></h3>
+        <p class="intro">给 AI 一句你的问题，它会用 BGTA 模板帮你补全：<br><b>B</b>ackground 背景 · <b>G</b>oal 目标 · <b>T</b>ried 已尝试 · <b>A</b>sk 请求</p>
+        <div class="row"><span class="k">示例</span><span class="v">「帮我看看这个报错」</span></div>
+        <div class="row"><span class="k">正确问法</span><span class="v">背景+目标+已尝试+请求</span></div>
+      </div>
+      <div class="card"><h3>每日一题 <span class="tag">闯关</span></h3>
+        <div id="quizBox">
+          <p class="intro">入职第一天应该先完成什么？</p>
+          <div class="btns" id="quizOpts"></div>
+          <div class="status" id="quizStatus" style="font-size:12.5px;min-height:20px;margin-top:8px"></div>
+        </div>
+      </div>
+      <div class="card"><h3>压力管理 <span class="tag">自助</span></h3>
+        <p class="intro">说「解压」：<b>54321 五感着陆</b>（看 5 样东西 / 摸 4 样 / 听 3 样 / 闻 2 样 / 尝 1 样）、方块呼吸、4-7-8 呼吸。自助放松，不是医疗建议。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    虚构演示数据（示例科技）· 每人一份 All-in-One · 数据底座：<a class="link" href="https://bcnjqnq5052g.feishu.cn/base/KjfzbQP5Habbk6snUCtc6df6nIg" target="_blank">个人 All-in-One Base</a>（HR 6 表 + Onboarding 5 表 + 待办明细）<br>由 xiaolong-onboarding 技能一键部署 · 无自建连接器
+  </footer>
+</div>
+
+<div class="chat">
+  <div class="msg" id="aiMsg">👋 我是你的 AI 入职助手。试试对我说：「解压」「出题」「规划」「今天干嘛」「继续 onboarding」。</div>
+  <form id="chatForm">
+    <input id="chatInput" placeholder="问 AI 任何事…" autocomplete="off">
+    <button type="submit">发送</button>
+  </form>
+  <div class="hint">长按 Enter 换行 · 支持：解压 / 出题 / 规划 / 继续 / 今天干嘛 / 破冰话题</div>
+</div>
+
+<script>
+(function(){
+  var THEME_KEY='xl-my-theme', WHO_KEY='xl-my-who';
+  var PEOPLE={
+    '张小明':{dept:'产品部',role:'产品经理',level:'P6',leader:'李华',mentor:'王芳',stage:2,stages:['破冰','认识工具与团队','提问培训','规划','压力管理']},
+    '李华':{dept:'产品部',role:'产品负责人',level:'P8',leader:'赵磊',mentor:'陈晨',stage:5,stages:['破冰','认识工具与团队','提问培训','规划','压力管理']},
+    '王芳':{dept:'研发部',role:'前端工程师',level:'P6',leader:'陈晨',mentor:'刘洋',stage:1,stages:['破冰','认识工具与团队','提问培训','规划','压力管理']},
+    '陈晨':{dept:'研发部',role:'研发负责人',level:'P9',leader:'赵磊',mentor:'张小明',stage:5,stages:['破冰','认识工具与团队','提问培训','规划','压力管理']},
+    '赵磊':{dept:'公司',role:'事业部负责人',level:'P10',leader:'—',mentor:'李华',stage:5,stages:['破冰','认识工具与团队','提问培训','规划','压力管理']},
+    '刘洋':{dept:'数据部',role:'数据分析师',level:'P5',leader:'陈晨',mentor:'王芳',stage:3,stages:['破冰','认识工具与团队','提问培训','规划','压力管理']}
+  };
+  var COWORKERS={
+    '产品部':['李华 · 产品负责人','陈晨 · 研发负责人','孙悦 · 设计师'],
+    '研发部':['陈晨 · 研发负责人','张小明 · 产品经理','刘洋 · 数据分析师'],
+    '数据部':['陈晨 · 研发负责人','王芳 · 前端工程师','周涛 · 市场经理'],
+    '公司':['李华 · 产品负责人','陈晨 · 研发负责人','吴静 · HR 伙伴']
+  };
+  var TOPICS=['「你最近在学什么？为什么感兴趣？」','「入职第一周最大的惊喜是什么？」','「如果给公司加一个功能你会加什么？」','「你周末一般怎么充电？」','「你最有成就感的一次交付是什么？」'];
+  var QUIZ={q:'入职第一天应该先完成什么？',opts:['只装 IDE 就开始写代码','领电脑、装 P0 软件、开账号、安全培训、和 leader 对齐任务','先申请年假','等 leader 安排一切'],ans:1,why:'入职第一天的完成标准：领电脑、装飞书/代码平台/VPN、账号开通与安全培训、和 leader 对齐本周任务。'};
+  var breathing=false;
+
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+  function applyMe(name){
+    var p=PEOPLE[name];
+    document.getElementById('avatar').textContent=name.charAt(0);
+    document.getElementById('greet').textContent='Hi '+name+' 👋';
+    document.getElementById('heroSub').innerHTML='今天 AI 帮你准备了：<b>2 条待办 · 1 条审批待处理 · Onboarding 第 '+(p.stage===5?5:Math.min(p.stage+1,5))+'/5 站 · 今日破冰话题「你最近在学什么？」</b>。在底部输入框随时叫我：「解压」「出题」「规划」「今天干嘛」。';
+    document.getElementById('myDept').textContent=p.dept+' · '+p.role;
+    document.getElementById('myLevel').textContent=p.level;
+    document.getElementById('myLeader').textContent=p.leader;
+    document.getElementById('myMentor').textContent=p.mentor;
+    document.getElementById('stageTag').textContent='第 '+Math.min(p.stage+1,5)+'/5 站';
+    document.getElementById('stageBar').style.width=(p.stage/5*100)+'%';
+    var peers=COWORKERS[p.dept]||COWORKERS['公司'];
+    document.getElementById('peerTag').textContent='同部门';
+    document.getElementById('peerList').innerHTML=peers.map(function(x){
+      var parts=x.split(' · ');
+      return '<div class="row"><span class="k">'+esc(parts[0])+'</span><span class="v">'+esc(parts[1]||'')+'</span></div>';
+    }).join('');
+    var list='';
+    p.stages.forEach(function(s,i){
+      var cls=i<p.stage?'done':(i===p.stage?'now':'');
+      var st=i<p.stage?'已完成':(i===p.stage?'进行中':'待解锁');
+      list+='<div class="stage '+cls+'"><span class="no">'+(i+1)+'</span><div class="st"><b>'+esc(s)+'</b><span>'+st+'</span></div></div>';
+    });
+    document.getElementById('stageList').innerHTML=list;
+  }
+
+  function say(t){var m=document.getElementById('aiMsg');m.textContent=t;}
+  function respond(text){
+    var t=text.trim();
+    if(/解压|放松|焦虑|压力/.test(t)){
+      say('好的，我们做 54321 五感着陆：\n① 看 5 样东西\n② 摸 4 样东西\n③ 听 3 种声音\n④ 闻 2 种气味\n⑤ 尝 1 种味道\n慢慢来，每个停留 5 秒。也可以点「小工具 → 方块呼吸」跟着动画做。');
+    }else if(/出题|答题|考/.test(t)){
+      var q=QUIZ;
+      document.getElementById('quizBox').innerHTML='<p class="intro">'+esc(q.q)+'</p><div class="btns" id="quizOpts2"></div><div class="status" style="font-size:12.5px;min-height:20px;margin-top:8px" id="quizStatus2"></div>';
+      var box=document.getElementById('quizOpts2');
+      q.opts.forEach(function(o,i){
+        var b=document.createElement('button');
+        b.className='theme-btn';b.style.margin='0 6px 6px 0';b.textContent=o;
+        b.onclick=function(){
+          document.getElementById('quizStatus2').textContent=(i===q.ans?('✅ 答对！'+q.why):('❌ 再想想。'+q.why));
+        };
+        box.appendChild(b);
+      });
+      say('来，每日一题：「'+q.q+'」');
+    }else if(/规划|30|60|90/.test(t)){
+      say('你的 30-60-90 计划：\n① 0-30 天：跑通环境、熟悉代码库、完成首个闭环任务（目标：本地能跑、第一个 MR 合入）\n② 31-60 天：独立负责一件事，从需求到上线\n③ 61-90 天：对模块形成独立判断，主导一次小改进\n每周五 15 分钟回顾：做了什么/卡在哪/下周计划/需要什么支持。');
+    }else if(/继续|onboarding|入职/.test(t)){
+      var name=document.getElementById('who').value;
+      var p=PEOPLE[name];
+      var next=p.stages[Math.min(p.stage,4)];
+      say('继续 onboarding：你当前在「'+p.stages[Math.max(0,p.stage-1)]+'」，下一站是「'+next+'」。要我带你开始吗？选一个：破冰 / 答题 / 提问培训 / 规划 / 解压。');
+    }else if(/今天干嘛|待办|日程/.test(t)){
+      say('今天你的安排：\n① 完成安全培训（待办）\n② 10:00 团队周会\n③ 提交第一周小结初稿\n④ 约 leader 1:1 确认下周目标\n需要我帮你拆哪一件？');
+    }else if(/破冰|话题/.test(t)){
+      say('今日破冰话题：「你最近在学什么？为什么感兴趣？」\n找同部门的李华或孙悦聊聊，也可以让 AI 换一个话题。');
+    }else{
+      say('收到！我可以：\n· 「解压」→ 呼吸/54321 引导\n· 「出题」→ onboarding 闯关\n· 「规划」→ 30-60-90 模板\n· 「继续」→ 接着走入职旅程\n· 「今天干嘛」→ 今日待办与日程\n也可以直接问我团队、软件、网址类问题（来自你的 onboarding 地图）。');
+    }
+  }
+
+  document.querySelectorAll('.theme-btn[data-theme]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var name=b.getAttribute('data-theme');
+      document.body.setAttribute('data-theme',name);
+      document.querySelectorAll('.theme-btn[data-theme]').forEach(function(x){x.classList.toggle('on',x===b);});
+      try{localStorage.setItem(THEME_KEY,name);}catch(e){}
+    });
+  });
+
+  var savedTheme=null,savedWho=null;
+  try{savedTheme=localStorage.getItem(THEME_KEY);savedWho=localStorage.getItem(WHO_KEY);}catch(e){}
+  if(savedTheme&&document.querySelector('.theme-btn[data-theme="'+savedTheme+'"]'))document.body.setAttribute('data-theme',savedTheme);
+  if(savedWho&&PEOPLE[savedWho])document.getElementById('who').value=savedWho;
+  applyMe(document.getElementById('who').value);
+
+  document.getElementById('who').addEventListener('change',function(){
+    applyMe(this.value);
+    try{localStorage.setItem(WHO_KEY,this.value);}catch(e){}
+  });
+
+  document.getElementById('tabs').addEventListener('click',function(ev){
+    var b=ev.target.closest('button');if(!b)return;
+    document.querySelectorAll('#tabs button').forEach(function(x){x.classList.toggle('on',x===b);});
+    document.querySelectorAll('section').forEach(function(s){s.classList.toggle('on',s.id===b.getAttribute('data-sec'));});
+  });
+
+  document.getElementById('chatForm').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var input=document.getElementById('chatInput');
+    var v=input.value;if(!v.trim())return;
+    respond(v);input.value='';
+  });
+
+  document.getElementById('breathBtn').addEventListener('click',function(){
+    var el=document.getElementById('breath');
+    breathing=!breathing;
+    el.classList.toggle('run',breathing);
+    this.textContent=breathing?'停止呼吸':'开始呼吸';
+  });
+
+  var quizStatus=document.getElementById('quizStatus');
+  document.getElementById('quizBox').addEventListener('click',function(ev){
+    var b=ev.target.closest('button');if(!b)return;
+    var idx=Array.prototype.indexOf.call(b.parentNode.children,b);
+    quizStatus.textContent=(idx===QUIZ.ans?('✅ 答对！'+QUIZ.why):('❌ 再想想。'+QUIZ.why));
+  });
+
+  var tIdx=0;
+  setInterval(function(){
+    tIdx=(tIdx+1)%TOPICS.length;
+    var el=document.getElementById('topic');
+    if(el)el.textContent=TOPICS[tIdx];
+  },8000);
+})();
+</script>
+</body>
+</html>

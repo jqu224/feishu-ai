@@ -10,7 +10,9 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",
     "start:stdio": "node --env-file-if-exists=.env src/server.js --stdio",
-    "test": "node --test"
+    "test": "node --test",
+    "pack:skills": "node scripts/pack-skills.mjs",
+    "ping": "node --env-file-if-exists=.env scripts/ping.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.13.0"

@@ -50,6 +50,10 @@ build/
 *.test
 .nyc_output/
 
+# 参赛可交付技能包（dist 其余内容仍忽略，仅保留 skill zip 随仓库发布）
+!doubao-work/dist/
+!doubao-work/dist/*.zip
+
 # Misc binaries
 *.exe
 *.exe~

@@ -1,0 +1,20 @@
+分类,名称,网址,用途,谁维护
+内部系统,内网主页,home.example.com,所有内部系统入口、公告,平台团队
+内部系统,知识库（Wiki）,wiki.example.com,团队文档、制度、流程,各团队
+内部系统,代码平台,code.example.com,代码仓库、MR/PR、CI,研发平台团队
+内部系统,工单系统,it.example.com,账号、权限、网络、设备,IT
+组件与设计,设计系统（Design System）,design.example.com,色彩、字体、间距、组件规范,前端 + 设计
+组件与设计,UI 组件库文档,ui.example.com/components,前端组件 props、示例、版本,前端
+组件与设计,Figma 团队库,figma.example.com,设计稿、标注、切图,全员可看，设计/前端常用
+组件与设计,图标库,icons.example.com,业务图标下载,前端 + 设计
+文档与 API,API 文档中心,api.example.com,后端接口定义、鉴权、限流,各服务 owner
+文档与 API,前端项目规范,wiki.example.com/frontend-guide,代码规范、提交规范,前端小组
+文档与 API,后端项目规范,wiki.example.com/backend-guide,服务规范、发布流程,后端小组
+文档与 API,数据字典,data.example.com/dictionary,指标口径、表结构,数据团队
+平台与工具,数据看板,data.example.com/dashboards,业务指标、报表,数据团队
+平台与工具,监控告警,monitor.example.com,线上服务监控、告警订阅,平台团队
+平台与工具,发布平台,release.example.com,服务发布、灰度、回滚,研发平台团队
+平台与工具,实验平台（AB）,ab.example.com,实验配置、结果查看,数据团队
+平台与工具,日志平台,log.example.com,线上日志检索,平台团队
+平台与工具,财务/报销,expense.example.com,报销、审批,财务团队
+平台与工具,福利站,benefits.example.com,福利、制度、咨询入口,HR

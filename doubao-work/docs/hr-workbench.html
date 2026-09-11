@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小笼 HR 工作台 · 五款主题</title>
+<style>
+  :root{
+    --bg:#0f0f0f; --card:#1c1c1c; --card2:#262626; --line:#333;
+    --brand:#25F4EE; --accent:#FE2C55; --text:#ffffff; --sub:#a0a0a0;
+    --radius:14px; --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  [data-theme="rippling"]{
+    --bg:#f5f7fa; --card:#ffffff; --card2:#eef2f7; --line:#e2e8f0;
+    --brand:#0b4da2; --accent:#1a6fd6; --text:#1a2b3c; --sub:#5b6b7c;
+    --shadow:0 4px 16px rgba(11,77,162,.10);
+  }
+  [data-theme="workday"]{
+    --bg:#eef1f2; --card:#ffffff; --card2:#f7f9fa; --line:#dde4e7;
+    --brand:#0077c8; --accent:#ff8300; --text:#26343f; --sub:#64737e;
+    --shadow:0 4px 14px rgba(0,119,200,.12);
+  }
+  [data-theme="slack"]{
+    --bg:#f6f6f6; --card:#ffffff; --card2:#f0eef4; --line:#e4e1ea;
+    --brand:#4a154b; --accent:#36c5f0; --text:#1d1c1d; --sub:#696969;
+    --shadow:0 4px 16px rgba(74,21,75,.12);
+  }
+  [data-theme="instagram"]{
+    --bg:#fafafa; --card:#ffffff; --card2:#f6f0fb; --line:#efefef;
+    --brand:#833ab4; --accent:#fd1d1d; --text:#262626; --sub:#8e8e8e;
+    --shadow:0 4px 16px rgba(131,58,180,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'PingFang SC','Microsoft YaHei',Roboto,Arial,sans-serif;transition:background .35s,color .35s;min-height:100vh}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+  header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding:14px 0 18px}
+  .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
+  .logo .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--accent));display:inline-block}
+  .logo small{display:block;font-size:11px;font-weight:500;color:var(--sub)}
+  .themes{display:flex;gap:8px;flex-wrap:wrap}
+  .theme-btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:7px 13px;border-radius:99px;font-size:12.5px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+  .theme-btn .sw{width:12px;height:12px;border-radius:50%;display:inline-block}
+  .theme-btn.on{border-color:var(--brand);color:var(--brand);font-weight:700}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  nav button{border:1px solid transparent;background:transparent;color:var(--sub);padding:8px 14px;border-radius:10px;font-size:13.5px;cursor:pointer;transition:all .2s}
+  nav button.on{background:var(--brand);color:var(--bg);font-weight:700}
+  nav button:not(.on):hover{background:var(--card2);color:var(--text)}
+  section{display:none}
+  section.on{display:block;animation:fade .3s}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+  .kpi .v{font-size:24px;font-weight:800;color:var(--brand);margin-top:4px}
+  .kpi .l{font-size:12px;color:var(--sub)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+  .card h3{font-size:14.5px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .card h3 .tag{font-size:10.5px;padding:2px 8px;border-radius:99px;background:var(--brand);color:var(--bg);font-weight:700}
+  .row{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .k{color:var(--sub);white-space:nowrap}
+  .row .v{text-align:right;font-weight:600}
+  .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700}
+  .pill.p0{background:var(--accent);color:#fff}
+  .pill.p1{background:var(--brand);color:#fff}
+  .pill.p2{background:var(--sub);color:#fff}
+  .pill.ok{background:#2eb67d;color:#fff}
+  .pill.wait{background:var(--accent);color:#fff}
+  .pill.done{background:#2eb67d;color:#fff}
+  .intro{font-size:12.5px;color:var(--sub);line-height:1.8;margin-bottom:14px}
+  .load-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+  .load-box h3{font-size:15px;margin-bottom:10px}
+  .steps{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .step{flex:1;min-width:180px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .step .n{width:22px;height:22px;border-radius:50%;background:var(--brand);color:var(--bg);font-weight:800;font-size:12px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px}
+  .step b{font-size:13px;display:block;margin-bottom:4px}
+  .step p{font-size:11.5px;color:var(--sub);line-height:1.6}
+  textarea{width:100%;min-height:120px;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px;font-size:12.5px;font-family:inherit;resize:vertical}
+  textarea::placeholder{color:var(--sub)}
+  .btns{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .btn{border:none;cursor:pointer;padding:10px 18px;border-radius:10px;font-size:13.5px;font-weight:700;transition:all .2s}
+  .btn.primary{background:var(--brand);color:var(--bg)}
+  .btn.ghost{background:var(--card2);color:var(--text);border:1px solid var(--line)}
+  .btn:hover{transform:translateY(-1px);opacity:.92}
+  .status{margin-top:12px;font-size:12.5px;color:var(--accent);font-weight:600;min-height:18px}
+  .example{margin-top:12px;font-size:11.5px;color:var(--sub);line-height:1.8}
+  .example code{background:var(--card2);padding:1px 6px;border-radius:6px;font-family:Menlo,Consolas,monospace}
+  footer{margin-top:26px;font-size:11.5px;color:var(--sub);text-align:center;line-height:1.8}
+  .link{color:var(--brand);text-decoration:none;font-weight:600}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.kpi-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-theme="tiktok">
+<div class="wrap">
+  <header>
+    <div class="logo"><span class="dot"></span><div>小笼 HR 工作台<small>Rippling 式 HR 全场景 · 不止 onboarding</small></div></div>
+    <div class="themes" id="themeBar">
+      <button class="theme-btn on" data-theme="tiktok"><span class="sw" style="background:#0f0f0f"></span>TikTok</button>
+      <button class="theme-btn" data-theme="rippling"><span class="sw" style="background:#0b4da2"></span>Rippling</button>
+      <button class="theme-btn" data-theme="workday"><span class="sw" style="background:#0077c8"></span>Workday</button>
+      <button class="theme-btn" data-theme="slack"><span class="sw" style="background:#4a154b"></span>Slack</button>
+      <button class="theme-btn" data-theme="instagram"><span class="sw" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)"></span>Instagram</button>
+    </div>
+  </header>
+
+  <nav id="nav">
+    <button class="on" data-sec="overview">总览</button>
+    <button data-sec="employees">员工主档</button>
+    <button data-sec="org">组织架构</button>
+    <button data-sec="leave">假勤</button>
+    <button data-sec="pay">薪酬福利</button>
+    <button data-sec="perf">绩效</button>
+    <button data-sec="recruit">招聘</button>
+    <button data-sec="onboard">Onboarding</button>
+    <button data-sec="load">数据装载</button>
+  </nav>
+
+  <!-- 总览 -->
+  <section id="overview" class="on">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">在职员工</div><div class="v">42</div></div>
+      <div class="kpi"><div class="l">本月入职</div><div class="v">2</div></div>
+      <div class="kpi"><div class="l">待审批假勤</div><div class="v">3</div></div>
+      <div class="kpi"><div class="l">招聘进行中</div><div class="v">5</div></div>
+      <div class="kpi"><div class="l">绩效进行中</div><div class="v">3</div></div>
+    </div>
+    <p class="intro">小笼 HR 工作台把<b>员工、组织、假勤、薪酬、绩效、招聘、Onboarding</b> 七大模块放进一个多维表格 Base，外加一套可换肤的交互界面。切右上角主题按钮，界面会整体切换成对应产品的设计语言（配色、卡片、质感）。数据均为虚构演示（示例科技），真实使用时通过「数据装载」把公司数据导入。</p>
+    <div class="grid">
+      <div class="card"><h3>七大模块 <span class="tag">HR</span></h3>
+        <div class="row"><span class="k">员工主档</span><span class="v">6 条 · 含 Leader/Mentor</span></div>
+        <div class="row"><span class="k">组织架构</span><span class="v">6 个团队</span></div>
+        <div class="row"><span class="k">假勤</span><span class="v">年假/病假/事假/调休</span></div>
+        <div class="row"><span class="k">薪酬福利</span><span class="v">工资/社保/期权</span></div>
+        <div class="row"><span class="k">绩效</span><span class="v">周期目标评分</span></div>
+        <div class="row"><span class="k">招聘</span><span class="v">候选人漏斗</span></div>
+        <div class="row"><span class="k">Onboarding</span><span class="v">提问/软件/网址/日程/术语</span></div>
+      </div>
+      <div class="card"><h3>对接的 Base</h3>
+        <div class="row"><span class="k">HR Base</span><span class="v">模板 Base 升级</span></div>
+        <div class="row"><span class="k">成长系统 Base</span><span class="v">onboarding 五表</span></div>
+        <div class="row"><span class="k">问答题库 Base</span><span class="v">14+ 题</span></div>
+        <p class="intro" style="margin-top:8px">全部由 <b>xiaolong-onboarding 技能</b>一键部署，无需自建连接器。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 员工主档 -->
+  <section id="employees">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">总人数</div><div class="v">42</div></div>
+      <div class="kpi"><div class="l">试用期</div><div class="v">2</div></div>
+      <div class="kpi"><div class="l">正式员工</div><div class="v">40</div></div>
+    </div>
+    <div class="grid" id="empGrid"></div>
+  </section>
+
+  <!-- 组织架构 -->
+  <section id="org">
+    <div class="grid" id="orgGrid"></div>
+  </section>
+
+  <!-- 假勤 -->
+  <section id="leave">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">本月假勤</div><div class="v">6</div></div>
+      <div class="kpi"><div class="l">待审批</div><div class="v">2</div></div>
+      <div class="kpi"><div class="l">已用完</div><div class="v">3</div></div>
+    </div>
+    <div class="grid" id="leaveGrid"></div>
+  </section>
+
+  <!-- 薪酬福利 -->
+  <section id="pay">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">月度人力成本</div><div class="v">¥23.4万</div></div>
+      <div class="kpi"><div class="l">最高薪资</div><div class="v">¥65,000</div></div>
+      <div class="kpi"><div class="l">期权覆盖</div><div class="v">5 / 6</div></div>
+    </div>
+    <div class="grid" id="payGrid"></div>
+  </section>
+
+  <!-- 绩效 -->
+  <section id="perf">
+    <div class="grid" id="perfGrid"></div>
+  </section>
+
+  <!-- 招聘 -->
+  <section id="recruit">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">在招职位</div><div class="v">6</div></div>
+      <div class="kpi"><div class="l">Offer 阶段</div><div class="v">2</div></div>
+      <div class="kpi"><div class="l">终面</div><div class="v">2</div></div>
+    </div>
+    <div class="grid" id="recruitGrid"></div>
+  </section>
+
+  <!-- Onboarding -->
+  <section id="onboard">
+    <p class="intro">Onboarding 是 HR 体系的入口模块：新人装好技能后，按 <b>破冰 → 认识工具与团队 → 提问培训 → 规划 → 压力管理</b> 走完整旅程，数据落在成长系统 Base 的五张表里。</p>
+    <div class="grid">
+      <div class="card"><h3>提问路径 <span class="tag">QA</span></h3>
+        <div class="row"><span class="k">工具使用</span><span class="v">问 AI 伙伴 → 文档 → 同事</span></div>
+        <div class="row"><span class="k">技术问题</span><span class="v">技术群 @owner → 代码库</span></div>
+        <div class="row"><span class="k">账号/权限</span><span class="v">IT 工单（1 个工作日）</span></div>
+        <div class="row"><span class="k">制度/福利</span><span class="v">HR 伙伴（1 个工作日）</span></div>
+      </div>
+      <div class="card"><h3>软件清单 <span class="tag">P0-P2</span></h3>
+        <div class="row"><span class="k">P0 第一天</span><span class="v"><span class="pill p0">飞书 · Git · VPN</span></span></div>
+        <div class="row"><span class="k">P1 第一周</span><span class="v"><span class="pill p1">VS Code · Figma · 妙记</span></span></div>
+        <div class="row"><span class="k">P2 按需</span><span class="v"><span class="pill p2">Docker · Postman</span></span></div>
+      </div>
+      <div class="card"><h3>入职日程 <span class="tag">Day 0-5</span></h3>
+        <div class="row"><span class="k">Day 0</span><span class="v">装软件 · 开账号 · 安全培训</span></div>
+        <div class="row"><span class="k">Day 2</span><span class="v">本地跑通项目</span></div>
+        <div class="row"><span class="k">Day 3</span><span class="v">完成第一个 MR</span></div>
+        <div class="row"><span class="k">Day 5</span><span class="v">第一周小结</span></div>
+      </div>
+      <div class="card"><h3>压力管理 <span class="tag">解压</span></h3>
+        <p class="intro" style="margin:0">对 AI 伙伴说「解压」：54321 五感着陆、方块呼吸 4-4-4-4、4-7-8 呼吸……自助放松，不是医疗建议。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据装载 -->
+  <section id="load">
+    <div class="load-box">
+      <h3>① 交给 Agent 建表（推荐）</h3>
+      <p class="intro">在豆包工作里对 <b>xiaolong-onboarding 伙伴</b>说：<br>
+      「把这份 CSV 建成『员工主档』表，按列名自动匹配已有表，匹配不到就新建表再导入」<br>
+      伙伴会自动：读表结构 → 匹配/建表 → 写入数据 → 回读验收数量与字段。</p>
+    </div>
+    <div class="load-box">
+      <h3>② 上传 CSV 导入</h3>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><b>给文件</b><p>上传员工/假勤/薪酬等 CSV（表头即字段名）</p></div>
+        <div class="step"><span class="n">2</span><b>定去向</b><p>说清导入哪张表，或让 Agent 按列名自动匹配/新建</p></div>
+        <div class="step"><span class="n">3</span><b>验收</b><p>Agent 回读记录数与字段，报告空行残留并清理</p></div>
+      </div>
+      <p class="example">示例 CSV 表头：<code>姓名,工号,部门,岗位,职级,入职日期,状态,直属Leader,Mentor,邮箱</code></p>
+    </div>
+    <div class="load-box">
+      <h3>③ 贴文本让 Agent 结构化</h3>
+      <textarea id="pasteText" placeholder="把零散文本贴进来，例如：&#10;张小明 6月1日入职 产品部 产品经理 P6 试用期 leader 李华 mentor 王芳&#10;王芳 6月1日入职 研发部 前端工程师 P6 试用期 leader 陈晨 mentor 刘洋&#10;……&#10;Agent 会识别字段、问你要存进哪张表，然后建表/写记录。"></textarea>
+      <div class="btns">
+        <button class="btn primary" id="parseBtn">识别并交给 Agent 建表</button>
+        <button class="btn ghost" id="clearBtn">清空</button>
+      </div>
+      <div class="status" id="loadStatus">点「识别并交给 Agent 建表」演示：Agent 会把每行解析成记录，匹配或新建「员工主档」表写入。</div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="link" href="https://bcnjqnq5052g.feishu.cn/base/A5vGbPs2YaMrBms4xX4cNkfPnzh" target="_blank">打开 HR Base（11 表）</a> ·
+    <a class="link" href="https://bcnjqnq5052g.feishu.cn/base/EFgQbx791asxhes7S2WcTuzbnAg" target="_blank">成长系统 Base（5 表）</a> ·
+    <a class="link" href="https://bcnjqnq5052g.feishu.cn/base/V8v9bmjEyadCses2A0Ncda1ynGd" target="_blank">问答题库 Base</a><br>
+    虚构演示数据（示例科技）· 由 xiaolong-onboarding 技能一键部署 · 无自建连接器
+  </footer>
+</div>
+
+<script>
+(function(){
+  var THEME_KEY='xl-hr-theme';
+  var EMPLOYEES=[
+    {name:'张小明',dept:'产品部',role:'产品经理',level:'P6',status:'试用期',leader:'李华',mentor:'王芳'},
+    {name:'李华',dept:'产品部',role:'产品负责人',level:'P8',status:'正式',leader:'赵磊',mentor:'陈晨'},
+    {name:'王芳',dept:'研发部',role:'前端工程师',level:'P6',status:'试用期',leader:'陈晨',mentor:'刘洋'},
+    {name:'陈晨',dept:'研发部',role:'研发负责人',level:'P9',status:'正式',leader:'赵磊',mentor:'张小明'},
+    {name:'赵磊',dept:'公司',role:'事业部负责人',level:'P10',status:'正式',leader:'—',mentor:'李华'},
+    {name:'刘洋',dept:'数据部',role:'数据分析师',level:'P5',status:'正式',leader:'陈晨',mentor:'王芳'}
+  ];
+  var ORG=[
+    {team:'产品部',owner:'李华',n:12,goal:'onboarding 留存提升 30%'},
+    {team:'研发部',owner:'陈晨',n:38,goal:'核心组件 2.0 上线与灰度'},
+    {team:'设计部',owner:'孙悦',n:8,goal:'设计系统规范落地'},
+    {team:'数据部',owner:'刘洋',n:9,goal:'指标口径统一与看板迁移'},
+    {team:'市场部',owner:'周涛',n:15,goal:'季度获客与品牌曝光'},
+    {team:'HR 部',owner:'吴静',n:5,goal:'onboarding 体系数字化'}
+  ];
+  var LEAVES=[
+    {who:'张小明',type:'年假',from:'09-14',to:'09-15',days:2,status:'待审批'},
+    {who:'王芳',type:'调休',from:'09-21',to:'09-21',days:1,status:'已批准'},
+    {who:'李华',type:'病假',from:'08-03',to:'08-03',days:1,status:'已用完'},
+    {who:'刘洋',type:'年假',from:'10-01',to:'10-07',days:5,status:'待审批'},
+    {who:'陈晨',type:'事假',from:'07-16',to:'07-16',days:0.5,status:'已用完'},
+    {who:'赵磊',type:'年假',from:'12-24',to:'12-25',days:2,status:'已用完'}
+  ];
+  var PAYS=[
+    {who:'张小明',base:'28,000',soc:'28,000',meal:800,trans:500,opt:'3,000 股'},
+    {who:'李华',base:'45,000',soc:'42,000',meal:800,trans:1000,opt:'12,000 股'},
+    {who:'王芳',base:'26,000',soc:'26,000',meal:800,trans:500,opt:'3,000 股'},
+    {who:'陈晨',base:'48,000',soc:'45,000',meal:800,trans:1000,opt:'15,000 股'},
+    {who:'刘洋',base:'22,000',soc:'22,000',meal:800,trans:500,opt:'—'},
+    {who:'赵磊',base:'65,000',soc:'60,000',meal:800,trans:1500,opt:'50,000 股'}
+  ];
+  var PERFS=[
+    {who:'张小明',period:'2026 H2',goal:'跑通 onboarding 全流程',score:4,status:'进行中'},
+    {who:'王芳',period:'2026 H2',goal:'独立负责 2 个前端模块',score:4,status:'进行中'},
+    {who:'刘洋',period:'2026 H1',goal:'上线指标看板',score:5,status:'已归档'},
+    {who:'李华',period:'2026 H1',goal:'新客留存提升 20%',score:5,status:'已归档'},
+    {who:'陈晨',period:'2026 H1',goal:'核心组件 2.0 立项',score:4,status:'已归档'}
+  ];
+  var RECRUITS=[
+    {name:'孙悦',pos:'设计师',channel:'内推',stage:'Offer',note:'社招 P7'},
+    {name:'李健',pos:'后端工程师',channel:'招聘网站',stage:'终面',note:'待定'},
+    {name:'王梓',pos:'产品实习生',channel:'校招',stage:'初面',note:'转正优先'},
+    {name:'陈璐',pos:'数据分析师',channel:'招聘网站',stage:'简历筛选',note:'补笔试'},
+    {name:'周涛',pos:'市场经理',channel:'内推',stage:'Offer',note:'头部竞品'},
+    {name:'郑爽',pos:'前端工程师',channel:'校招',stage:'终面',note:'2027 届'}
+  ];
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function pill(status){
+    var cls=status==='待审批'||status==='进行中'||status==='初面'||status==='简历筛选'?'wait':(status==='已归档'||status==='已用完'||status==='已批准'?'done':'ok');
+    return '<span class="pill '+cls+'">'+esc(status)+'</span>';
+  }
+  function card(title,tag,rows){
+    var html='<div class="card"><h3>'+esc(title)+(tag?' <span class="tag">'+esc(tag)+'</span>':'')+'</h3>';
+    rows.forEach(function(r){html+='<div class="row"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>';});
+    return html+'</div>';
+  }
+
+  function renderEmp(){
+    var h='';
+    EMPLOYEES.forEach(function(e){
+      h+=card(e.name,e.status,
+        [['部门 / 岗位',esc(e.dept)+' · '+esc(e.role)],
+         ['职级',esc(e.level)],
+         ['直属 Leader',esc(e.leader)],
+         ['Mentor',esc(e.mentor)]]
+      );
+    });
+    document.getElementById('empGrid').innerHTML=h;
+  }
+  function renderOrg(){
+    var h='';
+    ORG.forEach(function(o){
+      h+=card(o.team,o.n+' 人',
+        [['负责人',esc(o.owner)],
+         ['近期目标',esc(o.goal)]]
+      );
+    });
+    document.getElementById('orgGrid').innerHTML=h;
+  }
+  function renderLeave(){
+    var h='';
+    LEAVES.forEach(function(l){
+      h+=card(l.who+' · '+l.type,pill(l.status),
+        [['起止',esc(l.from)+' ~ '+esc(l.to)],
+         ['时长',l.days+' 天']]
+      );
+    });
+    document.getElementById('leaveGrid').innerHTML=h;
+  }
+  function renderPay(){
+    var h='';
+    PAYS.forEach(function(p){
+      h+=card(p.who,'¥'+p.base,
+        [['社保基数',esc(p.soc)],
+         ['餐补 / 交通',p.meal+' / '+p.trans],
+         ['期权',esc(p.opt)]]
+      );
+    });
+    document.getElementById('payGrid').innerHTML=h;
+  }
+  function renderPerf(){
+    var h='';
+    PERFS.forEach(function(p){
+      h+=card(p.who+' · '+p.period,pill(p.status),
+        [['目标',esc(p.goal)],
+         ['评分',p.score+' / 5']]
+      );
+    });
+    document.getElementById('perfGrid').innerHTML=h;
+  }
+  function renderRecruit(){
+    var h='';
+    RECRUITS.forEach(function(r){
+      h+=card(r.name+' · '+r.pos,pill(r.stage),
+        [['渠道',esc(r.channel)],
+         ['备注',esc(r.note)]]
+      );
+    });
+    document.getElementById('recruitGrid').innerHTML=h;
+  }
+
+  function setTheme(name){
+    document.body.setAttribute('data-theme',name);
+    document.querySelectorAll('.theme-btn').forEach(function(b){
+      b.classList.toggle('on',b.getAttribute('data-theme')===name);
+    });
+    try{localStorage.setItem(THEME_KEY,name);}catch(e){}
+  }
+  document.getElementById('themeBar').addEventListener('click',function(ev){
+    var b=ev.target.closest('.theme-btn');if(b)setTheme(b.getAttribute('data-theme'));
+  });
+
+  var saved=null;try{saved=localStorage.getItem(THEME_KEY);}catch(e){}
+  if(saved&&document.querySelector('.theme-btn[data-theme="'+saved+'"]'))setTheme(saved);
+
+  document.getElementById('nav').addEventListener('click',function(ev){
+    var b=ev.target.closest('button');if(!b)return;
+    document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b);});
+    var id=b.getAttribute('data-sec');
+    document.querySelectorAll('section').forEach(function(s){s.classList.toggle('on',s.id===id);});
+  });
+
+  var parsed=false;
+  document.getElementById('parseBtn').addEventListener('click',function(){
+    var txt=document.getElementById('pasteText').value.trim();
+    var st=document.getElementById('loadStatus');
+    if(!txt){st.textContent='请先粘贴文本（示例格式见占位符）。';return;}
+    var lines=txt.split(/\n/).filter(function(l){return l.trim().length>0;}).length;
+    if(!parsed){
+      st.textContent='✓ Agent 已解析 '+lines+' 行：识别出 姓名/部门/岗位/状态 等字段 → 匹配「员工主档」表 → 写入 '+(lines>1?lines-1:1)+' 条记录 → 回读验收。真实环境会把整行按列拆分落库。';
+      parsed=true;
+    }else{
+      st.textContent='已再次解析：把文本里的实体按字段匹配/新建表写入，并在「待沉淀清单」记下新出现的字段口径。';
+    }
+  });
+  document.getElementById('clearBtn').addEventListener('click',function(){
+    document.getElementById('pasteText').value='';
+    document.getElementById('loadStatus').textContent='已清空。';
+  });
+
+  renderEmp();renderOrg();renderLeave();renderPay();renderPerf();renderRecruit();
+})();
+</script>
+</body>
+</html>

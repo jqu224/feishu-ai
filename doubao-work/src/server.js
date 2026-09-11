@@ -145,7 +145,9 @@ export function loadEnv(env = process.env) {
 
 // 无状态 HTTP 模式：每个请求独立的 server + transport（官方 stateless 模式，
 // 单个 transport 复用会在第二条请求上报 500）
-export async function startHttpMcp({ port, mcpToken, control }) {
+// port：显式传入的监听端口；未传时回退 mcpPort（main 的 cfg 键名），两者都没有则 0=随机端口
+export async function startHttpMcp({ port, mcpPort, mcpToken, control }) {
+  const listenPort = port ?? mcpPort;
   const httpServer = createHttpServer(async (req, res) => {
     const url = new URL(req.url, 'http://127.0.0.1');
     if (url.pathname !== '/mcp') {
@@ -179,7 +181,7 @@ export async function startHttpMcp({ port, mcpToken, control }) {
     }
   });
 
-  await new Promise((resolve) => httpServer.listen(port, '127.0.0.1', resolve));
+  await new Promise((resolve) => httpServer.listen(listenPort, '127.0.0.1', resolve));
   return httpServer;
 }
 
@@ -191,8 +193,10 @@ export async function main(env = process.env, argv = process.argv) {
     await server.connect(new StdioServerTransport());
     console.error('xiaolong-doubao-work MCP 已启动（stdio）');
   } else {
-    await startHttpMcp(cfg);
-    console.log(`xiaolong-doubao-work MCP 已启动：http://127.0.0.1:${cfg.mcpPort}/mcp`);
+    const httpServer = await startHttpMcp(cfg);
+    // 打印实际绑定的端口（listen(0) 会随机分配），避免日志与真实端口不一致
+    const bound = httpServer.address();
+    console.log(`xiaolong-doubao-work MCP 已启动：http://127.0.0.1:${bound.port}/mcp`);
     console.log(`上游控制 API：${cfg.controlUrl}`);
   }
 }

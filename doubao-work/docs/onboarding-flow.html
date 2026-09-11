@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="margin:0;padding:0;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xiaolong-onboarding · 装载机制流程图</title>
+</head>
+<body style="margin:0;padding:20px;background:#F4F3EE;font-family:'Roboto','PingFang SC','Segoe UI',Arial,sans-serif;color:#1A1B1C;">
+<div style="max-width:720px;margin:0 auto;">
+
+  <!-- 输入 -->
+  <div style="text-align:center;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.85);border:1px dashed rgba(0,0,0,0.2);box-sizing:border-box;">
+    <span style="font-size:12px;color:#6B7280;">输入 ·</span>
+    <span style="font-size:13px;font-weight:600;">用户的 onboarding 文档（公开链接 / 粘贴 / 多份）</span>
+  </div>
+
+  <div style="text-align:center;font-size:18px;color:#9BBBF4;line-height:1;margin:4px 0;">▼</div>
+
+  <!-- ① Ingest -->
+  <div style="padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.08);border-left:5px solid #9BBBF4;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#9BBBF4;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-sizing:border-box;">1</span>
+      <span style="font-size:14px;font-weight:700;">Ingest · 装载</span>
+      <span style="font-size:11px;color:#6B7280;">复用 doc-qa 五步法</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px;">
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">收文档</span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">抓取正文</span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">按标题分块</span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">建问答索引</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:18px;color:#9BBBF4;line-height:1;margin:4px 0;">▼</div>
+
+  <!-- ② Map -->
+  <div style="padding:12px 14px;border-radius:12px;background:rgba(82,196,26,0.07);border:1px solid rgba(82,196,26,0.3);border-left:5px solid #52C41A;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#52C41A;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-sizing:border-box;">2</span>
+      <span style="font-size:14px;font-weight:700;">Map · 提炼 onboarding 地图</span>
+      <span style="font-size:11px;color:#2f7d1e;font-weight:600;">★ 灵魂：从「读懂文档」到「读懂 onboarding」</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px;">
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.8);font-size:12px;box-sizing:border-box;">扫描分块</span>
+      <span style="font-size:13px;color:#52C41A;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.8);font-size:12px;box-sizing:border-box;">① 提问路径</span>
+      <span style="font-size:13px;color:#52C41A;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.8);font-size:12px;box-sizing:border-box;">② 技术栈与软件</span>
+      <span style="font-size:13px;color:#52C41A;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.8);font-size:12px;box-sizing:border-box;">③ 组件与网址</span>
+      <span style="font-size:13px;color:#52C41A;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.8);font-size:12px;box-sizing:border-box;">④ 日程与组织</span>
+      <span style="font-size:13px;color:#52C41A;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#52C41A;color:#fff;font-size:12px;font-weight:600;box-sizing:border-box;">输出四张地图 → 用户确认</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:18px;color:#9BBBF4;line-height:1;margin:4px 0;">▼</div>
+
+  <!-- ③ Orchestrate -->
+  <div style="padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.08);border-left:5px solid #9BBBF4;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#9BBBF4;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-sizing:border-box;">3</span>
+      <span style="font-size:14px;font-weight:700;">Orchestrate · 按旅程运行（五站，一站一个小 APP）</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px;">
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">破冰<br/><span style="color:#6B7280;font-size:10.5px;">测试/猜词/话题</span></span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">认识工具与团队<br/><span style="color:#6B7280;font-size:10.5px;">答题闯关</span></span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(82,196,26,0.15);border:1px solid rgba(82,196,26,0.4);font-size:12px;font-weight:600;box-sizing:border-box;">提问培训（QA 核心）<br/><span style="color:#2f7d1e;font-size:10.5px;">主动出题·纠正提问·带出处</span></span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">新人规划<br/><span style="color:#6B7280;font-size:10.5px;">30/60/90 + 周回顾</span></span>
+      <span style="font-size:13px;color:#9BBBF4;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:#F4F3EE;font-size:12px;box-sizing:border-box;">压力管理<br/><span style="color:#6B7280;font-size:10.5px;">54321/呼吸/数息</span></span>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:18px;color:#8BC8EA;line-height:1;margin:4px 0;">▼</div>
+
+  <!-- ④ Evolve -->
+  <div style="padding:12px 14px;border-radius:12px;background:rgba(139,200,234,0.10);border:1px solid rgba(139,200,234,0.45);border-left:5px solid #8BC8EA;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#8BC8EA;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-sizing:border-box;">4</span>
+      <span style="font-size:14px;font-weight:700;">Evolve · 自我进化（引擎）</span>
+      <span style="font-size:11px;color:#1d6a8f;font-weight:600;">纯豆包原生能力，无自建连接器</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px;">
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.85);font-size:12px;box-sizing:border-box;">使用中沉淀新 Q&A</span>
+      <span style="font-size:13px;color:#8BC8EA;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.85);font-size:12px;box-sizing:border-box;">定时任务整理进题库/地图</span>
+      <span style="font-size:13px;color:#8BC8EA;">→</span>
+      <span style="padding:5px 10px;border-radius:7px;background:rgba(255,255,255,0.85);font-size:12px;box-sizing:border-box;">更新后的题库与地图</span>
+    </div>
+    <!-- 闭环回箭头 -->
+    <div style="margin-top:10px;padding:8px 10px;border-radius:8px;background:rgba(139,200,234,0.18);font-size:12px;color:#1d6a8f;line-height:1.5;box-sizing:border-box;">
+      ↺ <b>自我进化闭环：</b>下一批新人装载同一文档时，自动获得更新后的题库与地图 → 回到第 ① 步，越用越懂这家公司。
+    </div>
+  </div>
+
+  <div style="margin-top:10px;padding:9px 12px;border-radius:10px;background:rgba(234,102,104,0.08);border:1px solid rgba(234,102,104,0.25);font-size:12px;color:#374151;line-height:1.5;box-sizing:border-box;">
+    <span style="font-weight:600;color:#EA6668;">Mock 边界：</span>mock 四份文档是虚构演示数据（示例科技，对标字节风格 onboarding 形态），仅用于测试与演示装载机制；真实使用时用户喂自己的 onboarding 文档，流程完全一致。
+  </div>
+
+</div>
+</body>
+</html>

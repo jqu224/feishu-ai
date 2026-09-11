@@ -12,7 +12,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/tests-chatbot%20164%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="chatbot tests" />
-  <img src="https://img.shields.io/badge/tests-doubao--work%207%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="doubao-work tests" />
+  <img src="https://img.shields.io/badge/tests-doubao--work%208%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="doubao-work tests" />
   <img src="https://img.shields.io/badge/verify-design%20%7C%20control%20%7C%20MCP-0ea5e9?style=flat-square" alt="verify" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/Feishu-Card%20v2%20%2B%20CardKit-00d6b9?style=flat-square" alt="Feishu Card" />
@@ -44,7 +44,7 @@
 | 子项目 | 职责 | 文档 |
 | --- | --- | --- |
 | [`chatbot/`](chatbot/README.md) | **主项目** — 长连接 BOT、卡片交互、会话 store、AI + 预制玩法 | [chatbot/README.md](chatbot/README.md) |
-| [`doubao-work/`](doubao-work/README.md) | **扩展包** — MCP 连接器 + 技能包；豆包工作伙伴建卡，自身不持有飞书凭证 | [doubao-work/README.md](doubao-work/README.md) |
+| [`doubao-work/`](doubao-work/README.md) | **技能包（主推）** — 文档问答知识库 Skill（公开飞书文档 → 问答，零门槛）+ 可选 MCP 连接器/交互卡片 | [doubao-work/README.md](doubao-work/README.md) |
 | [`knowledge/`](knowledge/README.md) | 答题 CSV 题库（飞书 / 豆包 / Agent / 行业编年史） | [knowledge/README.md](knowledge/README.md) |
 
 **分层边界（刻意设计）：** 卡片点击回调只会到达持有飞书 WebSocket 的进程。`doubao-work/` 不直连飞书，只调 `chatbot/` 的本机控制 API，交互状态才正确。
@@ -106,6 +106,7 @@ npm start
 - 冲奖规划与竞品扫描 — [chatbot/docs/AWARDS-PLAN.md](chatbot/docs/AWARDS-PLAN.md)
 - 3 分钟 demo 脚本 — [chatbot/docs/DEMO.md](chatbot/docs/DEMO.md)
 - 卡片设计契约 — [chatbot/SPIRIT.md](chatbot/SPIRIT.md) · [chatbot/docs/DESIGN.md](chatbot/docs/DESIGN.md)
+- **双赛道投稿材料（真实实践 / Skill 创作）** — [submissions/README.md](submissions/README.md)
 
 ## 许可证
 

@@ -4,11 +4,11 @@
 
 ## 编成一：零门槛 · 文档问答小队（推荐）
 
-不需要 MCP，所有伙伴只用 `xiaolong-doc-qa` 技能 + 内置联网能力。
+不需要 MCP，所有伙伴只用 `XsiaoLung-doc-qa` 技能 + 内置联网能力。
 
 | 伙伴 | 角色 | 用哪个能力 |
 |---|---|---|
-| 文档问答专员（[doc-qa-buddy.md](doc-qa-buddy.md)） | 建知识库、回答问题、出题 | `xiaolong-doc-qa` |
+| 文档问答专员（[doc-qa-buddy.md](doc-qa-buddy.md)） | 建知识库、回答问题、出题 | `XsiaoLung-doc-qa` |
 | （可选）任何内置伙伴 | 把文档问答的答案整理成培训材料/日报 | 豆包内置技能 |
 
 **示例小队指令**：
@@ -22,7 +22,7 @@
 | 伙伴 | 角色 | 用的能力 |
 |---|---|---|
 | 名单伙伴 | 生成/整理名单（如 100 个组员名字） | 豆包内置技能 |
-| 收集统计专员（[xiaolong-collector.md](xiaolong-collector.md)） | 接住名单 → `create_roster_form` 建卡发群 → 回传 session_id | `xiaolong-card` + 连接器 |
+| 收集统计专员（[XsiaoLung-collector.md](XsiaoLung-collector.md)） | 接住名单 → `create_roster_form` 建卡发群 → 回传 session_id | `XsiaoLung-card` + 连接器 |
 | 进度播报伙伴 | 拿 session_id 调 `get_session_status` / `export_session_summary` 跟进汇报 | 只读工具（见连接器） |
 
 **示例小队指令**：

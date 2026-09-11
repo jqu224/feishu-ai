@@ -91,7 +91,7 @@ const TOOL_DEFS = [
 ];
 
 // control 依赖注入：生产传 createControlClient() 的实例，测试传 mock
-export function createMcpServer({ control, name = 'xiaolong-doubao-work' }) {
+export function createMcpServer({ control, name = 'XsiaoLung-doubao-work' }) {
   const server = new Server({ name, version: '0.1.0' }, { capabilities: { tools: {} } });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOL_DEFS }));
@@ -191,12 +191,12 @@ export async function main(env = process.env, argv = process.argv) {
   if (cfg.stdio) {
     const server = createMcpServer({ control });
     await server.connect(new StdioServerTransport());
-    console.error('xiaolong-doubao-work MCP 已启动（stdio）');
+    console.error('XsiaoLung-doubao-work MCP 已启动（stdio）');
   } else {
     const httpServer = await startHttpMcp(cfg);
     // 打印实际绑定的端口（listen(0) 会随机分配），避免日志与真实端口不一致
     const bound = httpServer.address();
-    console.log(`xiaolong-doubao-work MCP 已启动：http://127.0.0.1:${bound.port}/mcp`);
+    console.log(`XsiaoLung-doubao-work MCP 已启动：http://127.0.0.1:${bound.port}/mcp`);
     console.log(`上游控制 API：${cfg.controlUrl}`);
   }
 }

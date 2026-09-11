@@ -4,7 +4,7 @@
 // 零依赖：zip 用 store（只打包不压缩）实现——技能包都是文本，体积无所谓，省掉外部依赖。
 //
 // 用法：npm run pack:skills                    # 打包全部技能
-//       npm run pack:skills -- xiaolong-card   # 只打包指定技能
+//       npm run pack:skills -- XsiaoLung-card   # 只打包指定技能
 import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

@@ -32,7 +32,7 @@
 ## 三、Skill 结构（已建骨架）
 
 ```
-doubao-work/skills/xiaolong-onboarding/
+doubao-work/skills/XsiaoLung-Onboarding/
 ├── SKILL.md                          # 旅程编排总入口（四步机制 + 五个模块）
 └── references/
     └── mock/                         # 虚构演示数据（仅测试/演示）
@@ -48,7 +48,7 @@ doubao-work/skills/xiaolong-onboarding/
 
 | 现有资产 | 在新系统里的角色 |
 |---|---|
-| `xiaolong-doc-qa` | 降级为 Ingest 引擎 + QA 模块的问答底座（文档→分块→索引→带出处回答） |
+| `XsiaoLung-doc-qa` | 降级为 Ingest 引擎 + QA 模块的问答底座（文档→分块→索引→带出处回答） |
 | `chatbot/src/data/calm.js` | 压力管理模块内容源（54321/呼吸/数息/扫描/握拳），翻译成提示词模块 |
 | `chatbot/src/data/tests.js` / `trivia-*.js` | 破冰与答题模块内容源（人格测试/题库），翻译 + mock 化 |
 | `knowledge/*.csv` | 题库资产，作为「认识工具与团队」模块的输入样例 |
@@ -76,7 +76,7 @@ doubao-work/skills/xiaolong-onboarding/
 
 | 赛道 | 之前（文档问答） | 现在（onboarding 成长系统） |
 |---|---|---|
-| Skill 创作 | xiaolong-doc-qa 一个功能 | xiaolong-onboarding：可装载、四步机制、五模块旅程 + mock 演示数据 |
+| Skill 创作 | XsiaoLung-doc-qa 一个功能 | XsiaoLung-Onboarding：可装载、四步机制、五模块旅程 + mock 演示数据 |
 | 真实实践 | 文档→知识库实录 | 新人 Day 0 → W2 完整实录：载入 mock 文档 → 地图 → 破冰/答题/提问培训/规划/解压，含量化对比 |
 | 内容分享 | 2 篇技术文 | 选题升级：「把公司入职文档变成会自我进化的 onboarding 工作台」 |
 
@@ -94,7 +94,7 @@ doubao-work/skills/xiaolong-onboarding/
 
 ## 八、待决策点
 
-1. **命名**：`xiaolong-onboarding` 作为新技能名，`xiaolong-doc-qa` 是否改名/合并（建议：doc-qa 保留为「问答底座」引用，onboarding 独立成包）
+1. **命名**：`XsiaoLung-Onboarding` 作为新技能名，`XsiaoLung-doc-qa` 是否改名/合并（建议：doc-qa 保留为「问答底座」引用，onboarding 独立成包）
 2. **规划模块**：30/60/90 规划先做「模板 + 每周回顾」轻量版，还是先留白只做破冰/提问/解压三站
 3. **mock 数据量**：当前四份文档是「形态样例」，演示够用；如评委要看更接近真实的体量，可再扩一份 30+ 条 FAQ
 4. **自我进化的证据**：如何给评委演示「越用越懂」——建议录一段「同一文档装载两次，第二次题库多了新题」的对比

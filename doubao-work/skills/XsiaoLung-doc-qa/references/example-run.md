@@ -1,7 +1,7 @@
 # 一次真实运行结果
 
 > 运行时间：2026-09-05
-> 运行环境：豆包工作（联网抓取能力）· 小笼文档问答 Skill（xiaolong-doc-qa）
+> 运行环境：豆包工作（联网抓取能力）· 小笼文档问答 Skill（XsiaoLung-doc-qa）
 > 输入文档：[人人「豆」能成为高手｜直播精华文档](https://larkcommunity.feishu.cn/wiki/PeQwwfzeoimpsRkWdGFcytsgnSf)（公开链接，互联网可读）
 
 ## 运行过程

@@ -1,5 +1,5 @@
 ---
-name: xiaolong-deploy
+name: XsiaoLung-deploy
 description: 把 onboarding 素材（HTML 交互工作台、题库 CSV/Excel、四张地图文档）一键部署到飞书云空间文件夹，生成多维表格 Base、电子表格、飞书文档与 HTML 文件并交付链接。当用户想要部署 onboarding、发布到飞书、生成 Base、上传工作台 HTML、把题库变成多维表格、一键生成入职资料包、同步到云空间 XsiaoLung-AI 文件夹时使用。关键词：部署、发布、飞书、云空间、多维表格、Base、HTML、Excel、CSV、入职资料包、onboarding、文件夹、上传、导入。
 ---
 

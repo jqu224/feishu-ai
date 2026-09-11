@@ -1,11 +1,11 @@
 # Mock 演示数据（虚构 · 仅用于测试与演示）
 
-> ⚠️ 本目录所有内容为**虚构演示数据**。公司名「示例科技」为虚构，对标大型互联网公司（字节跳动风格）的 onboarding 内容形态，用于测试 `xiaolong-onboarding` 技能的**装载机制**（Ingest → Map → Orchestrate → Evolve）和四张地图的输出格式。
+> ⚠️ 本目录所有内容为**虚构演示数据**。公司名「示例科技」为虚构，对标大型互联网公司（字节跳动风格）的 onboarding 内容形态，用于测试 `XsiaoLung-Onboarding` 技能的**装载机制**（Ingest → Map → Orchestrate → Evolve）和四张地图的输出格式。
 > **真实使用时，装载用户自己的 onboarding 文档即可**，流程完全一致。不要把示例内容当成任何真实公司的制度。
 
 ## 怎么用这套 Mock 数据测试
 
-1. 在豆包工作中导入 `xiaolong-onboarding` 技能
+1. 在豆包工作中导入 `XsiaoLung-Onboarding` 技能
 2. 把本目录的 `01`–`04` 四个 md 文件内容粘贴给豆包（或把其中任一文件上传）
 3. 说「把这套入职材料变成 onboarding 地图」
 4. 豆包应输出四张地图（提问路径 / 技术栈与软件 / 组件与网址 / 日程与组织）供确认

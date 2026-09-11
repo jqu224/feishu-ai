@@ -6,8 +6,8 @@
 
 ## 技能
 
-- `xiaolong-onboarding`（素材来源：装载后的工作台与地图）
-- `xiaolong-deploy`（部署流程：建文件夹 → 串行导入/上传 → 核验 → 交付链接包）
+- `XsiaoLung-Onboarding`（素材来源：装载后的工作台与地图）
+- `XsiaoLung-deploy`（部署流程：建文件夹 → 串行导入/上传 → 核验 → 交付链接包）
 
 ## 触发词
 
@@ -16,7 +16,7 @@
 ## 工作方式
 
 1. **确认目标**：默认 `XsiaoLung-AI/` 文件夹（不存在则创建）；用户指定其他位置时按用户指定的。
-2. **执行部署**：按 `xiaolong-deploy` 的 7 件清单串行导入/上传：
+2. **执行部署**：按 `XsiaoLung-deploy` 的 7 件清单串行导入/上传：
    - 题库 CSV → Base（多维表格）+ Excel（电子表格）
    - 工作台 HTML → 原格式上传（保留飞书预览）
    - 四张地图 Markdown → 飞书文档

@@ -2,7 +2,7 @@
 
 ## 投稿标题
 
-**小笼文档问答（xiaolong-doc-qa）：给 AI 一个公开的飞书文档链接，它就还你一个问答知识库**
+**小笼文档问答（XsiaoLung-doc-qa）：给 AI 一个公开的飞书文档链接，它就还你一个问答知识库**
 
 ## 一、这是什么（30 秒理解）
 
@@ -16,13 +16,13 @@
 
 ## 二、Skill 本体
 
-- 源码：`doubao-work/skills/xiaolong-doc-qa/`（SKILL.md + references/example-run.md + references/troubleshooting.md）
-- 打包：`doubao-work/dist/xiaolong-doc-qa.zip`（导入即用）
+- 源码：`doubao-work/skills/XsiaoLung-doc-qa/`（SKILL.md + references/example-run.md + references/troubleshooting.md）
+- 打包：`doubao-work/dist/XsiaoLung-doc-qa.zip`（导入即用）
 - 标准 Agent Skill 结构：frontmatter（name / description ≤1024 字符，含检索词：文档问答、知识库、飞书文档、FAQ、出题、答疑、培训） + 五步工作流 + 边界与注意事项
 
 ## 三、简单的使用说明（3 步）
 
-1. **导入**：豆包电脑版侧边栏「技能 · 连接器 · 伙伴」→ 技能 → 导入 `xiaolong-doc-qa.zip`；
+1. **导入**：豆包电脑版侧边栏「技能 · 连接器 · 伙伴」→ 技能 → 导入 `XsiaoLung-doc-qa.zip`；
 2. **给链接**：把公开的飞书文档链接发给豆包工作（文档分享权限需设为「互联网上获得链接的人可阅读」；不愿公开就粘贴正文）；
 3. **问答**：任意提问（回答带出处），或说「基于文档出 5 道题」「总结这份文档的要点」。
 
@@ -57,10 +57,10 @@
 > 补充资料 · Skill 创作：填写 Skill 链接或使用说明（多个链接换行）
 
 ```
-https://github.com/jqu224/feishu-ai/tree/main/doubao-work/skills/xiaolong-doc-qa（Skill 源码：SKILL.md + references）
-https://github.com/jqu224/feishu-ai/blob/main/doubao-work/dist/xiaolong-doc-qa.zip（Skill 打包 zip，导入即用）
-使用说明（3 步）：① 豆包工作「技能·连接器·伙伴」→ 技能 → 导入 xiaolong-doc-qa.zip；② 把公开的飞书文档链接发给豆包工作（文档权限设为「互联网上获得链接的人可阅读」）；③ 任意提问，回答带出处；也可说「基于文档出 5 道题」。
-一次真实运行结果：https://github.com/jqu224/feishu-ai/blob/main/doubao-work/skills/xiaolong-doc-qa/references/example-run.md（对真实公开文档实跑：抓取→分块→建索引→问答→出题）
+https://github.com/jqu224/feishu-ai/tree/main/doubao-work/skills/XsiaoLung-doc-qa（Skill 源码：SKILL.md + references）
+https://github.com/jqu224/feishu-ai/blob/main/doubao-work/dist/XsiaoLung-doc-qa.zip（Skill 打包 zip，导入即用）
+使用说明（3 步）：① 豆包工作「技能·连接器·伙伴」→ 技能 → 导入 XsiaoLung-doc-qa.zip；② 把公开的飞书文档链接发给豆包工作（文档权限设为「互联网上获得链接的人可阅读」）；③ 任意提问，回答带出处；也可说「基于文档出 5 道题」。
+一次真实运行结果：https://github.com/jqu224/feishu-ai/blob/main/doubao-work/skills/XsiaoLung-doc-qa/references/example-run.md（对真实公开文档实跑：抓取→分块→建索引→问答→出题）
 ```
 
 > ⚠️ 权限检查：GitHub 仓库需 push 并设为 public（源码、zip、运行结果三个链接才能打开）；若 zip 未推送，可先把 zip 上传到豆包工作技能库后，在表单里贴「使用说明」文字即可。

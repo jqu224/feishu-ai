@@ -1,6 +1,6 @@
 # 伙伴配置卡 02 · 收集统计专员（进阶）
 
-> 适用技能：`xiaolong-card`（需 MCP 连接器 + 主 BOT）
+> 适用技能：`XsiaoLung-card`（需 MCP 连接器 + 主 BOT）
 > 用途：在飞书群里发起可交互投票/报名/表单，原地统计
 
 ## 适用场景
@@ -15,7 +15,7 @@
 
 ## 绑定能力
 
-- 技能：`xiaolong-card`
+- 技能：`XsiaoLung-card`
 - 连接器：小笼卡片（MCP，见 [docs/setup-doubao-work.md](../docs/setup-doubao-work.md)）
 
 ## 开场白

@@ -1,5 +1,5 @@
 {
-  "name": "xiaolong-doubao-work",
+  "name": "XsiaoLung-doubao-work",
   "version": "0.1.0",
   "private": true,
   "description": "小笼 AI 的豆包工作插件：MCP 连接器 + 技能包，让豆包工作伙伴直接发投票/报名卡（独立于主 BOT 包）",

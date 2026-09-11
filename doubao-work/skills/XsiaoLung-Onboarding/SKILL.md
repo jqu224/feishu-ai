@@ -1,5 +1,5 @@
 ---
-name: xiaolong-onboarding
+name: XsiaoLung-Onboarding
 description: 新人 onboarding 成长系统 + HR 全场景工作台。当用户想要新人入职引导、onboarding、入职培训、破冰、认识团队与工具、提问培训、入职规划、新人解压、把 onboarding 文档变成问答/出题、训练提问方式、30-60-90 天规划、职场压力管理、新员工成长路径、把公司入职文档变成知识库，或想要 Rippling 式 HR 系统、HR Base、员工主档、组织架构、假勤、薪酬福利、绩效、招聘管理、HR 数据装载、上传 CSV 建表、贴文本导入数据时使用。关键词：onboarding、入职、新人、破冰、培训、提问、规划、解压、成长、知识库、出题、问答、HR、员工、组织、假勤、薪酬、绩效、招聘、Rippling、Workday、Slack、TikTok、Instagram、CSV 导入、建表。
 ---
 

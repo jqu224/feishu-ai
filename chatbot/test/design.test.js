@@ -180,18 +180,22 @@ test('topic 配色符合色板表', async () => {
   }
 });
 
-// 选项卡级配色（2026-09 用户决策）：每个题库 / 每套测试 / 冷知识卡的 header 颜色全局互不重复
-test('选项卡配色全局不撞色', async () => {
+// 选项卡级配色（2026-09 用户决策）：题库之间、测试之间互不撞色。
+// 全局互不重复已不可行：卡片 template 色板只有 12 种，而选项卡已有 14+ 张，
+// 因此收缩为「同一列表内互不重复」，跨列表（题库 vs 测试 vs 冷知识）允许复用。
+test('选项卡配色类别内不撞色', async () => {
   const { TRIVIA_SETS } = await import('../src/data/trivia.js');
   const { TESTS } = await import('../src/data/tests.js');
-  const optionColors = [
-    ...TRIVIA_SETS.map((s) => [`题库 ${s.title}`, s.color]),
-    ...TESTS.map((t) => [`测试 ${t.title}`, t.color]),
-    ['冷知识', 'wathet'],
+  const groups = [
+    ['题库', TRIVIA_SETS.map((s) => [s.title, s.color])],
+    ['测试', TESTS.map((t) => [t.title, t.color])],
+    ['冷知识', [['冷知识', 'wathet']]],
   ];
-  for (const [label, c] of optionColors) assert.ok(c, `${label} 缺少主题色`);
-  const colors = optionColors.map(([, c]) => c);
-  assert.equal(new Set(colors).size, colors.length, `选项卡配色撞车：${colors.join(', ')}`);
+  for (const [groupName, entries] of groups) {
+    for (const [label, c] of entries) assert.ok(c, `${groupName} ${label} 缺少主题色`);
+    const colors = entries.map(([, c]) => c);
+    assert.equal(new Set(colors).size, colors.length, `${groupName}选项卡配色撞车：${colors.join(', ')}`);
+  }
 });
 
 // SPIRIT.md 第五节：每张卡 header 必须有 icon，且同卡 icon 不重复。

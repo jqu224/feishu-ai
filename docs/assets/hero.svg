@@ -1,0 +1,44 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heroTitle">
+  <title id="heroTitle">feishu-ai — Agent-native Card UI on Feishu Open Platform</title>
+  <defs>
+    <clipPath id="frame">
+      <rect width="1200" height="420" rx="28"/>
+    </clipPath>
+    <filter id="aurora" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="70"/>
+    </filter>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D7D6FF"/>
+      <stop offset="48%" stop-color="#F2F5FF"/>
+      <stop offset="100%" stop-color="#98E7EA"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#909BFF"/>
+      <stop offset="25%" stop-color="#7DA4E7"/>
+      <stop offset="50%" stop-color="#67ABCF"/>
+      <stop offset="75%" stop-color="#49B2B7"/>
+      <stop offset="100%" stop-color="#00B89F"/>
+    </linearGradient>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="420" fill="#0C0C10"/>
+    <g filter="url(#aurora)">
+      <ellipse cx="230" cy="100" rx="340" ry="210" fill="#909BFF" opacity="0.50"/>
+      <ellipse cx="930" cy="70" rx="250" ry="150" fill="#D7D6FF" opacity="0.22"/>
+      <ellipse cx="1000" cy="310" rx="300" ry="190" fill="#00F5D4" opacity="0.26"/>
+      <ellipse cx="620" cy="395" rx="320" ry="140" fill="#98E7EA" opacity="0.16"/>
+      <ellipse cx="120" cy="380" rx="300" ry="160" fill="#002566" opacity="0.55"/>
+    </g>
+  </g>
+
+  <text x="600" y="232" text-anchor="middle"
+        font-family="'SF Pro Display','Segoe UI',system-ui,-apple-system,'PingFang SC',sans-serif"
+        font-size="150" font-weight="800" letter-spacing="-4" fill="url(#word)">feishu-ai</text>
+
+  <rect x="400" y="264" width="400" height="2.5" rx="1.25" fill="url(#line)"/>
+
+  <text x="600" y="316" text-anchor="middle"
+        font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace"
+        font-size="25" letter-spacing="0.4" fill="#8B949E">conversation is the interface — generate · stream · mutate in place</text>
+</svg>

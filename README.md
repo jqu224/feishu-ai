@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/tests-chatbot%20164%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="chatbot tests" />
-  <img src="https://img.shields.io/badge/tests-doubao--work%207%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="doubao-work tests" />
+  <img src="https://img.shields.io/badge/tests-chatbot%20167%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="chatbot tests" />
+  <img src="https://img.shields.io/badge/tests-doubao--work%208%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="doubao-work tests" />
   <img src="https://img.shields.io/badge/verify-design%20%7C%20control%20%7C%20MCP-0ea5e9?style=flat-square" alt="verify" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/Feishu-Card%20v2%20%2B%20CardKit-00d6b9?style=flat-square" alt="Feishu Card" />
@@ -44,7 +44,7 @@ Built on the official stack: [Lark Node SDK](https://www.npmjs.com/package/@lark
 | Package | Role | Docs |
 | --- | --- | --- |
 | [`chatbot/`](chatbot/README.md) | **Core** — long-connection BOT, card interactions, session store, AI + preset games | [chatbot/README.md](chatbot/README.md) |
-| [`doubao-work/`](doubao-work/README.md) | **Extension** — MCP connector + skill pack so Doubao Work buddies can create cards without holding Feishu credentials | [doubao-work/README.md](doubao-work/README.md) |
+| [`doubao-work/`](doubao-work/README.md) | **Skill pack (flagship)** — doc-QA knowledge-base skill (public Feishu docs → Q&A, zero setup) + optional MCP connector / interactive cards | [doubao-work/README.md](doubao-work/README.md) |
 | [`knowledge/`](knowledge/README.md) | Quiz CSV corpora (Feishu / Doubao / Agent / industry timelines) | [knowledge/README.md](knowledge/README.md) |
 
 **Boundary (by design):** card click callbacks only reach the process that owns the Feishu WebSocket. `doubao-work/` never talks to Feishu directly — it calls a localhost control API on `chatbot/`, so interaction state stays correct.
@@ -78,8 +78,8 @@ Static verification snapshot (Node built-in test runner):
 
 | Suite | Command | Result |
 | --- | --- | --- |
-| chatbot | `cd chatbot && npm test` | **164 pass / 0 fail** |
-| doubao-work | `cd doubao-work && npm test` | **7 pass / 0 fail** |
+| chatbot | `cd chatbot && npm test` | **167 pass / 0 fail** |
+| doubao-work | `cd doubao-work && npm test` | **8 pass / 0 fail** |
 | Design regression | emoji / layout contracts in `chatbot/test/design.test.js` | covered |
 | Control API | auth · create vote/form · roster ≤100 | covered |
 | MCP round-trip | tools/list · create_* · session status/export | covered |
@@ -106,6 +106,7 @@ Doubao Work connector + buddy teaming: see [doubao-work/README.md](doubao-work/R
 - Awards plan & competitive scan — [chatbot/docs/AWARDS-PLAN.md](chatbot/docs/AWARDS-PLAN.md)
 - 3-minute demo script — [chatbot/docs/DEMO.md](chatbot/docs/DEMO.md)
 - Card design contracts — [chatbot/SPIRIT.md](chatbot/SPIRIT.md) · [chatbot/docs/DESIGN.md](chatbot/docs/DESIGN.md)
+- **Dual-track submissions (real practice / skill creation)** — [submissions/README.md](submissions/README.md)
 
 ## License
 

@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/tests-chatbot%20164%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="chatbot tests" />
+  <img src="https://img.shields.io/badge/tests-chatbot%20167%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="chatbot tests" />
   <img src="https://img.shields.io/badge/tests-doubao--work%208%20pass-22c55e?style=flat-square&logo=vitest&logoColor=white" alt="doubao-work tests" />
   <img src="https://img.shields.io/badge/verify-design%20%7C%20control%20%7C%20MCP-0ea5e9?style=flat-square" alt="verify" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
@@ -78,8 +78,8 @@
 
 | 套件 | 命令 | 结果 |
 | --- | --- | --- |
-| chatbot | `cd chatbot && npm test` | **164 pass / 0 fail** |
-| doubao-work | `cd doubao-work && npm test` | **7 pass / 0 fail** |
+| chatbot | `cd chatbot && npm test` | **167 pass / 0 fail** |
+| doubao-work | `cd doubao-work && npm test` | **8 pass / 0 fail** |
 | 设计回归 | `chatbot/test/design.test.js` 的 emoji / 布局契约 | 已覆盖 |
 | 控制 API | 鉴权 · 建投票/表单 · 名单 ≤100 | 已覆盖 |
 | MCP 往返 | tools/list · create_* · 会话状态/导出 | 已覆盖 |

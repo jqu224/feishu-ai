@@ -82,7 +82,7 @@ AGUI 把这类高频需求变成一句话：`@机器人 发起一个下午茶投
 ### 预览与测试
 
 ```bash
-npm test             # 164 个用例：业务逻辑 + 玩法状态机 + 设计规范回归（零 emoji、图标白名单、模板枚举、behaviors）
+npm test             # 167 个用例：业务逻辑 + 玩法状态机 + 设计规范回归（零 emoji、图标白名单、模板枚举、behaviors）
 npm run preview      # 导出全部卡片形态 JSON 到 preview/，粘贴到卡片搭建工具真机预览
 npm run icons:upload # 可选：上传 assets/icons/*.png 生成 icons.json（Lucide 通道）
 ```

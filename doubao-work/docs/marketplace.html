@@ -343,6 +343,7 @@
 </style>
 </head>
 <body>
+<script src="workbench-data.js"></script>
 <div class="app">
   <!-- 顶栏：花体标题 + 右上角太阳/月亮切换 -->
   <header>
@@ -646,20 +647,26 @@
   };
   function isDark(){return document.documentElement.getAttribute('data-theme')==='dark'}
   function dopOf(o){if(!isDark())return o;for(var k in DOP){if(DOP[k]===o)return DOP_DARK[k]||o}return o}
-  var PHASES=[
+  /* ===== 数据源：优先使用飞书多维表格 Base 数据（workbench-data.js），缺失时回退内置演示数据 ===== */
+  var WB=window.WB||{};
+  function wbOr(key,fb){return (WB[key]&&WB[key].length)?WB[key]:fb}
+  var PHASES=wbOr('PHASES',[
     {n:'破冰',p:30,d:'认识工友与团队'},
     {n:'工具',p:60,d:'装好软件跑通流程'},
     {n:'提问',p:85,d:'知道去哪问怎么问'},
     {n:'规划',p:0,d:'30-60-90 天计划'},
     {n:'压力',p:15,d:'状态管理与放松'}
-  ];
-  var TRACKS=[
+  ]);
+  var TRACKS=wbOr('TRACKS',[
     {id:'t1',name:'熟悉工友',icon:'groups',c:DOP.green,ds:'认识导师、Leader、协作方，约 1 对 1 破冰。',t:'11 项 · 已做 4',done:4,total:11},
     {id:'t2',name:'熟悉工具',icon:'widgets',c:DOP.blue,ds:'装好 P0/P1 软件，跑通构建与提交流程。',t:'9 项 · 已做 3',done:3,total:9},
     {id:'t3',name:'熟悉业务',icon:'trending',c:DOP.orange,ds:'读懂团队目标、指标口径与产品脉络。',t:'8 项 · 已做 1',done:1,total:8},
     {id:'t4',name:'熟悉项目',icon:'folder',c:DOP.pink,ds:'跑通需求到上线的完整链路。',t:'10 项 · 已做 2',done:2,total:10}
-  ];
-  var SEED_TASKS=[
+  ]);
+  /* Base 数据里的 TRACKS 不带颜色，按顺序补色 */
+  (function(){var tc=['green','blue','orange','pink','red','teal','amber','lime','cyan'];
+    for(var i=0;i<TRACKS.length;i++){if(!TRACKS[i].c)TRACKS[i].c=DOP[tc[i%tc.length]]||DOP.blue;}})();
+  var SEED_TASKS=wbOr('SEED_TASKS',[
     {id:'s1',t:'完成安全培训与账号开通',tr:'t2',w:'today',d:'跟着《入职日程》Day 0 完成，领完电脑后 30 分钟可搞定。',by:'成长系统 Base · 入职日程'},
     {id:'s2',t:'安装飞书、代码平台、VPN',tr:'t2',w:'today',d:'P0 软件清单前三项，安装遇到权限问题走 IT 工单。',by:'成长系统 Base · 软件清单'},
     {id:'s3',t:'约导师 1 对 1，聊本周任务',tr:'t1',w:'today',d:'带上「我想知道团队在做什么 + 我第一周做什么」。',by:'HR Base · 待办明细'},
@@ -667,7 +674,7 @@
     {id:'s5',t:'认识产品、设计、数据三方接口人',tr:'t1',w:'todo',d:'约 15 分钟认识你的上下游，记住谁管什么。',by:'成长系统 Base · 提问路径'},
     {id:'s6',t:'读懂团队 OKR 与指标口径',tr:'t3',w:'todo',d:'先对齐「指标怎么算」，再讨论数字才有意义。',by:'成长系统 Base · 术语表'},
     {id:'s7',t:'走完第一个真实 case 的提交流程',tr:'t4',w:'todo',d:'修 bug 或写小功能，完成第一个 MR/PR。',by:'成长系统 Base · 入职日程'}
-  ];
+  ]);
   var QA=[
     {t:'工具使用',e:'飞书怎么建日程、文档权限怎么设',w:'先问 AI 伙伴 → 查文档中心 → 再问同事',r:'即时'},
     {t:'账号 / 权限 / 网络',e:'邮箱登不上、Wi-Fi 连不上、没权限',w:'IT 工单系统（工单：it.example.com）',r:'1 个工作日'},
@@ -676,13 +683,13 @@
     {t:'制度 / 福利',e:'年假、社保、差旅标准',w:'HR 伙伴或制度文档（福利站）',r:'1 个工作日'},
     {t:'产品 / 需求',e:'需求冲突、优先级不明',w:'产品负责人，带上证据和影响面',r:'当日'}
   ];
-  var GUIDES=[
+  var GUIDES=wbOr('GUIDES',[
     {name:'飞书与协作',icon:'chat',c:DOP.green,steps:['用企业邮箱登录，加入部门群','把常用文档与知识库加入收藏','把「提问路径表」存进书签'],done:false},
     {name:'代码与构建',icon:'code',c:DOP.blue,steps:['装 Git + 公司代码平台客户端','clone 团队仓库，跑通一次本地构建','完成第一个 MR/PR 提交流程'],done:false},
     {name:'设计稿与组件',icon:'brush',c:DOP.pink,steps:['装 Figma 桌面版并加入团队库','看设计系统与组件库文档','按规范标注、取值、切图'],done:false},
     {name:'数据与看板',icon:'barchart',c:DOP.teal,steps:['收藏数据看板与监控页','学会看指标口径说明','上线前熟悉发布与回滚只读操作'],done:false}
-  ];
-  var LINKS=[
+  ]);
+  var LINKS=wbOr('LINKS',[
     {n:'内网主页',u:'home.example.com',d:'所有内部系统入口',c:DOP.green},
     {n:'知识库 Wiki',u:'wiki.example.com',d:'团队文档与制度',c:DOP.blue},
     {n:'代码平台',u:'code.example.com',d:'仓库 / MR / CI',c:DOP.orange},
@@ -693,7 +700,9 @@
     {n:'数据看板',u:'data.example.com',d:'业务指标与报表',c:DOP.lime},
     {n:'发布平台',u:'release.example.com',d:'发布 / 灰度 / 回滚',c:DOP.amber},
     {n:'福利站',u:'benefits.example.com',d:'福利制度咨询入口',c:DOP.green}
-  ];
+  ]);
+  /* Base 数据里的 LINKS 没有网址，给一个通用占位，点击不跳转 */
+  (function(){for(var i=0;i<LINKS.length;i++){if(!LINKS[i].u)LINKS[i].u='';if(!LINKS[i].c)LINKS[i].c=DOP.blue;}})();
   var WIDGETS=[
     {id:'quiz',name:'答题闯关',d:'5 题快速测验，检验你对工具与团队的了解',icon:'psychology',c:DOP.blue},
     {id:'break',name:'破冰话题',d:'随机一个话题，认识工友也能用',icon:'casino',c:DOP.orange},
@@ -704,13 +713,13 @@
     {id:'hangman',name:'猜词小游戏',d:'从术语表里猜词，赢过小笼',icon:'abc',c:DOP.lime},
     {id:'energy',name:'提神站',d:'喝口水、抬抬头，2 分钟小动作',icon:'bolt',c:DOP.amber}
   ];
-  var QUIZ=[
+  var QUIZ=wbOr('QUIZ',[
     {q:'网络连不上，第一时间应该去哪里问？',opts:['随便找个同事问','IT 工单系统，附设备型号和错误截图','发到部门大群','等第二天再说'],a:1,why:'账号、权限、网络类问题统一走 IT 工单，1 个工作日响应。'},
     {q:'想确认需求优先级，应该找谁、带什么？',opts:['产品负责人，带上证据和影响面','直接问技术群','找 HR 伙伴','自己拍板'],a:0,why:'产品与需求类问题找产品负责人，一次给足背景。'},
     {q:'「BGTA」中的 T 指什么？',opts:['Topic 话题','Team 团队','Tried 已尝试','Time 时间'],a:2,why:'B 背景、G 目标、T 已尝试、A 请求，四段式提问。'},
     {q:'代码仓库和提交流程在哪个平台看？',opts:['home.example.com','code.example.com','benefits.example.com','data.example.com'],a:1,why:'代码平台统一管理仓库、MR/PR 与 CI。'},
     {q:'入职 Day 1 的完成标准是什么？',opts:['把软件全装完','能说清团队在做什么、自己第一周做什么','做完一个需求','写完年度规划'],a:1,why:'Day 1 加部门群、见 Leader、读 wiki，能说清目标即可。'}
-  ];
+  ]);
   var FACTS=[
     '产品部本周在冲刺 9 月的「新人工具链」专项，技术群里 @ 王芳可以快速拿到组件库更新说明。',
     '前端项目规范在 wiki.example.com/frontend-guide，提交前先看一遍，避免 MR 被打回。',
@@ -719,16 +728,16 @@
   var TOPICS=['如果你是产品经理，怎么给新人设计入职第一天？','分享一个你入职时踩过的坑，和当时的解法。','你最近在学什么新东西？为什么想学它？','如果要把团队 wiki 变成一门课，你会先讲哪一章？'];
   var REFRESH=['站起来，走到窗边看 20 秒远处，眼睛会舒服很多。','喝半杯水，顺便活动一下手腕和肩膀。','把今天的任务重排一下：先做最不确定的那件。','深呼吸三次：吸气 4 秒，呼气 6 秒。'];
   var WORDS=['BGTA','MR','灰度','复盘','OKR','冒烟','排期','对齐','水位','Oncall'];
-  var ROLES=[
+  var ROLES=wbOr('ROLES',[
     {id:'zhang',name:'张小明',team:'产品部',role:'产品经理 · P6',day:3,hi:'早上好，张小明',avatar:'张'},
     {id:'li',name:'李一诺',team:'研发部',role:'前端工程师 · P5',day:8,hi:'早上好，李一诺',avatar:'李'},
     {id:'wang',name:'王雨桐',team:'设计部',role:'交互设计师 · P6',day:15,hi:'早上好，王雨桐',avatar:'王'},
     {id:'chen',name:'陈小满',team:'运营部',role:'用户运营 · P5',day:22,hi:'早上好，陈小满',avatar:'陈'}
-  ];
+  ]);
   /* ===== 状态 ===== */
   var STORE_KEY='xl-onboarding-tasks-v1', THEME_KEY='xl-onboarding-theme-v1';
   var myTasks=(function(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}})();
-  var doneSet=(function(){var s={};SEED_TASKS.forEach(function(t){s[t.id]=false});myTasks.forEach(function(t){s[t.id]=!!t.done});return s})();
+  var doneSet=(function(){var s={};SEED_TASKS.forEach(function(t){s[t.id]=!!t.done});myTasks.forEach(function(t){s[t.id]=!!t.done});return s})();
   var learned=(function(){try{return JSON.parse(localStorage.getItem('xl-onboarding-learned-v1'))||[]}catch(e){return[]}})();
   var filter='today', activeTrack='t1', currentRole=ROLES[0];
   var quizIdx=0, quizRight=0, quizAnswered=false;
@@ -953,10 +962,11 @@
   function renderLinks(){
     var wrap=$('linkList');if(!wrap)return;
     wrap.innerHTML=LINKS.map(function(l){
-      var c=dopOf(l.c);
-      return '<a class="lk" href="https://'+l.u+'" target="_blank" rel="noopener">'+
-        '<span class="lk-ico" style="background:'+c.bg+';color:'+c.fg+'">'+MI('code')+'</span>'+
-        '<span>'+l.n+'<small>'+l.u+' · '+l.d+'</small></span></a>';
+      var c=dopOf(l.c),href=l.u?('https://'+l.u):null;
+      var inner='<span class="lk-ico" style="background:'+c.bg+';color:'+c.fg+'">'+MI('code')+'</span>'+
+        '<span>'+l.n+'<small>'+(l.u?l.u+' · ':'')+l.d+'</small></span>';
+      return href?'<a class="lk" href="'+href+'" target="_blank" rel="noopener">'+inner+'</a>':
+        '<div class="lk" style="cursor:default">'+inner+'</div>';
     }).join('');
   }
   /* ===== 小工具 ===== */

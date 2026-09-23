@@ -1,123 +1,84 @@
-<svg width="1200" height="420" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heroTitle">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="heroTitle">
   <title id="heroTitle">feishu-ai — a work IM where the bot answers with interactive cards</title>
   <defs>
     <clipPath id="frame">
-      <rect width="1200" height="420" rx="28"/>
+      <rect width="1200" height="420" rx="28" />
     </clipPath>
     <linearGradient id="chatbg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F7F8FA"/>
-      <stop offset="100%" stop-color="#EFF2F5"/>
+      <stop offset="0%" stop-color="#F7F8FA" />
+      <stop offset="100%" stop-color="#EFF2F5" />
     </linearGradient>
     <linearGradient id="word" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1B2330"/>
-      <stop offset="100%" stop-color="#2A3A55"/>
+      <stop offset="0%" stop-color="#1B2330" />
+      <stop offset="100%" stop-color="#2A3A55" />
     </linearGradient>
     <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3370FF"/>
-      <stop offset="50%" stop-color="#67ABCF"/>
-      <stop offset="100%" stop-color="#00B89F"/>
+      <stop offset="0%" stop-color="#3370FF" />
+      <stop offset="50%" stop-color="#67ABCF" />
+      <stop offset="100%" stop-color="#00B89F" />
     </linearGradient>
     <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#1B2330" stroke-opacity="0.035" stroke-width="1"/>
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#1B2330" stroke-opacity="0.035" stroke-width="1" />
     </pattern>
   </defs>
 
   <g clip-path="url(#frame)">
-    <!-- chat canvas -->
-    <rect width="1200" height="420" fill="url(#chatbg)"/>
-    <rect y="52" width="1200" height="368" fill="url(#grid)"/>
+    
+    <rect width="1200" height="420" fill="url(#chatbg)" />
+    <rect y="52" width="1200" height="368" fill="url(#grid)" />
 
-    <!-- window chrome -->
-    <rect width="1200" height="52" fill="#ECEEF2"/>
-    <rect y="51" width="1200" height="1" fill="#DDE1E7"/>
-    <circle cx="30" cy="26" r="5" fill="#C9CDD4"/>
-    <circle cx="52" cy="26" r="5" fill="#C9CDD4"/>
-    <circle cx="74" cy="26" r="5" fill="#C9CDD4"/>
-    <text x="600" y="31" text-anchor="middle"
-          font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace"
-          font-size="15" letter-spacing="0.5" fill="#6C7580">feishu-ai · product team</text>
-    <circle cx="1102" cy="26" r="4" fill="#00B89F"/>
-    <text x="1112" y="30" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="12" fill="#6C7580">online</text>
+    
+    <rect width="1200" height="52" fill="#ECEEF2" />
+    <rect y="51" width="1200" height="1" fill="#DDE1E7" />
+    <circle cx="30" cy="26" r="5" fill="#C9CDD4" />
+    <circle cx="52" cy="26" r="5" fill="#C9CDD4" />
+    <circle cx="74" cy="26" r="5" fill="#C9CDD4" />
+    <text x="600" y="31" text-anchor="middle" font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace" font-size="15" letter-spacing="0.5" fill="#6C7580">feishu-ai · product team</text>
+    <circle cx="1102" cy="26" r="4" fill="#00B89F" />
+    <text x="1112" y="30" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="12" fill="#6C7580">online</text>
 
-    <!-- wordmark -->
-    <text x="600" y="140" text-anchor="middle"
-          font-family="'SF Pro Display','Segoe UI',system-ui,-apple-system,sans-serif"
-          font-size="104" font-weight="800" letter-spacing="-3" fill="url(#word)">feishu-ai</text>
+    
+    <text x="320" y="215" text-anchor="middle" font-family="Helvetica Neue,Segoe UI,sans-serif" font-size="98" font-weight="800" letter-spacing="-3" fill="url(#word)">feishu-ai</text><rect x="110" y="244" width="420" height="2.5" rx="1.25" fill="url(#line)" /><rect x="223" y="263" width="194" height="28" rx="4" fill="#FFFFFF" stroke="#1B2330" stroke-opacity=".65" stroke-width="1" /><rect x="227.5" y="267.5" width="185" height="19" rx="4" fill="none" stroke="#1B2330" stroke-opacity=".38" stroke-width="1" /><text x="320" y="282" text-anchor="middle" font-family="Helvetica Neue,Segoe UI,sans-serif" font-size="12" font-weight="400" letter-spacing="4" fill="#3D4654">BY JQU224</text><text x="320" y="329" text-anchor="middle" font-family="Helvetica Neue,Segoe UI,sans-serif" font-size="18" font-weight="400" letter-spacing="0" fill="#788696">conversation is the interface</text><text x="320" y="356" text-anchor="middle" font-family="Helvetica Neue,Segoe UI,sans-serif" font-size="14" font-weight="400" letter-spacing="0" fill="#94A0AD">generate · stream · mutate in place</text><path d="M605 116V354" stroke="#DDE3EB" stroke-width="1" fill="none" /><g transform="translate(585 -75) scale(0.8)"><rect x="118" y="226" width="26" height="26" rx="7" fill="#DDE3EA" />
+    <text x="131" y="244" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="13" font-weight="600" fill="#5A6472">C</text>
+    <text x="154" y="240" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="12" fill="#8A93A0">colleague · 10:02</text>
+    <path d="M 166 248 h 282 a 12 12 0 0 1 12 12 v 22 a 12 12 0 0 1 -12 12 h -270 a 12 12 0 0 1 -12 -12 v -22 a 12 12 0 0 1 12 -12 z" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1.5" />
+    <text x="176" y="272" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="16" fill="#3A4149">create a vote: friday lunch?</text>
+    
+    <path d="M 166 314 h 84 a 10 10 0 0 1 10 10 v 4 a 10 10 0 0 1 -10 10 h -74 a 10 10 0 0 1 -10 -10 v -4 a 10 10 0 0 1 10 -10 z" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1.2" />
+    <circle cx="184" cy="328" r="3.5" fill="#B9C2CC" />
+    <circle cx="204" cy="328" r="3.5" fill="#B9C2CC" />
+    <circle cx="224" cy="328" r="3.5" fill="#B9C2CC" />
 
-    <!-- gradient divider + byline plate -->
-    <rect x="390" y="164" width="420" height="2.5" rx="1.25" fill="url(#line)"/>
-    <rect x="503" y="180" width="194" height="28" rx="4" fill="#FFFFFF" fill-opacity="0.72" stroke="#1B2330" stroke-opacity="0.65" stroke-width="1.2"/>
-    <rect x="507.5" y="184.5" width="185" height="19" rx="2.5" fill="none" stroke="#1B2330" stroke-opacity="0.38" stroke-width="1"/>
-    <text x="600" y="199" text-anchor="middle"
-          font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace"
-          font-size="12" letter-spacing="5" fill="#3D4654">BY JQU224</text>
+    
+    </g><g transform="translate(174 22) scale(0.9)"><rect x="646" y="216" width="26" height="26" rx="7" fill="#3370FF" />
+    <circle cx="659" cy="227" r="4.5" fill="#FFFFFF" />
+    <rect x="655" y="234" width="8" height="4" rx="1.5" fill="#FFFFFF" />
+    <text x="682" y="230" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="12" fill="#8A93A0">AGUI card bot · just now</text>
+    <rect x="646" y="238" width="400" height="132" rx="12" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1.5" />
+    <path d="M 646 250 a 12 12 0 0 1 12 -12 h 376 a 12 12 0 0 1 12 12 v 22 h -400 z" fill="#4C5FD5" />
+    <circle cx="668" cy="255" r="8" fill="#FFFFFF" />
+    <circle cx="668" cy="253.5" r="3.2" fill="#4C5FD5" />
+    <rect x="664.5" y="257.5" width="7" height="3" rx="1.2" fill="#4C5FD5" />
+    <text x="684" y="259.5" font-family="'SF Pro Display','Segoe UI',system-ui,sans-serif" font-size="13" font-weight="700" letter-spacing="0.8" fill="#FFFFFF">AGUI CARD BOT</text>
+    <rect x="988" y="246" width="40" height="18" rx="9" fill="#FFFFFF" fill-opacity="0.22" />
+    <text x="1008" y="258.5" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">AI</text>
+    
+    <rect x="662" y="278" width="180" height="26" rx="6" fill="#3370FF" />
+    <text x="752" y="295" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">vote</text>
+    <rect x="852" y="278" width="180" height="26" rx="6" fill="#FFFFFF" stroke="#C9D2DC" stroke-width="1.2" />
+    <text x="942" y="295" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="13" fill="#3A4149">add option</text>
+    <rect x="662" y="310" width="180" height="26" rx="6" fill="#FFFFFF" stroke="#C9D2DC" stroke-width="1.2" />
+    <text x="752" y="327" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="13" fill="#3A4149">chart</text>
+    <rect x="852" y="310" width="180" height="26" rx="6" fill="#FFFFFF" stroke="#C9D2DC" stroke-width="1.2" />
+    <text x="942" y="327" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif" font-size="13" fill="#3A4149">export</text>
+    
+    <rect x="662" y="344" width="192" height="6" rx="3" fill="#3370FF" />
+    <rect x="662" y="354" width="103" height="6" rx="3" fill="#00B89F" />
+    <text x="862" y="352" font-family="ui-monospace,'SF Mono',Menlo,monospace" font-size="11" fill="#8A93A0">58%</text>
+    <text x="773" y="362" font-family="ui-monospace,'SF Mono',Menlo,monospace" font-size="11" fill="#8A93A0">31%</text>
+    <text x="1032" y="362" text-anchor="end" font-family="ui-monospace,'SF Mono',Menlo,monospace" font-size="11" fill="#8A93A0">128 votes</text>
 
-    <!-- incoming bubble (colleague) -->
-    <rect x="118" y="226" width="26" height="26" rx="7" fill="#DDE3EA"/>
-    <text x="131" y="244" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="13" font-weight="600" fill="#5A6472">C</text>
-    <text x="154" y="240" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="12" fill="#8A93A0">colleague · 10:02</text>
-    <path d="M 166 248 h 282 a 12 12 0 0 1 12 12 v 22 a 12 12 0 0 1 -12 12 h -270 a 12 12 0 0 1 -12 -12 v -22 a 12 12 0 0 1 12 -12 z"
-          fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1.5"/>
-    <text x="176" y="272" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="16" fill="#3A4149">create a vote: friday lunch?</text>
-    <!-- typing indicator (streaming) -->
-    <path d="M 166 314 h 84 a 10 10 0 0 1 10 10 v 4 a 10 10 0 0 1 -10 10 h -74 a 10 10 0 0 1 -10 -10 v -4 a 10 10 0 0 1 10 -10 z"
-          fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1.2"/>
-    <circle cx="184" cy="328" r="3.5" fill="#B9C2CC"/>
-    <circle cx="204" cy="328" r="3.5" fill="#B9C2CC"/>
-    <circle cx="224" cy="328" r="3.5" fill="#B9C2CC"/>
-
-    <!-- bot reply card -->
-    <rect x="646" y="216" width="26" height="26" rx="7" fill="#3370FF"/>
-    <circle cx="659" cy="227" r="4.5" fill="#FFFFFF"/>
-    <rect x="655" y="234" width="8" height="4" rx="1.5" fill="#FFFFFF"/>
-    <text x="682" y="230" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="12" fill="#8A93A0">AGUI card bot · just now</text>
-    <rect x="646" y="238" width="400" height="132" rx="12" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1.5"/>
-    <path d="M 646 250 a 12 12 0 0 1 12 -12 h 376 a 12 12 0 0 1 12 12 v 22 h -400 z" fill="#4C5FD5"/>
-    <circle cx="668" cy="255" r="8" fill="#FFFFFF"/>
-    <circle cx="668" cy="253.5" r="3.2" fill="#4C5FD5"/>
-    <rect x="664.5" y="257.5" width="7" height="3" rx="1.2" fill="#4C5FD5"/>
-    <text x="684" y="259.5" font-family="'SF Pro Display','Segoe UI',system-ui,sans-serif"
-          font-size="13" font-weight="700" letter-spacing="0.8" fill="#FFFFFF">AGUI CARD BOT</text>
-    <rect x="988" y="246" width="40" height="18" rx="9" fill="#FFFFFF" fill-opacity="0.22"/>
-    <text x="1008" y="258.5" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="11" font-weight="600" fill="#FFFFFF">AI</text>
-    <!-- button matrix 2x2 -->
-    <rect x="662" y="278" width="180" height="26" rx="6" fill="#3370FF"/>
-    <text x="752" y="295" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="13" font-weight="600" fill="#FFFFFF">vote</text>
-    <rect x="852" y="278" width="180" height="26" rx="6" fill="#FFFFFF" stroke="#C9D2DC" stroke-width="1.2"/>
-    <text x="942" y="295" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="13" fill="#3A4149">add option</text>
-    <rect x="662" y="310" width="180" height="26" rx="6" fill="#FFFFFF" stroke="#C9D2DC" stroke-width="1.2"/>
-    <text x="752" y="327" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="13" fill="#3A4149">chart</text>
-    <rect x="852" y="310" width="180" height="26" rx="6" fill="#FFFFFF" stroke="#C9D2DC" stroke-width="1.2"/>
-    <text x="942" y="327" text-anchor="middle" font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
-          font-size="13" fill="#3A4149">export</text>
-    <!-- mini result bars -->
-    <rect x="662" y="344" width="192" height="6" rx="3" fill="#3370FF"/>
-    <rect x="662" y="354" width="103" height="6" rx="3" fill="#00B89F"/>
-    <text x="862" y="352" font-family="ui-monospace,'SF Mono',Menlo,monospace"
-          font-size="11" fill="#8A93A0">58%</text>
-    <text x="773" y="362" font-family="ui-monospace,'SF Mono',Menlo,monospace"
-          font-size="11" fill="#8A93A0">31%</text>
-    <text x="1032" y="362" text-anchor="end" font-family="ui-monospace,'SF Mono',Menlo,monospace"
-          font-size="11" fill="#8A93A0">128 votes</text>
-
-    <!-- input bar: tagline as the message being typed -->
-    <rect x="240" y="384" width="680" height="28" rx="14" fill="#F2F4F7" stroke="#E3E7EC" stroke-width="1.2"/>
-    <text x="258" y="402" font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace"
-          font-size="13.5" fill="#8A93A0">conversation is the interface — generate · stream · mutate in place</text>
-    <rect x="812" y="388" width="2" height="16" fill="#3370FF"/>
-    <circle cx="946" cy="398" r="14" fill="#3370FF"/>
-    <path d="M 940 391 L 940 405 L 954 398 Z" fill="#FFFFFF"/>
-
-    <!-- outer strokes -->
-    <rect width="1198" height="418" x="1" y="1" rx="27" fill="none" stroke="#1B2330" stroke-opacity="0.14" stroke-width="1.5"/>
+    
+    </g><rect width="1198" height="418" x="1" y="1" rx="27" fill="none" stroke="#1B2330" stroke-opacity="0.14" stroke-width="1.5" />
   </g>
 </svg>
